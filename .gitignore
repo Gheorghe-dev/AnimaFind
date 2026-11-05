@@ -72,3 +72,8 @@ next-env.d.ts
 
 screen*.png
 
+
+ios-artifact/
+android-ci-artifact/
+release-assets/
+
