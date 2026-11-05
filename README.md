@@ -11,43 +11,9 @@
 [![Capacitor](https://img.shields.io/badge/Capacitor-v8-blue.svg)](https://capacitorjs.com/)
 [![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 
-[Screenshots](#-application-screenshots) • [Features](#-key-features) • [Quickstart](#-quickstart--local-development) • [Mobile Builds & Releases](#-mobile-builds-android--ios) • [Architecture](#-architecture) • [Documentation](#-documentation-links)
+[Features](#-key-features) • [Tech Stack](#-technology-stack) • [Quickstart](#-quickstart--local-development) • [Mobile Builds & Releases](#-mobile-builds-android--ios) • [Architecture](#-architecture) • [Documentation](#-documentation-links)
 
 </div>
-
----
-
-## 📱 Application Screenshots
-
-<div align="center">
-
-| 1. Live Field Scanner | 2. Species Confirmation | 3. Toss the Can Minigame |
-| :---: | :---: | :---: |
-| <img src="docs/screenshots/05-live-field-scanner.png" width="250" alt="Live Field Scanner" /> | <img src="docs/screenshots/06-confirm-species.png" width="250" alt="Species Confirmation" /> | <img src="docs/screenshots/07-toss-the-can.png" width="250" alt="Toss the Can Minigame" /> |
-
-| 4. Field Journal / Album | 5. Community Discovery Map | 6. Field Crew / Friends |
-| :---: | :---: | :---: |
-| <img src="docs/screenshots/09-field-journal-album.png" width="250" alt="Field Journal Album" /> | <img src="docs/screenshots/10-community-map.png" width="250" alt="Community Map" /> | <img src="docs/screenshots/11-field-crew-friends.png" width="250" alt="Field Crew Friends" /> |
-
-| 7. Naturalist Profile | 8. Supply Shop | 9. Critter Duels (PvP) |
-| :---: | :---: | :---: |
-| <img src="docs/screenshots/12-naturalist-profile.png" width="250" alt="Naturalist Profile" /> | <img src="docs/screenshots/13-supply-shop.png" width="250" alt="Supply Shop" /> | <img src="docs/screenshots/14-pvp-duels.png" width="250" alt="Critter Duels PvP" /> |
-
-</div>
-
-<details>
-<summary><b>🔍 View Onboarding, Privacy & Permissions Flow</b></summary>
-<br />
-
-<div align="center">
-
-| 1. Codex Introduction | 2. Privacy & Ethics | 3. GDPR Consent & Setup | 4. Runtime Permissions |
-| :---: | :---: | :---: | :---: |
-| <img src="docs/screenshots/01-onboarding.png" width="210" alt="Onboarding Introduction" /> | <img src="docs/screenshots/02-privacy-ethics.png" width="210" alt="Privacy & Ethics" /> | <img src="docs/screenshots/03-consent-profile.png" width="210" alt="GDPR Consent & Setup" /> | <img src="docs/screenshots/04-camera-permission.png" width="210" alt="Camera Permission" /> |
-
-</div>
-
-</details>
 
 ---
 

@@ -27,12 +27,6 @@ AnimaFind features a mobile-first bottom tab bar and contextual header navigatio
 
 The primary encounter loop lets naturalists safely discover and log animals in their local environment:
 
-<p align="center">
-  <img src="screenshots/05-live-field-scanner.png" width="280" alt="Live Field Scanner" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/06-confirm-species.png" width="280" alt="Confirm Species" />
-</p>
-
 ### Viewfinder Controls
 - **Camera Viewfinder:** Streams live video via WebRTC `navigator.mediaDevices.getUserMedia`.
 - **Torch Button:** Toggles the device flashlight on supported mobile hardware.
@@ -49,13 +43,6 @@ The primary encounter loop lets naturalists safely discover and log animals in t
 ## 🥫 2. Physics-Based Tin-Can Toss Minigame
 
 Once a creature is locked and confirmed:
-
-<p align="center">
-  <img src="screenshots/07-toss-the-can.png" width="280" alt="Toss the Can Minigame" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/08-toss-result.png" width="280" alt="Toss Result" />
-</p>
-
 1. Tap **Spend 1 can → toss**.
 2. A drifting cardboard target box moves smoothly across the screen.
 3. **Flick the Can:** Drag the tin can upward with a quick swipe. The physics engine applies parabolic trajectory, gravity ($0.0016$), and air resistance ($0.995^{dt}$).
@@ -81,10 +68,6 @@ Every successful capture mints a unique collectible trading card:
 
 ## 📔 4. Field Journal Album (`/album`)
 
-<p align="center">
-  <img src="screenshots/09-field-journal-album.png" width="280" alt="Field Journal Album" />
-</p>
-
 - **Live Keyword Search:** Type in the search bar to instantly find cards by name, species label, or class.
 - **Taxonomic & Series Filter Chips:** Filter cards by class (`Mammal`, `Bird`, `Insect`, `Reptile`, `Amphibian`, `Other`) and rarity series (`Hedgerow` to `Aurora`).
 - **One-Click Reset:** If no cards match the selected combination, tap **Reset all filters**.
@@ -93,10 +76,6 @@ Every successful capture mints a unique collectible trading card:
 ---
 
 ## 🗺️ 5. Fuzzed Community Map (`/map`)
-
-<p align="center">
-  <img src="screenshots/10-community-map.png" width="280" alt="Community Map" />
-</p>
 
 - **Proximity Ring:** Displays a 250 m interaction radius around the naturalist's approximate position.
 - **Community Sighting Pins:** View past community sightings represented by class emojis.
@@ -107,10 +86,6 @@ Every successful capture mints a unique collectible trading card:
 
 ## 👥 6. Field Crew & Comparisons (`/friends`)
 
-<p align="center">
-  <img src="screenshots/11-field-crew-friends.png" width="280" alt="Field Crew Friends" />
-</p>
-
 - **Compare Albums:** Tap **Compare** on any friend to inspect head-to-head level, card count, species diversity, total sightings, and rarity breakdowns.
 - **Add Naturalists:** Enter a field username to send friend requests, or tap quick suggestions.
 - **Activity Feed:** Track rare finds and community notifications.
@@ -118,10 +93,6 @@ Every successful capture mints a unique collectible trading card:
 ---
 
 ## 🥫 7. Economy & Supply Shop (`/shop`)
-
-<p align="center">
-  <img src="screenshots/13-supply-shop.png" width="280" alt="Supply Shop" />
-</p>
 
 - **Tin Cans (Energy):**
   - Free tier: Maximum 5 cans, recharges 1 can every 25 minutes.
@@ -133,10 +104,6 @@ Every successful capture mints a unique collectible trading card:
 
 ## 🧭 8. Naturalist Profile & Cosmetics (`/profile`)
 
-<p align="center">
-  <img src="screenshots/12-naturalist-profile.png" width="280" alt="Naturalist Profile" />
-</p>
-
 - **Stats & Streaks:** Track level progression, daily scanning streaks, and total species diversity.
 - **Rarest Find Badge:** Highlights your rarest discovered critter with tier border coloring.
 - **Avatar Selector:** Choose from animal icons (Fox, Squirrel, Bird, Frog, Bee, Lizard, Snail, Owl).
@@ -144,10 +111,6 @@ Every successful capture mints a unique collectible trading card:
 ---
 
 ## ⚔️ 9. Critter Duels & PvP Roadmap (`/pvp`)
-
-<p align="center">
-  <img src="screenshots/14-pvp-duels.png" width="280" alt="Critter Duels PvP" />
-</p>
 
 - **Matchup Advantages:**
   - Mammal beats Insect
