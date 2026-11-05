@@ -27,7 +27,7 @@ jobs:
           cache: 'npm'
 
       - name: Select Latest Xcode
-        uses: maxim-lobachev/setup-xcode@v1
+        uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
 
@@ -46,26 +46,28 @@ jobs:
       - name: Build Web Static Export & Sync Capacitor
         run: npm run build:mobile
 
-      - name: Build iOS Simulator App (Unsigned Verification)
+      - name: Build iOS Device App (Unsigned IPA)
         working-directory: ios/App
         run: |
           xcodebuild -project App.xcodeproj \
             -scheme App \
             -configuration Release \
-            -destination "generic/platform=iOS Simulator" \
+            -destination "generic/platform=iOS" \
+            -derivedDataPath build_device \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Archive iOS Build Artifacts
+      - name: Package iOS IPA Archive
         run: |
-          mkdir -p build-output
-          tar -czf build-output/ios-app-build.tar.gz -C ios/App/build . 2>/dev/null || tar -czf build-output/ios-app-build.tar.gz -C ios/App App.xcodeproj
+          mkdir -p build-output/Payload
+          cp -R ios/App/build_device/Build/Products/Release-iphoneos/App.app build-output/Payload/
+          cd build-output && zip -r AnimaFind.ipa Payload
 
-      - name: Upload iOS Verification Artifact
+      - name: Upload iOS IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: animafind-ios-build
-          path: build-output/ios-app-build.tar.gz
+          name: animafind-ios-ipa
+          path: build-output/AnimaFind.ipa
           retention-days: 14
