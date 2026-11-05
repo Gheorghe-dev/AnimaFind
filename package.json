@@ -9,6 +9,7 @@
     "test": "tsx --test \"tests/**/*.test.ts\"",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "docs:pdf": "python scripts/generate_docs_pdf.py",
     "android:debug": "node scripts/build-mobile.cjs && cd android && gradlew.bat assembleDebug",
     "android:release": "node scripts/build-mobile.cjs && cd android && gradlew.bat assembleRelease",
     "db:push": "drizzle-kit push",

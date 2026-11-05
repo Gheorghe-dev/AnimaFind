@@ -8,6 +8,7 @@
 [![Android CI Build](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/android-build.yml/badge.svg)](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/android-build.yml)
 [![iOS Build](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/ios-build.yml/badge.svg)](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/ios-build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Master Docs: PDF](https://img.shields.io/badge/Master%20Docs-PDF%20(14%20Pages)-purple.svg)](./docs/AnimaFind_Full_Documentation.pdf)
 [![Capacitor](https://img.shields.io/badge/Capacitor-v8-blue.svg)](https://capacitorjs.com/)
 [![React 19](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 
@@ -281,6 +282,8 @@ For complete system design diagrams, dual-engine data flow, and anti-cheat algor
 
 ## 📚 Documentation Links
 
+- 📑 **[Master Documentation PDF (`docs/AnimaFind_Full_Documentation.pdf`)](./docs/AnimaFind_Full_Documentation.pdf)** — Comprehensive 14-page publication-grade manual covering complete architecture, computer vision & anti-cheat heuristics, 35-species European codex catalog, procedural card engine, mobile compilation pipelines, and operations runbook.
+  - *Regenerate anytime via:* `npm run docs:pdf`
 - 🚀 [Installation Tutorial (`docs/INSTALLATION.md`)](./docs/INSTALLATION.md) — Step-by-step setup, verification commands, and native build tutorial.
 - 📖 [Feature & Usage Guide (`docs/USAGE.md`)](./docs/USAGE.md) — Complete user guide for the viewfinder, toss minigame, album, codex, and map.
 - 🔧 [Troubleshooting Guide (`docs/TROUBLESHOOTING.md`)](./docs/TROUBLESHOOTING.md) — Solutions for camera permissions, Gradle JVM, and build errors.
