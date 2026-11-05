@@ -3,9 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useApp } from "./AppProvider";
-import type { Me } from "@/lib/types";
 import { gameApi } from "@/lib/api-client";
 import { playClickSound } from "@/lib/audio";
+import {
+  IconPaw,
+  IconCan,
+  IconMap,
+  IconSparkles,
+} from "./icons/AppIcons";
 
 const STEPS = 3;
 
@@ -41,7 +46,7 @@ export default function Onboarding() {
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-4 p-5">
       <div className="doodle tape p-5">
-        <p className="text-xs uppercase tracking-[0.3em] text-inksoft">Critter Codex</p>
+        <p className="text-xs uppercase tracking-[0.3em] text-inksoft font-bold">Critter Codex</p>
         <h1 className="mt-1 text-3xl font-black leading-tight">
           Scan real animals.
           <br />
@@ -50,28 +55,37 @@ export default function Onboarding() {
 
         {step === 0 && (
           <div className="mt-4 space-y-3 text-sm">
-            <p>
+            <p className="text-inksoft leading-relaxed">
               Point your camera at a genuine, breathing animal — a pigeon, next door&apos;s cat, a beetle on a
               wall. Land the tin-can toss and the encounter becomes a one-of-a-kind collectible card in your
               field journal.
             </p>
-            <ul className="space-y-1 text-inksoft">
-              <li>🐾 Multi-class detection: mammals, birds, insects, reptiles, amphibians &amp; oddities</li>
-              <li>🥫 Cans recharge over time — 3 tosses per can</li>
-              <li>🗺️ Community map with fuzzed, never-exact locations</li>
+            <ul className="space-y-2 text-inksoft pt-1">
+              <li className="flex items-center gap-2">
+                <IconPaw size={16} className="text-leaf shrink-0" />
+                <span>Multi-class detection: mammals, birds, insects, reptiles, amphibians</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <IconCan size={16} className="text-leaf shrink-0" />
+                <span>Cans recharge over time — 3 tosses per can</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <IconMap size={16} className="text-leaf shrink-0" />
+                <span>Community map with fuzzed, never-exact locations</span>
+              </li>
             </ul>
           </div>
         )}
 
         {step === 1 && (
           <div className="mt-4 space-y-3 text-sm">
-            <h2 className="font-black">Privacy, plainly</h2>
-            <p className="text-inksoft">
+            <h2 className="font-black text-ink">Privacy, plainly</h2>
+            <p className="text-inksoft leading-relaxed">
               Detection runs on your device. Only a <strong>verified</strong> sighting is synced. We never sell
               personal data. Locations of protected or rare species are fuzzed to a 5 km area or hidden entirely,
               because poaching and habitat disturbance are real.
             </p>
-            <p className="text-inksoft">
+            <p className="text-inksoft leading-relaxed">
               Wildlife ethics: don&apos;t disturb, don&apos;t feed, keep your distance. A card is never worth
               stressing an animal.
             </p>
@@ -88,9 +102,9 @@ export default function Onboarding() {
         {step === 2 && (
           <div className="mt-4 space-y-3 text-sm">
             <label className="block">
-              <span className="text-xs font-bold uppercase tracking-wider">Field name</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-inksoft">Field name</span>
               <input
-                className="doodle-soft mt-1 w-full bg-white/70 px-3 py-2"
+                className="doodle-soft mt-1 w-full bg-white/70 px-3 py-2 font-bold"
                 value={username}
                 maxLength={24}
                 placeholder="e.g. MossyRambler"
@@ -98,18 +112,35 @@ export default function Onboarding() {
               />
             </label>
             <label className="flex items-start gap-3 p-2.5 rounded-xl border border-ink/15 bg-white/60 cursor-pointer select-none transition-colors hover:bg-white">
-              <input type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent" checked={age} onChange={(e) => setAge(e.target.checked)} />
-              <span className="text-xs leading-snug">I am 16 or older (camera, location and social features require it).</span>
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent"
+                checked={age}
+                onChange={(e) => setAge(e.target.checked)}
+              />
+              <span className="text-xs leading-snug">
+                I am 16 or older (camera, location and social features require it).
+              </span>
             </label>
             <label className="flex items-start gap-3 p-2.5 rounded-xl border border-ink/15 bg-white/60 cursor-pointer select-none transition-colors hover:bg-white">
-              <input type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent" checked={gdpr} onChange={(e) => setGdpr(e.target.checked)} />
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent"
+                checked={gdpr}
+                onChange={(e) => setGdpr(e.target.checked)}
+              />
               <span className="text-xs leading-snug">
                 I consent to processing of my sightings for the purposes described in the privacy policy (GDPR
                 Art. 6(1)(a)). Not pre-ticked, revocable any time in Settings.
               </span>
             </label>
             <label className="flex items-start gap-3 p-2.5 rounded-xl border border-ink/15 bg-white/60 cursor-pointer select-none transition-colors hover:bg-white">
-              <input type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent" checked={loc} onChange={(e) => setLoc(e.target.checked)} />
+              <input
+                type="checkbox"
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-ink cursor-pointer accent-accent"
+                checked={loc}
+                onChange={(e) => setLoc(e.target.checked)}
+              />
               <span className="text-xs leading-snug">
                 <em>Optional:</em> attach fuzzed coordinates to sightings so they can appear on the community map.
               </span>
@@ -122,7 +153,7 @@ export default function Onboarding() {
             {Array.from({ length: STEPS }).map((_, i) => (
               <span
                 key={i}
-                className={`h-2 w-6 rounded-full ${i <= step ? "bg-accent" : "bg-black/15"}`}
+                className={`h-2 w-6 rounded-full transition-all ${i <= step ? "bg-accent" : "bg-black/15"}`}
               />
             ))}
           </div>
@@ -142,7 +173,8 @@ export default function Onboarding() {
           href="/landing"
           className="inline-flex items-center gap-1.5 text-xs font-bold text-inksoft hover:text-accent transition-colors"
         >
-          <span>✨ New to AnimaFind? Explore the SaaS Landing Page &amp; 3D Card Studio →</span>
+          <IconSparkles size={14} className="text-accent" />
+          <span>New to AnimaFind? Explore the SaaS Landing Page &amp; 3D Card Studio →</span>
         </Link>
       </div>
 

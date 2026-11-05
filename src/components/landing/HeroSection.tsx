@@ -3,6 +3,19 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FoxIllustration } from "./CardIllustrations";
+import {
+  IconCamera,
+  IconSparkles,
+  IconCan,
+  IconShield,
+  IconMap,
+  IconCodex,
+  IconFlame,
+  IconFox,
+  IconRadar,
+  IconPaw,
+  IconFlip,
+} from "@/components/icons/AppIcons";
 
 export default function HeroSection() {
   const [flipped, setFlipped] = useState(false);
@@ -45,41 +58,51 @@ export default function HeroSection() {
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
               <Link
                 href="/"
-                className="btn btn-accent w-full px-8 py-3.5 text-base font-black shadow-md transition-transform hover:-translate-y-0.5 sm:w-auto"
+                className="btn btn-accent w-full px-8 py-3.5 text-base font-black shadow-md transition-transform hover:-translate-y-0.5 sm:w-auto inline-flex items-center justify-center gap-2"
               >
-                <span>🚀 Launch Web App — Free</span>
+                <IconCamera size={18} />
+                <span>Launch Web App — Free</span>
               </Link>
 
               <a
                 href="#simulator"
-                className="btn w-full px-6 py-3.5 text-base font-bold transition-transform hover:-translate-y-0.5 sm:w-auto"
+                className="btn w-full px-6 py-3.5 text-base font-bold transition-transform hover:-translate-y-0.5 sm:w-auto inline-flex items-center justify-center gap-2"
               >
-                <span>🃏 Test 3D Card Studio ↓</span>
+                <IconSparkles size={16} />
+                <span>Test 3D Card Studio ↓</span>
               </a>
             </div>
 
             {/* Value Guarantees / Highlights */}
             <div className="grid grid-cols-2 gap-3 pt-4 sm:grid-cols-4 sm:gap-4">
               <div className="glass-panel rounded-2xl p-3 text-left">
-                <div className="text-xl">🥫</div>
+                <div className="text-leaf mb-1">
+                  <IconCan size={22} />
+                </div>
                 <div className="text-xs font-black text-ink">On-Device AI</div>
                 <div className="text-[10px] text-inksoft">Photos never leave your phone unverified</div>
               </div>
 
               <div className="glass-panel rounded-2xl p-3 text-left">
-                <div className="text-xl">🛡️</div>
+                <div className="text-amber-700 mb-1">
+                  <IconShield size={22} />
+                </div>
                 <div className="text-xs font-black text-ink">Anti-Cheat Engine</div>
                 <div className="text-[10px] text-inksoft">Parallax &amp; moiré screen detection</div>
               </div>
 
               <div className="glass-panel rounded-2xl p-3 text-left">
-                <div className="text-xl">🗺️</div>
+                <div className="text-leaf mb-1">
+                  <IconMap size={22} />
+                </div>
                 <div className="text-xs font-black text-ink">Fuzzed GPS Map</div>
                 <div className="text-[10px] text-inksoft">250m claim radius, protected species privacy</div>
               </div>
 
               <div className="glass-panel rounded-2xl p-3 text-left">
-                <div className="text-xl">📖</div>
+                <div className="text-ink mb-1">
+                  <IconCodex size={22} />
+                </div>
                 <div className="text-xs font-black text-ink">35 Curated Taxa</div>
                 <div className="text-[10px] text-inksoft">Mammals, birds, insects, reptiles, amphibians</div>
               </div>
@@ -91,14 +114,17 @@ export default function HeroSection() {
             <div className="relative w-full max-w-[340px] sm:max-w-[360px]">
               {/* Floating Badge */}
               <div className="animate-float absolute -top-5 -right-4 z-20 flex items-center gap-1.5 rounded-full border-2 border-ink bg-[#fffdf6] px-3 py-1 shadow-md">
-                <span className="text-sm">✨</span>
+                <IconSparkles size={14} className="text-amber-500" />
                 <span className="text-[11px] font-black text-accent uppercase tracking-wider">
                   Tier 5 Aurora Series
                 </span>
               </div>
 
-              <div className="animate-float absolute -bottom-5 -left-4 z-20 flex items-center gap-1.5 rounded-full border-2 border-ink bg-[#fffdf6] px-3 py-1 shadow-md" style={{ animationDelay: "2s" }}>
-                <span className="text-sm">🔥</span>
+              <div
+                className="animate-float absolute -bottom-5 -left-4 z-20 flex items-center gap-1.5 rounded-full border-2 border-ink bg-[#fffdf6] px-3 py-1 shadow-md"
+                style={{ animationDelay: "2s" }}
+              >
+                <IconFlame size={14} className="text-accent" />
                 <span className="text-[11px] font-black text-ink">
                   Combat Ready · Grit 96
                 </span>
@@ -108,42 +134,36 @@ export default function HeroSection() {
               <div className="[perspective:1200px] w-full">
                 <div
                   onClick={() => setFlipped((f) => !f)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      setFlipped((f) => !f);
-                    }
-                  }}
-                  className={`card-flip relative block h-[450px] w-full cursor-pointer select-none transition-all duration-500 hover:scale-[1.02] ${
+                  className={`card-flip relative cursor-pointer select-none transition-transform duration-500 ${
                     flipped ? "flipped" : ""
                   }`}
-                  aria-label="Click to flip the Aurora Red Fox trading card"
+                  style={{ aspectRatio: "2.5/3.5" }}
                 >
                   {/* FRONT FACE */}
                   <div
-                    className="card-face doodle golden absolute inset-0 flex flex-col justify-between p-3.5"
+                    className="card-face doodle absolute inset-0 flex flex-col justify-between p-3.5"
                     style={{
-                      background: "#fffdf6",
+                      background: "linear-gradient(135deg, #fffdf8 0%, #fdf8eb 100%)",
                       boxShadow: "5px 5px 0 #2c2823, 0 0 35px rgba(232, 181, 60, 0.75)",
                     }}
                   >
                     <div>
                       {/* Card Header */}
-                      <div className="flex items-center justify-between pb-2">
-                        <span className="inline-flex items-center gap-1 rounded-full border-2 border-ink bg-[#e8b53c] px-2.5 py-0.5 text-[10px] font-black text-white shadow-xs">
-                          ✨ Aurora
+                      <div className="flex items-center justify-between border-b-2 border-ink/15 pb-1.5">
+                        <span className="text-xs font-black uppercase tracking-wider text-inksoft">
+                          Aurora · #00042
                         </span>
-                        <span className="text-[11px] font-black tracking-wider text-inksoft">
-                          #00042 / 10,000
+                        <span className="rounded-full bg-[#e8b53c] px-2 py-0.5 text-[9px] font-black uppercase text-white shadow-xs">
+                          Tier 5
                         </span>
                       </div>
 
                       {/* Card Artwork */}
-                      <div className="relative h-56 w-full overflow-hidden rounded-xl border-2 border-ink bg-stone-900 shadow-inner">
+                      <div className="relative h-56 w-full overflow-hidden rounded-xl border-2 border-ink bg-stone-900 shadow-inner mt-2">
                         <FoxIllustration className="h-full w-full object-cover" />
-                        <span className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-xs">
-                          🦊 Vulpes vulpes · Mammal
+                        <span className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-xs flex items-center gap-1">
+                          <IconFox size={12} />
+                          <span>Vulpes vulpes · Mammal</span>
                         </span>
                       </div>
 
@@ -174,8 +194,9 @@ export default function HeroSection() {
                           <span className="text-sm font-black text-ink">96</span>
                         </div>
                       </div>
-                      <p className="text-center text-[10px] font-bold text-accent">
-                        Tap or click card to flip for Lore &amp; Abilities ↺
+                      <p className="text-center text-[10px] font-bold text-accent flex items-center justify-center gap-1">
+                        <IconFlip size={12} />
+                        <span>Tap or click card to flip for Lore &amp; Abilities</span>
                       </p>
                     </div>
                   </div>
@@ -208,14 +229,23 @@ export default function HeroSection() {
                           Unlocked Abilities
                         </p>
                         <div className="mt-1.5 space-y-1.5">
-                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink">
-                            ⚡ <span className="text-accent">Static Floof:</span> Paralyzes bugs on contact
+                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink flex items-center gap-1.5">
+                            <IconSparkles size={13} className="text-amber-500 shrink-0" />
+                            <span>
+                              <span className="text-accent">Static Floof:</span> Paralyzes bugs on contact
+                            </span>
                           </div>
-                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink">
-                            🧀 <span className="text-accent">Snack Radar:</span> Locates food within 300 meters
+                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink flex items-center gap-1.5">
+                            <IconRadar size={13} className="text-leaf shrink-0" />
+                            <span>
+                              <span className="text-accent">Snack Radar:</span> Locates food within 300 meters
+                            </span>
                           </div>
-                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink">
-                            🐾 <span className="text-accent">Toe Bean Stomp:</span> Deals +30 morale damage
+                          <div className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink flex items-center gap-1.5">
+                            <IconPaw size={13} className="text-leaf shrink-0" />
+                            <span>
+                              <span className="text-accent">Toe Bean Stomp:</span> Deals +30 morale damage
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -235,8 +265,9 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              <p className="mt-3 text-center text-xs font-bold text-inksoft">
-                👆 Interactive 3D Card — Flip and inspect details
+              <p className="mt-3 text-center text-xs font-bold text-inksoft flex items-center justify-center gap-1">
+                <IconFlip size={13} />
+                <span>Interactive 3D Card — Flip and inspect details</span>
               </p>
             </div>
           </div>

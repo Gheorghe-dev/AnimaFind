@@ -4,6 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { RARITY_META, TIER_ORDER } from "@/lib/game-data";
 import { gameApi } from "@/lib/api-client";
+import {
+  IconBell,
+  IconCross,
+  AvatarIcon,
+} from "@/components/icons/AppIcons";
 
 type Summary = {
   id: string;
@@ -123,10 +128,11 @@ export default function FriendsPage() {
             {data.suggestions.map((s) => (
               <button
                 key={s.id}
-                className="rounded-full border-2 border-ink bg-white/70 px-2 py-1 text-[10px] font-bold"
+                className="rounded-full border-2 border-ink bg-white/70 px-2 py-1 text-[10px] font-bold inline-flex items-center gap-1"
                 onClick={() => void act({ action: "add", userId: s.id }, `Request sent to ${s.username}.`)}
               >
-                + {s.username} · Lv{s.level}
+                <span>+ {s.username}</span>
+                <span className="text-inksoft">· Lv{s.level}</span>
               </button>
             ))}
           </div>
@@ -149,8 +155,14 @@ export default function FriendsPage() {
           </div>
           <ul className="mt-1 space-y-1">
             {notifications.slice(0, 5).map((n) => (
-              <li key={n.id} className={`text-xs ${n.readAt ? "text-inksoft" : "font-bold"}`}>
-                🔔 {n.title} — {n.body}
+              <li
+                key={n.id}
+                className={`text-xs flex items-center gap-1.5 ${n.readAt ? "text-inksoft" : "font-bold text-ink"}`}
+              >
+                <IconBell size={13} className="text-accent shrink-0" />
+                <span>
+                  {n.title} — {n.body}
+                </span>
               </li>
             ))}
           </ul>
@@ -162,15 +174,21 @@ export default function FriendsPage() {
           <h2 className="text-sm font-black uppercase tracking-widest text-inksoft">Requests</h2>
           {data.incoming.map((f) => (
             <div key={f.id} className="doodle flex items-center gap-3 p-2.5">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-white text-lg shadow-xs">
-                {f.avatarSeed || "🧑‍🌾"}
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-xs">
+                <AvatarIcon seed={f.avatarSeed} size={22} />
               </span>
               <span className="flex-1 text-sm font-black truncate">{f.username}</span>
-              <button className="btn btn-leaf px-3 py-1 text-xs" onClick={() => void act({ action: "accept", linkId: f.linkId }, "Friend added!")}>
+              <button
+                className="btn btn-leaf px-3 py-1 text-xs"
+                onClick={() => void act({ action: "accept", linkId: f.linkId }, "Friend added!")}
+              >
                 Accept
               </button>
-              <button className="btn px-2.5 py-1 text-xs" onClick={() => void act({ action: "remove", linkId: f.linkId }, "Dismissed.")}>
-                ✕
+              <button
+                className="btn px-2.5 py-1 text-xs"
+                onClick={() => void act({ action: "remove", linkId: f.linkId }, "Dismissed.")}
+              >
+                <IconCross size={13} />
               </button>
             </div>
           ))}
@@ -187,8 +205,8 @@ export default function FriendsPage() {
         {data.friends.map((f) => (
           <div key={f.id} className="doodle p-2.5">
             <div className="flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-white text-lg shadow-xs">
-                {f.avatarSeed || "🧑‍🌾"}
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-xs">
+                <AvatarIcon seed={f.avatarSeed} size={22} />
               </span>
               <span className="flex-1 min-w-0">
                 <span className="block text-sm font-black truncate">{f.username}</span>
@@ -196,7 +214,10 @@ export default function FriendsPage() {
                   Lv {f.level} · {f.totalCards} cards · {f.speciesDiversity} species
                 </span>
               </span>
-              <button className="btn px-3 py-1 text-xs shrink-0" onClick={() => setCompare(compare?.id === f.id ? null : f)}>
+              <button
+                className="btn px-3 py-1 text-xs shrink-0"
+                onClick={() => setCompare(compare?.id === f.id ? null : f)}
+              >
                 {compare?.id === f.id ? "Close" : "Compare"}
               </button>
             </div>

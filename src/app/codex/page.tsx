@@ -3,6 +3,12 @@
 import { useEffect, useState } from "react";
 import { TAXON_META, type TaxonCategory } from "@/lib/game-data";
 import { gameApi } from "@/lib/api-client";
+import {
+  IconShield,
+  IconCheck,
+  IconStar,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 type Category = {
   taxon: TaxonCategory;
@@ -39,16 +45,20 @@ export default function CodexPage() {
   return (
     <div className="space-y-3">
       <h1 className="text-2xl font-black">Encyclopedia</h1>
-      <p className="text-[11px] text-inksoft">
-        {found}/{total} species identified in your area. Species marked 🛡️ are protected — log them, but their
-        locations are never published precisely.
+      <p className="text-[11px] text-inksoft flex items-center flex-wrap gap-1">
+        <span>{found}/{total} species identified in your area. Species marked with</span>
+        <IconShield size={12} className="text-amber-700 inline shrink-0" />
+        <span>are protected — log them, but their locations are never published precisely.</span>
       </p>
 
       {categories.map((c) => (
         <div key={c.taxon} className="doodle p-3">
-          <button className="flex w-full items-center gap-3 p-0.5 text-left group" onClick={() => setOpen(open === c.taxon ? null : c.taxon)}>
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/80 border border-ink/20 text-2xl shadow-xs group-hover:scale-105 transition-transform">
-              {TAXON_META[c.taxon].emoji}
+          <button
+            className="flex w-full items-center gap-3 p-0.5 text-left group"
+            onClick={() => setOpen(open === c.taxon ? null : c.taxon)}
+          >
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/80 border border-ink/20 shadow-xs group-hover:scale-105 transition-transform text-leaf">
+              <TaxonIcon taxon={c.taxon} size={22} />
             </span>
             <span className="flex-1 min-w-0">
               <span className="block text-sm font-black truncate">{c.taxon}</span>
@@ -68,14 +78,26 @@ export default function CodexPage() {
               {c.species.map((s) => (
                 <li
                   key={s.label}
-                  className={`flex items-center justify-between text-[11px] ${
+                  className={`flex items-center justify-between text-[11px] py-1 border-b border-ink/5 last:border-0 ${
                     s.found ? "font-black" : "text-inksoft"
                   }`}
                 >
-                  <span>
-                    {s.found ? "✔︎" : "▢"} {s.label} {s.sensitive ? "🛡️" : ""}
+                  <span className="inline-flex items-center gap-1.5">
+                    {s.found ? (
+                      <span className="grid h-4 w-4 place-items-center rounded-sm bg-leaf text-white">
+                        <IconCheck size={10} />
+                      </span>
+                    ) : (
+                      <span className="h-4 w-4 rounded-sm border border-ink/30" />
+                    )}
+                    <span>{s.label}</span>
+                    {s.sensitive && <IconShield size={12} className="text-amber-700 shrink-0" />}
                   </span>
-                  <span>{"★".repeat(s.commonness)}</span>
+                  <span className="inline-flex items-center gap-0.5 text-amber-500">
+                    {Array.from({ length: s.commonness }).map((_, i) => (
+                      <IconStar key={i} size={11} className="fill-amber-400 text-amber-500" />
+                    ))}
+                  </span>
                 </li>
               ))}
             </ul>

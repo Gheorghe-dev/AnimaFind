@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { CardFull } from "@/components/CardViews";
 import { useApp } from "@/components/AppProvider";
 import { gameApi } from "@/lib/api-client";
+import { IconMapPin } from "@/components/icons/AppIcons";
 import type { CardRow } from "@/lib/types";
 
 type Payload = {
@@ -120,7 +121,12 @@ export function CardDetailView({ id }: { id: string }) {
                 ? "stored, fuzzed on the public map"
                 : "not recorded"}
           </li>
-          {data.sighting.linkedFromSightingId && <li>Linked from a community pin 📍</li>}
+          {data.sighting.linkedFromSightingId && (
+            <li className="flex items-center gap-1">
+              <IconMapPin size={12} className="text-leaf" />
+              <span>Linked from a community pin</span>
+            </li>
+          )}
         </ul>
       </div>
 

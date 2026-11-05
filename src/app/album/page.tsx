@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FC } from "react";
 import Link from "next/link";
 import { CardTile } from "@/components/CardViews";
-import { RARITY_META, TAXA, TAXON_META, TIER_ORDER } from "@/lib/game-data";
+import { RARITY_META, TAXA, TIER_ORDER } from "@/lib/game-data";
 import { gameApi } from "@/lib/api-client";
 import type { CardRow } from "@/lib/types";
+import {
+  IconSearch,
+  IconCross,
+  IconLeaf,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 export default function AlbumPage() {
   const [cards, setCards] = useState<CardRow[] | null>(null);
@@ -74,16 +80,18 @@ export default function AlbumPage() {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by card or species name…"
           aria-label="Search cards"
-          className="doodle-soft w-full bg-white/70 px-3 py-2 pl-8 text-xs focus:outline-hidden"
+          className="doodle-soft w-full bg-white/70 px-3 py-2 pl-9 text-xs focus:outline-hidden"
         />
-        <span className="absolute left-2.5 top-2 text-xs text-inksoft pointer-events-none">🔍</span>
+        <span className="absolute left-3 top-2.5 text-xs text-inksoft pointer-events-none">
+          <IconSearch size={14} />
+        </span>
         {search && (
           <button
             onClick={() => setSearch("")}
-            className="absolute right-2.5 top-2 text-xs font-black text-inksoft hover:text-ink"
+            className="absolute right-2.5 top-2.5 text-xs font-black text-inksoft hover:text-ink"
             aria-label="Clear search input"
           >
-            ✕
+            <IconCross size={14} />
           </button>
         )}
       </div>
@@ -94,7 +102,11 @@ export default function AlbumPage() {
           onChange={setTaxon}
           options={[
             { id: "all", label: "All classes" },
-            ...TAXA.map((t) => ({ id: t, label: `${TAXON_META[t].emoji} ${t}` })),
+            ...TAXA.map((t) => ({
+              id: t,
+              label: t,
+              icon: () => <TaxonIcon taxon={t} size={13} />,
+            })),
           ]}
         />
         <Chips
@@ -118,10 +130,12 @@ export default function AlbumPage() {
 
       {cards !== null && cards.length === 0 && (
         <div className="doodle tape mt-6 p-6 text-center">
-          <p className="text-4xl">🔍</p>
+          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper2 border-2 border-ink mx-auto mb-2 text-inksoft">
+            <IconSearch size={28} />
+          </div>
           <p className="mt-2 font-black">Nothing pressed between these pages yet.</p>
           <p className="mt-1 text-xs text-inksoft">
-            Go outside, find a pigeon with attitude, and scan it.
+            Go outside, find a specimen with attitude, and scan it.
           </p>
           <Link href="/" className="btn btn-accent mt-4 inline-block">
             Start scanning
@@ -131,7 +145,9 @@ export default function AlbumPage() {
 
       {cards !== null && cards.length > 0 && filtered.length === 0 && (
         <div className="doodle tape mt-6 p-6 text-center">
-          <p className="text-4xl">🍃</p>
+          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper2 border-2 border-ink mx-auto mb-2 text-leaf">
+            <IconLeaf size={28} />
+          </div>
           <p className="mt-2 font-black">No cards match your current filters.</p>
           <p className="mt-1 text-xs text-inksoft">
             Try adjusting your search query, taxon class, or rarity series.
@@ -166,21 +182,26 @@ function Chips({
 }: {
   value: string;
   onChange: (v: string) => void;
-  options: { id: string; label: string }[];
+  options: { id: string; label: string; icon?: FC }[];
 }) {
   return (
     <div className="scrollhide flex gap-1.5 overflow-x-auto pb-1">
-      {options.map((o) => (
-        <button
-          key={o.id}
-          onClick={() => onChange(o.id)}
-          className={`whitespace-nowrap rounded-full border-2 border-ink px-3 py-1 text-[11px] font-bold inline-flex items-center gap-1 transition-all ${
-            value === o.id ? "bg-ink text-paper shadow-xs" : "bg-white/70 hover:bg-white text-ink"
-          }`}
-        >
-          {o.label}
-        </button>
-      ))}
+      {options.map((o) => {
+        const IconComp = o.icon;
+        const active = value === o.id;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            className={`whitespace-nowrap rounded-full border-2 border-ink px-3 py-1 text-[11px] font-bold inline-flex items-center gap-1.5 transition-all ${
+              active ? "bg-ink text-paper shadow-xs" : "bg-white/70 hover:bg-white text-ink"
+            }`}
+          >
+            {IconComp && <IconComp />}
+            <span>{o.label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

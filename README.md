@@ -63,9 +63,17 @@
   - Progress bars by taxonomic class with rarity ratings and leave-no-trace ethics badges.
 
 - **🗺️ Fuzzed Community Discovery Map**:
-  - Nearby sightings visualised on an SVG coordinate grid.
+  - Real-world interactive mapping powered by **OpenStreetMap** and **Leaflet** (100% free, zero API key or billing account required).
+  - Dynamic client-only rendering (`ssr: false`) with animated loading skeleton.
+  - Interactive pan, smooth zoom controls, recenter radar button, and floating compass.
   - **Wildlife Protection Fuzzing**: Non-sensitive species fuzzed to ~150 m; sensitive species fuzzed to ~5 km or kept confidential to prevent poaching.
-  - Proximity claiming: link cards when within 250 meters of community pins.
+  - **250m Proximity Claiming**: Interactive proximity circle (`L.circle`) with pulsing GPS indicator; claim nearby sightings into your journal.
+  - Custom HTML taxon marker pins (`L.divIcon`) with live bounce animations for claimable pins.
+
+- **🎨 Unified Custom Icon System**:
+  - Replaced all emojis across the entire app with 60+ custom, professional SVG icons.
+  - Consistent design tokens: 24×24 viewbox, 2.0 stroke weight, rounded joints, and `currentColor` theme inheritance.
+  - Includes dedicated taxonomic resolvers (`<TaxonIcon />`) and avatar resolvers (`<AvatarIcon />`).
 
 - **👥 Social Crew & PvP Roadmap**:
   - Compare deck diversity, highest rarity finds, and stats with friends.
@@ -83,6 +91,8 @@
 | :--- | :--- | :--- |
 | **Frontend Framework** | Next.js 16 (App Router, Turbopack) & React 19 | Responsive mobile-first UI with static generation (`output: export`) |
 | **Mobile Runtime** | Capacitor 8 (`@capacitor/core`, `@capacitor/android`, `@capacitor/ios`) | Native hardware acceleration, WKWebView & Android WebView bridges |
+| **Interactive Maps** | Leaflet 1.9 + OpenStreetMap | 100% free raster tiles; zero API keys, paid tiers, or credit cards required |
+| **Icon System** | Custom SVG Design System (`src/components/icons/AppIcons.tsx`) | 60+ unified SVGs (24×24, stroke 2.0, `currentColor` theme inheritance) |
 | **Styling System** | TailwindCSS v4 + Glassmorphism Theme | Frosted glass cards, Plus Jakarta Sans, paper/ink palette |
 | **Language** | TypeScript 5.9 | Strict typechecking enabled |
 | **Testing** | Node.js Test Runner + `tsx` | Unit and integration test suites for math, geo, vision, storage |
@@ -140,6 +150,93 @@ npm run typecheck
 # Run ESLint code style analysis
 npm run lint
 ```
+
+---
+
+## 🗺️ Interactive Map Service (OpenStreetMap & Leaflet)
+
+AnimaFind features a 100% free, production-grade interactive map powered by **Leaflet 1.9** and **OpenStreetMap (OSM)** raster tiles.
+
+### Why OpenStreetMap + Leaflet?
+1. **Zero Billing & Zero API Keys**: Requires no Google Maps, Mapbox, or MapTiler accounts, subscriptions, or credit cards. Works out of the box for any developer or user.
+2. **Capacitor Mobile Reliability**: Leaflet uses HTML5 canvas and DOM elements without requiring WebGL context. On iOS WKWebView and Android WebView, heavy WebGL map engines frequently experience context loss on tab switches; Leaflet remains robust and stable.
+3. **Lightweight Footprint**: At ~140 KB, Leaflet is a fraction of the bundle size of heavyweight vector-tile engines, ensuring fast cold starts on cellular networks in nature reserves.
+
+### Architecture & Implementation Details
+- **Tile Endpoint**: Standard OSM tile server:
+  ```
+  https://tile.openstreetmap.org/{z}/{x}/{y}.png
+  ```
+  with mandatory attribution: `&copy; OpenStreetMap contributors`.
+- **Next.js SSR Boundary (`ssr: false`)**:
+  Leaflet requires browser APIs (`window`, `navigator`, `document`) immediately upon instantiation. To avoid server-side rendering crashes during Next.js builds, the map is loaded dynamically:
+  ```tsx
+  // src/app/map/page.tsx
+  const InteractiveMap = dynamic(
+    () => import("@/components/map/InteractiveMap"),
+    { ssr: false, loading: () => <MapSkeleton /> }
+  );
+  ```
+- **Explicit Height Requirement**:
+  Leaflet computes internal canvas coordinate projections from container dimensions. If the parent container does not declare an explicit CSS height (e.g. `style={{ height: "440px" }}` or `h-[440px]`), the container height defaults to 0px and tiles fail to render. AnimaFind guarantees explicit height across responsive breakpoints.
+- **Proximity Radar & Claim Zone**:
+  - Renders the naturalist's live location with an animated pulse marker (`user-pulse-marker`).
+  - Projects a 250 m circular interaction radius using `L.circle` with custom styling.
+  - Sighting pins within 250 m are flagged as `claimable`, activating a bouncing CSS animation and letting naturalists link cards directly to their Field Journal.
+- **Error Handling & Resilience**:
+  - Listens to `tileerror` events on the tile layer; if offline or blocked by a captive portal, an inline warning banner is displayed while keeping the interactive canvas alive.
+  - Wraps initialization in a try/catch boundary with a user-facing retry button and fallback state.
+- **Unmount Cleanup**:
+  The `useEffect` lifecycle hook strictly executes `mapRef.current.remove()` on component unmount, preventing detached DOM node memory leaks across tab switches.
+
+---
+
+## 🎨 Custom Icon Design System & Guide
+
+Every emoji in the application has been replaced with a unified set of 60+ custom SVG icons located in [`src/components/icons/AppIcons.tsx`](./src/components/icons/AppIcons.tsx).
+
+### Design Tokens & Standards
+- **Viewport**: Uniform `viewBox="0 0 24 24"`.
+- **Stroke Width**: Consistent `strokeWidth="2"` (or `2.5` for checks/active states).
+- **Line Endings**: `strokeLinecap="round"` and `strokeLinejoin="round"`.
+- **Theme Color Inheritance**: All icons use `stroke="currentColor"` and `fill="none"` (except for solid accent badges). This allows icons to automatically inherit Tailwind CSS text colors (e.g. `text-brand-moss`, `text-amber-500`, `text-white`).
+- **Standard Sizing**: Standard sizes use Tailwind dimension classes: `w-4 h-4`, `w-5 h-5`, `w-6 h-6`, or `w-8 h-8`.
+
+### Dynamic Resolvers
+- **`<TaxonIcon taxon={taxon} />`**: Intelligently renders the correct taxonomic icon for `"Mammal"`, `"Bird"`, `"Insect"`, `"Reptile"`, `"Amphibian"`, or `"Other"`.
+- **`<AvatarIcon seed={seed} />`**: Safely renders naturalist avatars for both modern avatar keys (`"fox"`, `"owl"`, `"badger"`, `"frog"`, `"beetle"`, etc.) and legacy emoji strings.
+
+### How to Add a New Custom Icon
+Follow these 4 steps to add a new icon to the system:
+
+1. **Open** `src/components/icons/AppIcons.tsx`.
+2. **Define the new component** adhering to the standard `IconProps` interface:
+   ```tsx
+   export const IconBinoculars: FC<IconProps> = ({ className = "w-5 h-5", strokeWidth = 2 }) => (
+     <svg
+       viewBox="0 0 24 24"
+       fill="none"
+       stroke="currentColor"
+       strokeWidth={strokeWidth}
+       strokeLinecap="round"
+       strokeLinejoin="round"
+       className={className}
+     >
+       <circle cx="6" cy="14" r="4" />
+       <circle cx="18" cy="14" r="4" />
+       <path d="M10 14h4" />
+       <path d="M8 10l1-5h6l1 5" />
+       <path d="M10 5V3h4v2" />
+     </svg>
+   );
+   ```
+3. **Export** the icon from `src/components/icons/AppIcons.tsx`.
+4. **Import & Use** in any page or component with your desired Tailwind color:
+   ```tsx
+   import { IconBinoculars } from "@/components/icons/AppIcons";
+
+   <IconBinoculars className="w-5 h-5 text-brand-moss" />
+   ```
 
 ---
 

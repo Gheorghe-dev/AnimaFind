@@ -7,11 +7,17 @@ import { useApp } from "@/components/AppProvider";
 import CameraScanner, { type Capture } from "@/components/scan/CameraScanner";
 import TossGame from "@/components/scan/TossGame";
 import Reveal from "@/components/scan/Reveal";
-import { TAXON_META } from "@/lib/game-data";
-import type { CardRow, Me } from "@/lib/types";
-
+import type { CardRow } from "@/lib/types";
 import { gameApi } from "@/lib/api-client";
 import { playCardRevealSound, playClickSound, playLockSound } from "@/lib/audio";
+import {
+  IconMapPin,
+  IconSparkles,
+  IconCan,
+  IconAlbum,
+  IconShop,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 type Phase = "scan" | "confirm" | "toss" | "reveal";
 
@@ -75,20 +81,20 @@ function ScanScreen() {
   }, [roundId]);
 
   const submitSighting = useCallback(async () => {
-    if (!capture || !roundId || busy) return;
+    if (!capture || !roundId) return;
     setBusy(true);
     try {
       const data = await gameApi.submitSighting({
         roundId,
+        species,
         photo: capture.photo,
         phash: capture.phash,
         taxon: capture.taxon,
-        species,
         lat: coords?.lat ?? null,
         lng: coords?.lng ?? null,
         motionScore: capture.motionScore,
         screenScore: capture.screenScore,
-        linkedFromSightingId: pinId,
+        linkedFromSightingId: pinId ?? undefined,
       });
       setCard(data.card);
       setPending(data.sighting?.verificationStatus === "pending");
@@ -103,7 +109,7 @@ function ScanScreen() {
     } finally {
       setBusy(false);
     }
-  }, [busy, capture, coords, pinId, refresh, roundId, setMe, species, toast]);
+  }, [capture, roundId, species, coords, pinId, setMe, toast, refresh]);
 
   function resetAll() {
     setPhase("scan");
@@ -118,8 +124,9 @@ function ScanScreen() {
   return (
     <div className="space-y-3">
       {pinId && phase !== "reveal" && (
-        <div className="doodle-soft bg-[#e8f2dd] px-3 py-2 text-[11px] font-bold">
-          📍 Claiming a community pin — you must be within 250 m of it, verified server-side.
+        <div className="doodle-soft bg-[#e8f2dd] px-3 py-2 text-[11px] font-bold border border-leaf/30 flex items-center gap-1.5">
+          <IconMapPin size={16} className="text-leaf shrink-0" />
+          <span>Claiming a community pin — you must be within 250 m of it, verified server-side.</span>
         </div>
       )}
 
@@ -127,10 +134,10 @@ function ScanScreen() {
         <>
           <Link
             href="/landing"
-            className="doodle-soft flex items-center justify-between bg-[#fff6e2] px-3 py-1.5 text-[11px] font-bold text-ink transition-colors hover:bg-white"
+            className="doodle-soft flex items-center justify-between bg-[#fff6e2] px-3 py-1.5 text-[11px] font-bold text-ink transition-colors hover:bg-white border border-amber-200 shadow-sm"
           >
             <span className="flex items-center gap-1.5">
-              <span>✨</span>
+              <IconSparkles size={14} className="text-accent" />
               <span>Explore AnimaFind SaaS &amp; 3D Card Studio</span>
             </span>
             <span className="text-accent font-black">Tour →</span>
@@ -138,8 +145,11 @@ function ScanScreen() {
 
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-black">Field scan</h1>
-            <span className="text-[11px] font-bold text-inksoft">
-              🥫 {cans?.current}/{cans?.max}
+            <span className="text-xs font-bold text-inksoft inline-flex items-center gap-1">
+              <IconCan size={14} className="text-leaf" />
+              <span>
+                {cans?.current}/{cans?.max}
+              </span>
             </span>
           </div>
           <CameraScanner onCapture={onCapture} />
@@ -157,8 +167,10 @@ function ScanScreen() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={capture.photo} alt="captured animal" className="w-full rounded-xl object-cover" />
             <p className="mt-2 text-xs font-bold inline-flex items-center gap-1.5">
-              <span className="text-sm">{TAXON_META[capture.taxon].emoji}</span>
-              <span>Detected class: {capture.taxon} · {Math.round(capture.confidence * 100)}% confidence</span>
+              <TaxonIcon taxon={capture.taxon} size={16} className="text-leaf shrink-0" />
+              <span>
+                Detected class: {capture.taxon} · {Math.round(capture.confidence * 100)}% confidence
+              </span>
             </p>
             <p className="text-[10px] text-inksoft mt-0.5">
               Anti-cheat signals — parallax {capture.motionScore.toFixed(3)}, screen-likeness{" "}
@@ -202,16 +214,18 @@ function ScanScreen() {
             </button>
           </div>
           {(cans?.current ?? 0) <= 0 && (
-            <div className="doodle-soft bg-[#fff4e8] p-3 text-center space-y-2 mt-2">
+            <div className="doodle-soft bg-[#fff4e8] p-3 text-center space-y-2 mt-2 border border-amber-200">
               <p className="text-[11px] font-bold text-ink">
                 Out of cans! Cans recharge every {cans?.rechargeRateMinutes} minutes.
               </p>
               <div className="flex gap-2">
-                <Link href="/shop" className="btn btn-accent flex-1 text-xs py-1.5">
-                  Visit Shop 🥫
+                <Link href="/shop" className="btn btn-accent flex-1 text-xs py-1.5 inline-flex items-center justify-center gap-1.5">
+                  <IconShop size={14} />
+                  <span>Visit Shop</span>
                 </Link>
-                <Link href="/album" className="btn flex-1 text-xs py-1.5">
-                  View Album 📔
+                <Link href="/album" className="btn flex-1 text-xs py-1.5 inline-flex items-center justify-center gap-1.5">
+                  <IconAlbum size={14} />
+                  <span>View Album</span>
                 </Link>
               </div>
             </div>

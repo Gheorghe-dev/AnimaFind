@@ -4,6 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useApp } from "@/components/AppProvider";
 import { gameApi } from "@/lib/api-client";
+import {
+  IconSparkles,
+  IconBan,
+  IconRuler,
+  IconShield,
+  IconVolumeX,
+} from "@/components/icons/AppIcons";
 
 export default function SettingsPage() {
   const { me, setMe, toast, refresh } = useApp();
@@ -54,14 +61,15 @@ export default function SettingsPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-black">Settings</h1>
 
-      <section className="doodle bg-[#fff6e2] p-3">
+      <section className="doodle bg-[#fff6e2] p-3 border border-amber-200">
         <h2 className="text-sm font-black">AnimaFind SaaS Platform Tour</h2>
         <p className="mt-1 text-[11px] text-inksoft">
           Explore the official product landing page, interactive 3D card simulator, vision anti-cheat deep-dive,
           and Field Club membership perks.
         </p>
-        <Link href="/landing" className="btn btn-accent mt-2 w-full text-xs font-black text-center">
-          ✨ Open SaaS Landing Page &amp; 3D Studio →
+        <Link href="/landing" className="btn btn-accent mt-2 w-full text-xs font-black text-center inline-flex items-center justify-center gap-1.5">
+          <IconSparkles size={14} />
+          <span>Open SaaS Landing Page &amp; 3D Studio →</span>
         </Link>
       </section>
 
@@ -69,7 +77,7 @@ export default function SettingsPage() {
         <h2 className="text-sm font-black">Consents</h2>
         <p className="mt-1 text-[11px] text-inksoft">
           GDPR consent given {me.user.gdprConsentAt ? new Date(me.user.gdprConsentAt).toLocaleString() : "—"} · age
-          16+ confirmed {me.user.ageConfirmed ? "✔︎" : "✕"}
+          16+ confirmed {me.user.ageConfirmed ? "Yes" : "No"}
         </p>
         <label className="mt-2 flex items-center justify-between text-xs font-bold">
           <span>Attach fuzzed location to sightings (community map)</span>
@@ -112,11 +120,23 @@ export default function SettingsPage() {
 
       <section className="doodle p-3">
         <h2 className="text-sm font-black">Wildlife watching ethics</h2>
-        <ul className="mt-1 space-y-1 text-[11px] text-inksoft">
-          <li>🚫 Don&apos;t feed or bait animals to get a scan.</li>
-          <li>📏 Keep your distance; use zoom rather than approach.</li>
-          <li>🪹 Never disturb nests, dens or hibernating animals.</li>
-          <li>🤫 If an animal changes its behaviour because of you, you are too close.</li>
+        <ul className="mt-1.5 space-y-1.5 text-[11px] text-inksoft">
+          <li className="flex items-center gap-1.5">
+            <IconBan size={14} className="text-amber-700 shrink-0" />
+            <span>Don&apos;t feed or bait animals to get a scan.</span>
+          </li>
+          <li className="flex items-center gap-1.5">
+            <IconRuler size={14} className="text-leaf shrink-0" />
+            <span>Keep your distance; use zoom rather than approach.</span>
+          </li>
+          <li className="flex items-center gap-1.5">
+            <IconShield size={14} className="text-leaf shrink-0" />
+            <span>Never disturb nests, dens or hibernating animals.</span>
+          </li>
+          <li className="flex items-center gap-1.5">
+            <IconVolumeX size={14} className="text-amber-700 shrink-0" />
+            <span>If an animal changes its behaviour because of you, you are too close.</span>
+          </li>
         </ul>
       </section>
 

@@ -8,18 +8,18 @@ This guide documents the primary gameplay features, user flows, and technical en
 
 AnimaFind features a mobile-first bottom tab bar and contextual header navigation:
 
-| Screen / Route | Icon | Description |
+| Screen / Route | Icon Symbol | Description |
 | :--- | :---: | :--- |
-| **Field Scan (`/`)** | 📷 | Main viewfinder, on-device AI lock-on, tin-can toss, and card reveal |
-| **Field Journal Album (`/album`)** | 📔 | Collected cards deck with real-time text search and multi-class filters |
-| **Community Map (`/map`)** | 🗺️ | Fuzzed past sightings with 250m proximity claiming and GPS recenter |
-| **Field Crew (`/friends`)** | 🫂 | Naturalist social comparison, friend requests, and activity feed |
-| **Naturalist Profile (`/profile`)** | 🧭 | Level, XP bar, streaks, rarest finds, avatars, and cosmetic hats/glasses |
-| **Wildlife Codex (`/codex`)** | 📖 | 35-species European wildlife biodiversity encyclopedia |
-| **Critter Duels PvP (`/pvp`)** | ⚔️ | Class advantage matrix (Mammal → Insect → Amphibian → Bird → Reptile) and roadmap voting |
-| **Supply Shop (`/shop`)** | 🥫 | Energy refill packs, rewarded ads for cans, cosmetics, and Field Club Premium |
-| **Settings (`/settings`)** | ⚙️ | GDPR consents, location toggles, JSON data export, and account deletion |
-| **SaaS Showcase (`/landing`)** | ✨ | Public marketing tour, interactive 3D card studio simulator, and FAQ |
+| **Field Scan (`/`)** | `IconCamera` | Main viewfinder, on-device AI lock-on, tin-can toss, and card reveal |
+| **Field Journal Album (`/album`)** | `IconAlbum` | Collected cards deck with real-time text search and multi-class filters |
+| **Community Map (`/map`)** | `IconMap` | Real-world OpenStreetMap interactive map with 250m proximity claiming |
+| **Field Crew (`/friends`)** | `IconFriends` | Naturalist social comparison, friend requests, and activity feed |
+| **Naturalist Profile (`/profile`)** | `IconUser` | Level, XP bar, streaks, rarest finds, avatars, and cosmetic badges |
+| **Wildlife Codex (`/codex`)** | `IconBook` | 35-species European wildlife biodiversity encyclopedia |
+| **Critter Duels PvP (`/pvp`)** | `IconSword` | Class advantage matrix (Mammal → Insect → Amphibian → Bird → Reptile) and roadmap voting |
+| **Supply Shop (`/shop`)** | `IconCan` | Energy refill packs, rewarded ads for cans, cosmetics, and Field Club Premium |
+| **Settings (`/settings`)** | `IconGear` | GDPR consents, location toggles, JSON data export, and account deletion |
+| **SaaS Showcase (`/landing`)** | `IconSparkles` | Public marketing tour, interactive 3D card studio simulator, and FAQ |
 
 ---
 
@@ -30,7 +30,7 @@ The primary encounter loop lets naturalists safely discover and log animals in t
 ### Viewfinder Controls
 - **Camera Viewfinder:** Streams live video via WebRTC `navigator.mediaDevices.getUserMedia`.
 - **Torch Button:** Toggles the device flashlight on supported mobile hardware.
-- **Specimen Simulator (`🎲`):** Generates synthetic specimens for testing without needing a physical animal.
+- **Specimen Simulator (`IconDice`):** Generates synthetic specimens for testing without needing a physical animal.
 - **Lock-On Meter:** Analyzes center frames at 160 ms intervals. When biological feature confidence exceeds 50% across 3 consecutive sample frames, the HUD displays "TARGET LOCKED".
 
 ### Anti-Cheat Protections
@@ -77,10 +77,13 @@ Every successful capture mints a unique collectible trading card:
 
 ## 🗺️ 5. Fuzzed Community Map (`/map`)
 
-- **Proximity Ring:** Displays a 250 m interaction radius around the naturalist's approximate position.
-- **Community Sighting Pins:** View past community sightings represented by class emojis.
+- **Interactive OpenStreetMap Canvas:** Powered by Leaflet with fluid pan, pinch-to-zoom, and custom zoom buttons.
+- **Proximity Ring:** Displays a 250 m interaction radius around the naturalist's approximate position using an animated pulse marker.
+- **Community Sighting Pins:** View past community sightings represented by custom taxonomic SVG icons (`<TaxonIcon />`).
 - **Anti-Poaching Privacy Fuzzing:** Coordinates for everyday species are fuzzed by ~150 m. Coordinates for sensitive, rare, or protected species are fuzzed by ~5 km or kept hidden.
-- **Recenter Control:** Tap the **Recenter 📡** button in the header to re-acquire GPS coordinates.
+- **Recenter Control:** Tap the **Recenter** button in the header to re-acquire GPS coordinates.
+- **Category Filter Bar:** Filter visible sightings by taxonomic class (All, Mammal, Bird, Insect, Reptile, Amphibian).
+- **Proximity Claiming Modal:** Tap any pin within the 250 m circle to inspect details and link the sighting into your Field Journal.
 
 ---
 

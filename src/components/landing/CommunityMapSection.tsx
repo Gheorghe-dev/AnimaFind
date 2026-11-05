@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  IconMap,
+  IconMapPin,
+  IconShield,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 type SightingPin = {
   id: string;
   name: string;
   taxon: string;
-  emoji: string;
   finder: string;
   tier: string;
   tierColor: string;
@@ -22,7 +27,6 @@ const SAMPLE_PINS: SightingPin[] = [
     id: "p1",
     name: "Sir Bramble Thunder (Red Fox)",
     taxon: "Mammal",
-    emoji: "🦊",
     finder: "@UrbanNaturalist",
     tier: "Aurora Tier 5",
     tierColor: "#e8b53c",
@@ -35,7 +39,6 @@ const SAMPLE_PINS: SightingPin[] = [
     id: "p2",
     name: "Fire Salamander",
     taxon: "Amphibian",
-    emoji: "🦎",
     finder: "@MossyRambler",
     tier: "Twilight Tier 3",
     tierColor: "#8c6bd6",
@@ -48,7 +51,6 @@ const SAMPLE_PINS: SightingPin[] = [
     id: "p3",
     name: "White Stork",
     taxon: "Bird",
-    emoji: "🐦",
     finder: "@AvianScout",
     tier: "Emberwood Tier 4",
     tierColor: "#e2703a",
@@ -61,14 +63,13 @@ const SAMPLE_PINS: SightingPin[] = [
     id: "p4",
     name: "Seven-Spot Ladybird",
     taxon: "Insect",
-    emoji: "🐞",
     finder: "@GardenBeetle",
     tier: "Meadow Tier 2",
     tierColor: "#4a9ec4",
     sensitive: false,
     fuzzRadius: "~150m standard jitter",
     x: 62,
-    y: 22,
+    y: 28,
   },
 ];
 
@@ -81,7 +82,7 @@ export default function CommunityMapSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>🗺️</span>
+            <IconMap size={14} className="text-leaf" />
             <span>Ethical Geolocation Network</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">
@@ -127,7 +128,7 @@ export default function CommunityMapSection() {
                   style={{ left: "50%", top: "50%" }}
                 >
                   <div className="relative grid h-7 w-7 place-items-center rounded-full bg-accent text-white shadow-lg border-2 border-white">
-                    <span className="text-xs">📍</span>
+                    <IconMapPin size={14} />
                   </div>
                   <div className="absolute top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/80 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-xs">
                     You (250m Claim Radius)
@@ -154,13 +155,13 @@ export default function CommunityMapSection() {
                       aria-label={`Select pin ${pin.name}`}
                     >
                       <div
-                        className="grid h-10 w-10 place-items-center rounded-full border-2 border-white shadow-lg text-lg transition-all"
+                        className="grid h-10 w-10 place-items-center rounded-full border-2 border-white shadow-lg transition-all text-white"
                         style={{
                           backgroundColor: pin.tierColor,
                           boxShadow: isSelected ? `0 0 16px ${pin.tierColor}` : "0 2px 8px rgba(0,0,0,0.4)",
                         }}
                       >
-                        <span>{pin.emoji}</span>
+                        {pin.sensitive ? <IconShield size={18} /> : <TaxonIcon taxon={pin.taxon} size={18} />}
                       </div>
 
                       {/* Pin Tooltip */}
@@ -190,8 +191,10 @@ export default function CommunityMapSection() {
           <div className="space-y-5 lg:col-span-5">
             <div className="glass-panel rounded-3xl p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-ink/10 pb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{activePin.emoji}</span>
+                <div className="flex items-center gap-2.5">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-ink/5 border border-ink/10 text-leaf">
+                    <TaxonIcon taxon={activePin.taxon} size={22} />
+                  </span>
                   <div>
                     <h3 className="text-base font-black text-ink">{activePin.name}</h3>
                     <p className="text-[11px] text-inksoft">{activePin.finder}</p>
@@ -223,23 +226,30 @@ export default function CommunityMapSection() {
 
               {/* Sensitive Species Callout */}
               {activePin.sensitive ? (
-                <div className="rounded-2xl border border-purple-300 bg-purple-50/80 p-3 text-xs leading-relaxed text-purple-950">
-                  🛡️ <strong>Endangered Taxa Shield:</strong> This species is protected under European wildlife
-                  directives. Its exact GPS coordinate is blurred to a 5-kilometer bounding circle on public
-                  maps to protect it from poachers, collectors, or overcrowding.
+                <div className="rounded-2xl border border-purple-300 bg-purple-50/80 p-3 text-xs leading-relaxed text-purple-950 flex items-start gap-2">
+                  <IconShield size={16} className="text-purple-800 shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Endangered Taxa Shield:</strong> This species is protected under European wildlife
+                    directives. Its exact GPS coordinate is blurred to a 5-kilometer bounding circle on public
+                    maps to protect it from poachers, collectors, or overcrowding.
+                  </div>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-ink/10 bg-white/80 p-3 text-xs leading-relaxed text-inksoft">
-                  📍 <strong>Standard Urban Wildlife:</strong> Fuzzed by ~150 meters so your personal backyard
-                  or residence coordinate is never revealed to other players.
+                <div className="rounded-2xl border border-ink/10 bg-white/80 p-3 text-xs leading-relaxed text-inksoft flex items-start gap-2">
+                  <IconMapPin size={16} className="text-leaf shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-ink">Standard Urban Wildlife:</strong> Fuzzed by ~150 meters so your personal backyard
+                    or residence coordinate is never revealed to other players.
+                  </div>
                 </div>
               )}
 
               <Link
                 href="/map"
-                className="btn btn-accent w-full py-2.5 text-xs font-black text-center"
+                className="btn btn-accent w-full py-2.5 text-xs font-black text-center inline-flex items-center justify-center gap-1.5"
               >
-                🗺️ Explore Full Live Community Map →
+                <IconMap size={15} />
+                <span>Explore Full Live Community Map →</span>
               </Link>
             </div>
           </div>

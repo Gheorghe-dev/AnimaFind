@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CardFull } from "../CardViews";
 import { RARITY_META } from "@/lib/game-data";
 import type { CardRow } from "@/lib/types";
+import { IconSparkles, IconCoin, IconShield, IconShare } from "@/components/icons/AppIcons";
 
 export default function Reveal({
   card,
@@ -40,15 +41,21 @@ export default function Reveal({
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/75 p-4 py-8 overflow-y-auto">
       {legendary && !show && (
         <div className="relative grid place-items-center">
-          <div className="golden grid h-52 w-52 place-items-center rounded-full bg-[#e8b53c] text-6xl">✨</div>
+          <div className="golden grid h-52 w-52 place-items-center rounded-full bg-[#e8b53c] text-white">
+            <IconSparkles size={80} />
+          </div>
           <p className="mt-4 text-center text-xl font-black text-[#ffe9a8]">AURORA SERIES</p>
           {Array.from({ length: 10 }).map((_, i) => (
             <span
               key={i}
-              className="sparkle absolute text-2xl"
-              style={{ left: `${i * 10}%`, bottom: 0, animationDelay: `${i * 0.12}s` }}
+              className="sparkle absolute text-xs text-[#ffe9a8]"
+              style={{
+                left: `${15 + ((i * 37) % 70)}%`,
+                top: `${20 + ((i * 41) % 60)}%`,
+                animationDelay: `${i * 0.16}s`,
+              }}
             >
-              ✧
+              <IconSparkles size={14} />
             </span>
           ))}
         </div>
@@ -56,15 +63,25 @@ export default function Reveal({
 
       {show && (
         <div className="w-full max-w-sm space-y-3 my-auto">
-          <p className="text-center text-sm font-black text-white">
-            {meta.name} series · +{card.xpAwarded} XP · +{card.coinsAwarded} 🪙
+          <p className="text-center text-sm font-black text-white flex items-center justify-center gap-1.5">
+            <span>{meta.name} series</span>
+            <span>·</span>
+            <span>+{card.xpAwarded} XP</span>
+            <span>·</span>
+            <span className="inline-flex items-center gap-1 text-amber-300">
+              +{card.coinsAwarded}
+              <IconCoin size={14} />
+            </span>
           </p>
           <CardFull card={card} />
           {pending && (
-            <p className="doodle-soft bg-[#fff4d8] px-3 py-2 text-[11px] text-center">
-              🛡️ Protected species flagged — the card is yours, but the sighting is queued for manual review and its
-              location will never be shown precisely on the public map.
-            </p>
+            <div className="doodle-soft bg-[#fff4d8] px-3 py-2 text-[11px] text-center flex items-center justify-center gap-1.5 text-amber-900 border border-amber-300">
+              <IconShield size={14} className="text-amber-800 shrink-0" />
+              <span>
+                Protected species flagged — the card is yours, but the sighting is queued for manual review and its
+                location will never be shown precisely on the public map.
+              </span>
+            </div>
           )}
           <div className="flex items-center gap-2">
             <button className="btn btn-leaf flex-1" onClick={onClose}>
@@ -79,7 +96,7 @@ export default function Reveal({
               title="Share card"
               aria-label="Share card"
             >
-              ↗
+              <IconShare size={18} />
             </button>
           </div>
         </div>

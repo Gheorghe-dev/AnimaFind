@@ -1,6 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import {
+  IconCheck,
+  IconBan,
+  IconWarning,
+  IconShield,
+  IconFox,
+  IconPhone,
+  IconFileText,
+} from "@/components/icons/AppIcons";
 
 export default function VisionAntiCheatSection() {
   const [mode, setMode] = useState<"real" | "fake_screen" | "fake_paper">("real");
@@ -9,7 +18,7 @@ export default function VisionAntiCheatSection() {
     real: {
       status: "VERIFIED LIVING WILDLIFE",
       statusColor: "text-emerald-700 bg-emerald-100 border-emerald-400",
-      icon: "✅",
+      icon: IconCheck,
       motionScore: 0.148,
       motionVerdict: "Pass (3D Parallax Active)",
       screenScore: 0.08,
@@ -23,7 +32,7 @@ export default function VisionAntiCheatSection() {
     fake_screen: {
       status: "FRAUD DETECTED: DIGITAL SCREEN",
       statusColor: "text-rose-700 bg-rose-100 border-rose-400",
-      icon: "🚫",
+      icon: IconBan,
       motionScore: 0.003,
       motionVerdict: "Fail (Zero 3D Parallax)",
       screenScore: 0.94,
@@ -37,7 +46,7 @@ export default function VisionAntiCheatSection() {
     fake_paper: {
       status: "FRAUD DETECTED: 2D PRINTOUT",
       statusColor: "text-amber-800 bg-amber-100 border-amber-400",
-      icon: "⚠️",
+      icon: IconWarning,
       motionScore: 0.001,
       motionVerdict: "Critical Fail (Planar Flatness)",
       screenScore: 0.12,
@@ -50,13 +59,15 @@ export default function VisionAntiCheatSection() {
     },
   }[mode];
 
+  const TelemetryIcon = telemetry.icon;
+
   return (
     <section id="anti-cheat" className="relative py-16 sm:py-24 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>🛡️</span>
+            <IconShield size={14} className="text-leaf" />
             <span>Proprietary Security Pipeline</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">
@@ -76,27 +87,30 @@ export default function VisionAntiCheatSection() {
             <div className="flex gap-2 p-1.5 rounded-2xl bg-white/70 border border-ink/15 doodle-soft">
               <button
                 onClick={() => setMode("real")}
-                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
+                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all inline-flex items-center justify-center gap-1.5 ${
                   mode === "real" ? "bg-accent text-white shadow-xs" : "text-ink hover:bg-white"
                 }`}
               >
-                🌿 Real Red Fox
+                <IconFox size={14} />
+                <span>Real Red Fox</span>
               </button>
               <button
                 onClick={() => setMode("fake_screen")}
-                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
+                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all inline-flex items-center justify-center gap-1.5 ${
                   mode === "fake_screen" ? "bg-accent text-white shadow-xs" : "text-ink hover:bg-white"
                 }`}
               >
-                💻 Phone Screen Photo
+                <IconPhone size={14} />
+                <span>Phone Screen</span>
               </button>
               <button
                 onClick={() => setMode("fake_paper")}
-                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
+                className={`flex-1 py-2 text-xs font-black rounded-xl transition-all inline-flex items-center justify-center gap-1.5 ${
                   mode === "fake_paper" ? "bg-accent text-white shadow-xs" : "text-ink hover:bg-white"
                 }`}
               >
-                📄 Paper Printout
+                <IconFileText size={14} />
+                <span>Paper Print</span>
               </button>
             </div>
 
@@ -126,7 +140,15 @@ export default function VisionAntiCheatSection() {
                       : "border-rose-500 bg-rose-500/15 shadow-[0_0_20px_rgba(244,63,94,0.5)]"
                   }`}
                 >
-                  <span className="text-5xl">{mode === "real" ? "🦊" : mode === "fake_screen" ? "📱" : "📄"}</span>
+                  <div className="grid place-items-center">
+                    {mode === "real" ? (
+                      <IconFox size={48} className="text-emerald-400" />
+                    ) : mode === "fake_screen" ? (
+                      <IconPhone size={48} className="text-rose-400" />
+                    ) : (
+                      <IconFileText size={48} className="text-amber-400" />
+                    )}
+                  </div>
                   <div className="absolute top-1 left-2 text-[8px] font-mono text-white/80">32×32 LUMA</div>
                   <div className="absolute bottom-1 right-2 text-[8px] font-mono text-white/80">
                     CONF: {telemetry.confidence}%
@@ -150,8 +172,9 @@ export default function VisionAntiCheatSection() {
               <div
                 className={`mt-3 flex items-center justify-between rounded-xl border px-3 py-2 text-xs font-black ${telemetry.statusColor}`}
               >
-                <span>
-                  {telemetry.icon} {telemetry.status}
+                <span className="flex items-center gap-1.5">
+                  <TelemetryIcon size={14} className="shrink-0" />
+                  <span>{telemetry.status}</span>
                 </span>
                 <span className="font-mono">{telemetry.confidence}% CONF</span>
               </div>

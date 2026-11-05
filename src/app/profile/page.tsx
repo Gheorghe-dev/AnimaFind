@@ -5,8 +5,14 @@ import { useState } from "react";
 import { useApp } from "@/components/AppProvider";
 import { COSMETICS, RARITY_META, TIER_ORDER } from "@/lib/game-data";
 import { gameApi } from "@/lib/api-client";
+import {
+  IconFlame,
+  IconLeaf,
+  IconSparkles,
+  AvatarIcon,
+} from "@/components/icons/AppIcons";
 
-const AVATARS = ["🦊", "🐿️", "🐦", "🐸", "🐝", "🦎", "🐌", "🦉"];
+const AVATARS = ["fox", "squirrel", "bird", "frog", "bee", "lizard", "snail", "owl"];
 
 export default function ProfilePage() {
   const { me, setMe, toast } = useApp();
@@ -30,8 +36,8 @@ export default function ProfilePage() {
   return (
     <div className="space-y-4">
       <div className="doodle tape p-4 text-center">
-        <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-ink bg-white text-5xl shadow-sm">
-          {AVATARS.includes(user.avatarSeed) ? user.avatarSeed : "🦊"}
+        <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-sm">
+          <AvatarIcon seed={user.avatarSeed} size={48} />
           {user.cosmetics?.hat && (
             <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-2xl pointer-events-none drop-shadow">
               {COSMETICS[user.cosmetics.hat]?.emoji}
@@ -44,9 +50,24 @@ export default function ProfilePage() {
           )}
         </div>
         <h1 className="mt-2 text-xl font-black">{user.username}</h1>
-        <p className="text-[11px] text-inksoft">
-          Level {user.level} · {user.xp} XP total · 🔥 {user.streakCount}-day streak
-          {user.isPremiumActive ? " · 🌿 Premium" : ""}
+        <p className="text-[11px] text-inksoft flex items-center justify-center flex-wrap gap-1 mt-0.5">
+          <span>Level {user.level}</span>
+          <span>·</span>
+          <span>{user.xp} XP total</span>
+          <span>·</span>
+          <span className="inline-flex items-center gap-0.5 text-accent font-bold">
+            <IconFlame size={12} className="shrink-0" />
+            <span>{user.streakCount}-day streak</span>
+          </span>
+          {user.isPremiumActive && (
+            <>
+              <span>·</span>
+              <span className="inline-flex items-center gap-0.5 text-leaf font-bold">
+                <IconLeaf size={12} className="shrink-0" />
+                <span>Premium</span>
+              </span>
+            </>
+          )}
         </p>
         <div className="mt-2 h-3 w-full overflow-hidden rounded-full border-2 border-ink bg-white">
           <div className="h-full bg-accent" style={{ width: `${Math.round((user.into / user.needed) * 100)}%` }} />
@@ -70,7 +91,7 @@ export default function ProfilePage() {
             {stats.rarest.name} · {RARITY_META[stats.rarest.tier].name}
           </Link>
         ) : (
-          <p className="text-xs text-inksoft">Nothing yet — go scan a suspicious pigeon.</p>
+          <p className="text-xs text-inksoft">Nothing yet — go scan a specimen outdoors.</p>
         )}
         <div className="mt-2 flex gap-1">
           {TIER_ORDER.map((t) => (
@@ -87,23 +108,24 @@ export default function ProfilePage() {
 
       <div className="doodle p-3">
         <p className="text-[10px] font-black uppercase tracking-widest text-inksoft">Avatar</p>
-        <div className="mt-1 flex flex-wrap gap-1">
+        <div className="mt-2 flex flex-wrap gap-1.5">
           {AVATARS.map((a) => (
             <button
               key={a}
               onClick={() => void save({ avatarSeed: a })}
-              className={`grid h-10 w-10 place-items-center rounded-full border-2 border-ink text-xl ${
-                user.avatarSeed === a ? "bg-accent" : "bg-white/70"
+              className={`grid h-10 w-10 place-items-center rounded-full border-2 border-ink transition-transform active:scale-95 ${
+                user.avatarSeed === a ? "bg-ink text-white shadow-sm" : "bg-white/80 hover:bg-white text-ink"
               }`}
+              aria-label={`Select avatar ${a}`}
             >
-              {a}
+              <AvatarIcon seed={a} size={20} />
             </button>
           ))}
         </div>
         <p className="mt-3 text-[10px] font-black uppercase tracking-widest text-inksoft">Cosmetics</p>
         <div className="mt-1 flex flex-wrap gap-1">
           {user.ownedCosmetics.length === 0 && (
-            <Link href="/shop" className="text-xs underline">
+            <Link href="/shop" className="text-xs underline text-accent font-bold">
               None owned — visit the shop
             </Link>
           )}
@@ -115,7 +137,7 @@ export default function ProfilePage() {
                 equipped.includes(c) ? "bg-leaf text-white shadow-xs" : "bg-white/70 hover:bg-white"
               }`}
             >
-              <span>{COSMETICS[c]?.emoji}</span>
+              <IconSparkles size={12} />
               <span>{COSMETICS[c]?.name}</span>
             </button>
           ))}

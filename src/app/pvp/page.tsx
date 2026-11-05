@@ -3,6 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { TAXA, TAXON_META } from "@/lib/game-data";
 import { gameApi } from "@/lib/api-client";
+import {
+  IconSword,
+  IconCheck,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 type Option = { id: string; label: string; votes: number; voted: boolean };
 
@@ -51,7 +56,9 @@ export default function PvpPage() {
   return (
     <div className="space-y-4">
       <div className="doodle tape p-5 text-center">
-        <p className="text-5xl">⚔️</p>
+        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-paper2 border-2 border-ink mx-auto mb-2 text-ink shadow-sm">
+          <IconSword size={36} />
+        </div>
         <h1 className="mt-2 text-2xl font-black">Critter duels — coming soon</h1>
         <p className="mt-1 text-xs text-inksoft">
           Phase 3. Your cards already carry everything a battler needs: two core stats, a class stat, a cosmetic
@@ -64,8 +71,10 @@ export default function PvpPage() {
         <ul className="mt-1.5 grid grid-cols-2 gap-1.5 text-[11px] font-bold">
           {TAXA.filter((t) => t !== "Other").map((t) => (
             <li key={t} className="doodle-soft bg-white/70 px-2.5 py-1.5 flex items-center gap-1.5">
-              <span className="text-base shrink-0">{TAXON_META[t].emoji}</span>
-              <span className="truncate">{t} → beats {TAXON_META[t].advantage}</span>
+              <TaxonIcon taxon={t} size={16} className="text-leaf shrink-0" />
+              <span className="truncate">
+                {t} → beats {TAXON_META[t].advantage}
+              </span>
             </li>
           ))}
         </ul>
@@ -90,7 +99,8 @@ export default function PvpPage() {
               >
                 <span className="flex-1">{o.label}</span>
                 <span className="inline-flex items-center gap-1 text-[11px] bg-white/80 px-2 py-0.5 rounded-full border border-ink/20 shrink-0">
-                  {o.voted ? "✔︎ " : ""}{o.votes}
+                  {o.voted && <IconCheck size={11} className="text-leaf" />}
+                  <span>{o.votes}</span>
                 </span>
               </button>
               <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-black/10">

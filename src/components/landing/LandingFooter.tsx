@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IconPaw, IconCamera } from "@/components/icons/AppIcons";
 
 export default function LandingFooter() {
   return (
@@ -10,7 +11,9 @@ export default function LandingFooter() {
         {/* Pre-footer Call to Action Card */}
         <div className="doodle relative overflow-hidden bg-gradient-to-r from-[#2c2823] to-[#3a342c] p-8 sm:p-12 text-center text-white mb-16 border-2 border-[#fffdf6]/20">
           <div className="max-w-2xl mx-auto space-y-4">
-            <span className="text-3xl">🐾</span>
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-leaf border border-white/20 mx-auto">
+              <IconPaw size={24} />
+            </div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
               Ready to Turn Nature Into Your Personal Card Codex?
             </h2>
@@ -21,9 +24,10 @@ export default function LandingFooter() {
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/"
-                className="btn btn-accent px-8 py-3 text-sm font-black w-full sm:w-auto shadow-lg"
+                className="btn btn-accent px-8 py-3 text-sm font-black w-full sm:w-auto shadow-lg inline-flex items-center justify-center gap-1.5"
               >
-                🚀 Launch Web App Now — Free
+                <IconCamera size={16} />
+                <span>Launch Web App Now — Free</span>
               </Link>
               <Link
                 href="/codex"
@@ -40,8 +44,8 @@ export default function LandingFooter() {
           {/* Brand Col */}
           <div className="space-y-3 lg:col-span-2">
             <div className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-xl border border-white/30 bg-white/10 text-lg">
-                🐾
+              <span className="grid h-8 w-8 place-items-center rounded-xl border border-white/30 bg-white/10 text-leaf">
+                <IconPaw size={16} />
               </span>
               <span className="text-base font-black tracking-tight text-white">AnimaFind</span>
             </div>

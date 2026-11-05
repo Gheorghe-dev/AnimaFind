@@ -2,6 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import {
+  IconPaw,
+  IconCamera,
+  IconCross,
+} from "@/components/icons/AppIcons";
 
 export default function LandingNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,8 +26,8 @@ export default function LandingNav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link href="/landing" className="group flex items-center gap-2.5">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl border-2 border-ink bg-white text-xl shadow-xs transition-transform group-hover:scale-105">
-            🐾
+          <span className="grid h-10 w-10 place-items-center rounded-2xl border-2 border-ink bg-white shadow-xs transition-transform group-hover:scale-105 text-leaf">
+            <IconPaw size={22} />
           </span>
           <div className="flex flex-col">
             <span className="text-lg font-black tracking-tight text-ink sm:text-xl">AnimaFind</span>
@@ -52,7 +57,7 @@ export default function LandingNav() {
             className="hidden items-center gap-1.5 rounded-full border border-ink/20 bg-white/70 px-3 py-1.5 text-xs font-bold text-ink transition-colors hover:bg-white sm:inline-flex"
             title="Switch to in-app scanner"
           >
-            <span>📷</span>
+            <IconCamera size={14} />
             <span>Viewfinder</span>
           </Link>
 
@@ -69,7 +74,15 @@ export default function LandingNav() {
             className="grid h-9 w-9 place-items-center rounded-xl border border-ink/20 bg-white/80 text-ink lg:hidden"
             aria-label="Toggle Navigation Menu"
           >
-            <span className="text-base">{mobileOpen ? "✕" : "☰"}</span>
+            {mobileOpen ? (
+              <IconCross size={16} />
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="4" x2="20" y1="12" y2="12" />
+                <line x1="4" x2="20" y1="6" y2="6" />
+                <line x1="4" x2="20" y1="18" y2="18" />
+              </svg>
+            )}
           </button>
         </div>
       </div>

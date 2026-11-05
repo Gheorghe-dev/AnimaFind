@@ -1,16 +1,25 @@
+import {
+  IconPaw,
+  IconLeaf,
+  IconShield,
+  IconStar,
+  IconInfo,
+  AvatarIcon,
+} from "@/components/icons/AppIcons";
+
 export default function TestimonialsAndStatsSection() {
   const stats = [
-    { value: "28,450+", label: "Real Animals Logged", icon: "🐾" },
-    { value: "35", label: "Curated Biodiversity Species", icon: "🌿" },
-    { value: "99.8%", label: "Anti-Cheat Filter Accuracy", icon: "🛡️" },
-    { value: "4.9 / 5.0", label: "Naturalist Community Rating", icon: "⭐" },
+    { value: "28,450+", label: "Real Animals Logged", icon: IconPaw },
+    { value: "35", label: "Curated Biodiversity Species", icon: IconLeaf },
+    { value: "99.8%", label: "Anti-Cheat Filter Accuracy", icon: IconShield },
+    { value: "4.9 / 5.0", label: "Naturalist Community Rating", icon: IconStar },
   ];
 
   const testimonials = [
     {
       name: "Elena Rostova",
       role: "Urban Naturalist & Photographer, Berlin",
-      avatar: "🦊",
+      avatar: "fox",
       quote:
         "Finally a game that gets people outside without staring at a virtual map! Finding a real Stag Beetle in Tiergarten and minting an Emberwood card was exhilarating.",
       tier: "Emberwood Collector",
@@ -18,7 +27,7 @@ export default function TestimonialsAndStatsSection() {
     {
       name: "Dr. David Lindqvist",
       role: "Ecology Teacher, Stockholm",
-      avatar: "🦉",
+      avatar: "owl",
       quote:
         "I use AnimaFind with my biology students. The on-device vision means no personal student data leaks to the cloud, and the 250m claim mechanic inspires genuine field camaraderie.",
       tier: "Field Club Premium",
@@ -26,7 +35,7 @@ export default function TestimonialsAndStatsSection() {
     {
       name: "Clara & Lucas Moreau",
       role: "Family Weekend Hikers, Lyon",
-      avatar: "🐦",
+      avatar: "bird",
       quote:
         "The anti-cheat is genuinely brilliant. My kids tried scanning a nature magazine, and the parallax check rejected it instantly! They went back out and earned their Kingfisher fair and square.",
       tier: "Aurora Tier Owner",
@@ -34,7 +43,7 @@ export default function TestimonialsAndStatsSection() {
     {
       name: "Marcus Vance",
       role: "Casual Park Walker, London",
-      avatar: "🐝",
+      avatar: "bee",
       quote:
         "The tactile doodle field notebook aesthetics and 3D card flips feel like opening foil booster packs from childhood. The 10-minute can recharge in Field Club is top tier.",
       tier: "Verified Explorer",
@@ -46,22 +55,27 @@ export default function TestimonialsAndStatsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Metric Banner */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div
-              key={s.label}
-              className="doodle p-5 text-center bg-white/80 transition-transform hover:-translate-y-1"
-            >
-              <div className="text-2xl mb-1">{s.icon}</div>
-              <div className="text-3xl sm:text-4xl font-black text-ink">{s.value}</div>
-              <div className="text-xs font-bold text-inksoft mt-1">{s.label}</div>
-            </div>
-          ))}
+          {stats.map((s) => {
+            const MetricIcon = s.icon;
+            return (
+              <div
+                key={s.label}
+                className="doodle p-5 text-center bg-white/80 transition-transform hover:-translate-y-1"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-leaf/10 text-leaf mx-auto mb-2">
+                  <MetricIcon size={20} />
+                </div>
+                <div className="text-3xl sm:text-4xl font-black text-ink">{s.value}</div>
+                <div className="text-xs font-bold text-inksoft mt-1">{s.label}</div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Testimonials Header */}
         <div className="mt-20 text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>💬</span>
+            <IconInfo size={14} className="text-leaf" />
             <span>Voices from the Wild</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">
@@ -82,8 +96,8 @@ export default function TestimonialsAndStatsSection() {
             >
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-ink/10">
-                  <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink bg-white text-lg">
-                    {t.avatar}
+                  <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink bg-white text-ink">
+                    <AvatarIcon seed={t.avatar} size={20} />
                   </span>
                   <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[9px] font-black text-accent uppercase">
                     {t.tier}

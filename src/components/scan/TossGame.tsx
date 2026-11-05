@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { playHitSound, playTossSound } from "@/lib/audio";
+import { IconPackage, IconTarget, IconCan } from "@/components/icons/AppIcons";
 
 type Props = {
   attemptsLeft: number;
@@ -183,27 +184,28 @@ export default function TossGame({ attemptsLeft, busy, onAttempt, onSuccess, onG
           style={{ background: "linear-gradient(180deg,#dfb57d,#c39250)" }}
         >
           <div className="absolute inset-x-3 top-1.5 h-2 rounded bg-black/15" />
-          <div className="absolute bottom-1.5 left-3 text-[10px] font-black uppercase tracking-wider text-[#503413]">
-            📦 Fragile · Critters
+          <div className="absolute bottom-1.5 left-3 text-[10px] font-black uppercase tracking-wider text-[#503413] flex items-center gap-1">
+            <IconPackage size={12} />
+            <span>Fragile · Critters</span>
           </div>
         </div>
         {/* green landing zone */}
         <div
-          className="absolute top-[28%] h-[11%] w-[24%] -translate-x-1/2 rounded-full border-2 border-[#2f5525] flex items-center justify-center text-xs font-black shadow-inner"
+          className="absolute top-[28%] h-[11%] w-[24%] -translate-x-1/2 rounded-full border-2 border-[#2f5525] flex items-center justify-center text-xs font-black shadow-inner text-[#2f5525]"
           style={{ left: `${zoneX * 100}%`, background: "rgba(127,156,106,.65)" }}
         >
-          🎯
+          <IconTarget size={16} />
         </div>
         {/* the can */}
         <div
-          className="absolute -translate-x-1/2 -translate-y-1/2 select-none text-4xl cursor-grab active:cursor-grabbing flex items-center justify-center drop-shadow-md touch-none"
+          className="absolute -translate-x-1/2 -translate-y-1/2 select-none cursor-grab active:cursor-grabbing flex items-center justify-center drop-shadow-md touch-none text-leaf"
           style={{ left: `${pos.x * 100}%`, top: `${pos.y * 100}%`, transform: `translate(-50%,-50%) scale(${scale})` }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
         >
-          🥫
+          <IconCan size={44} />
         </div>
 
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-black/10 px-3 py-2 text-[11px] font-black backdrop-blur-xs">

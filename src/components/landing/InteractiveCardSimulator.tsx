@@ -10,6 +10,14 @@ import {
   BeetleIllustration,
 } from "./CardIllustrations";
 import { RARITY_META, TAXON_META, type RarityTier, type TaxonCategory } from "@/lib/game-data";
+import {
+  IconSparkles,
+  IconDice,
+  IconFlip,
+  IconBulb,
+  IconCamera,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 type DemoCard = {
   tier: RarityTier;
@@ -140,7 +148,7 @@ export default function InteractiveCardSimulator() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>🎴</span>
+            <IconSparkles size={14} className="text-accent" />
             <span>Interactive Minting &amp; Rarity Engine</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">
@@ -219,7 +227,7 @@ export default function InteractiveCardSimulator() {
                           className="inline-flex items-center gap-1 rounded-full border-2 border-ink px-2.5 py-0.5 text-[10px] font-black text-white"
                           style={{ backgroundColor: meta.color }}
                         >
-                          {selectedTier === "tier5" && "✨"} {meta.name} Tier
+                          {selectedTier === "tier5" && <IconSparkles size={11} className="inline" />} {meta.name} Tier
                         </span>
                         <span className="text-[11px] font-black tracking-wider text-inksoft">
                           #{String(card.serial).padStart(5, "0")}
@@ -229,8 +237,9 @@ export default function InteractiveCardSimulator() {
                       {/* Artwork */}
                       <div className="relative h-60 w-full overflow-hidden rounded-xl border-2 border-ink bg-stone-900 shadow-inner">
                         <IllustrationComponent className="h-full w-full object-cover" />
-                        <span className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-xs">
-                          {taxonMeta.emoji} {card.taxon} · {card.type}
+                        <span className="absolute bottom-2 left-2 rounded-md bg-black/60 px-2 py-0.5 text-[9px] font-bold text-white backdrop-blur-xs flex items-center gap-1">
+                          <TaxonIcon taxon={card.taxon} size={11} />
+                          <span>{card.taxon} · {card.type}</span>
                         </span>
                       </div>
 
@@ -384,22 +393,27 @@ export default function InteractiveCardSimulator() {
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
                   onClick={() => setRollCount((c) => c + 1)}
-                  className="btn btn-accent flex-1 py-3 text-xs font-black"
+                  className="btn btn-accent flex-1 py-3 text-xs font-black inline-flex items-center justify-center gap-1.5"
                 >
-                  🎲 Procedurally Reroll Specimen
+                  <IconDice size={15} />
+                  <span>Procedurally Reroll Specimen</span>
                 </button>
                 <button
                   onClick={() => setFlipped((f) => !f)}
-                  className="btn flex-1 py-3 text-xs font-bold"
+                  className="btn flex-1 py-3 text-xs font-bold inline-flex items-center justify-center gap-1.5"
                 >
-                  🔄 Flip Card Face
+                  <IconFlip size={15} />
+                  <span>Flip Card Face</span>
                 </button>
               </div>
 
-              <div className="rounded-2xl border border-ink/15 bg-white/80 p-3 text-xs text-inksoft leading-relaxed">
-                💡 <strong>How Minting Works:</strong> When your live sighting passes parallax and
-                screen checks and your tin-can toss lands, our deterministic PRNG seeds stats and abilities
-                from the exact GPS precision and taxon characteristics!
+              <div className="rounded-2xl border border-ink/15 bg-white/80 p-3 text-xs text-inksoft leading-relaxed flex items-start gap-2">
+                <IconBulb size={15} className="text-amber-500 shrink-0 mt-0.5" />
+                <div>
+                  <strong className="text-ink">How Minting Works:</strong> When your live sighting passes parallax and
+                  screen checks and your tin-can toss lands, our deterministic PRNG seeds stats and abilities
+                  from the exact GPS precision and taxon characteristics!
+                </div>
               </div>
             </div>
 
@@ -408,7 +422,8 @@ export default function InteractiveCardSimulator() {
                 href="/"
                 className="btn btn-leaf inline-flex items-center gap-2 px-6 py-3 text-sm font-black"
               >
-                <span>📷 Scan Live Animal to Mint This in Reality →</span>
+                <IconCamera size={16} />
+                <span>Scan Live Animal to Mint This in Reality →</span>
               </Link>
             </div>
           </div>

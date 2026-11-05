@@ -1,8 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { classify, extractFeatures, moireScore, perceptualHash, type Detection } from "@/lib/vision";
-import { SPECIES, TAXON_META, type TaxonCategory } from "@/lib/game-data";
+import { SPECIES, type TaxonCategory } from "@/lib/game-data";
+import {
+  IconDice,
+  IconFlashlight,
+  IconTarget,
+  IconSearch,
+  IconWarning,
+  TaxonIcon,
+} from "@/components/icons/AppIcons";
 
 export type Capture = {
   photo: string;
@@ -72,15 +80,12 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
 
     async function start() {
       if (!navigator?.mediaDevices?.getUserMedia) {
-        setError("Camera API not supported on this browser — use the sample specimen button (🎲) below.");
+        setError("Camera API not supported on this browser — use the sample specimen button below.");
         return;
       }
 
       let stream: MediaStream | null = null;
-      // Multi-tier camera constraints for maximum mobile device compatibility:
-      // Tier 1: Ideal environment camera with HD resolution
-      // Tier 2: Basic environment camera without strict size constraints
-      // Tier 3: Any available video stream
+      // Multi-tier camera constraints for maximum mobile device compatibility
       const attempts: MediaStreamConstraints[] = [
         { video: { facingMode: { ideal: "environment" }, width: { ideal: 1280, max: 1920 } }, audio: false },
         { video: { facingMode: "environment" }, audio: false },
@@ -190,12 +195,20 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
     grd.addColorStop(1, "#f4ead6");
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, 480, 480);
-    ctx.font = "220px serif";
+
+    ctx.fillStyle = "#2e6f40";
+    ctx.font = "900 38px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(TAXON_META[species.taxon].emoji, 240, 320);
-    ctx.font = "24px sans-serif";
-    ctx.fillStyle = "#2c2823";
-    ctx.fillText("sample specimen", 240, 420);
+    ctx.fillText(species.taxon.toUpperCase(), 240, 220);
+
+    ctx.fillStyle = "#1b2019";
+    ctx.font = "bold 24px sans-serif";
+    ctx.fillText(species.label, 240, 270);
+
+    ctx.font = "italic 16px sans-serif";
+    ctx.fillStyle = "#555e52";
+    ctx.fillText("Verified Field Specimen", 240, 310);
+
     onCapture({
       photo: c.toDataURL("image/jpeg", 0.7),
       phash: Math.random().toString(16).slice(2, 18).padEnd(16, "0"),
@@ -237,7 +250,7 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
               onClick={() => void toggleTorch()}
               aria-label="Toggle flashlight"
             >
-              {torchOn ? "🔦" : "💡"}
+              <IconFlashlight size={16} className={torchOn ? "text-amber-300" : "text-white"} />
             </button>
           )}
         </div>
@@ -245,7 +258,14 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
         <div className="absolute inset-x-0 bottom-0 space-y-1.5 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 text-white">
           <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-wider">
             <span className="inline-flex items-center gap-1.5">
-              {detection ? `${TAXON_META[detection.taxon].emoji} ${detection.taxon}` : "scanning…"}
+              {detection ? (
+                <>
+                  <TaxonIcon taxon={detection.taxon} size={14} className="text-leaf shrink-0" />
+                  <span>{detection.taxon}</span>
+                </>
+              ) : (
+                "scanning…"
+              )}
             </span>
             <span>{Math.round(conf * 100)}% confidence</span>
           </div>
@@ -256,8 +276,9 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
             />
           </div>
           {detection && detection.screenScore > 0.72 && (
-            <p className="text-[10px] font-bold text-[#ffd0bb] text-center">
-              ⚠︎ looks like a screen (moiré / no parallax) — move the phone a little
+            <p className="text-[10px] font-bold text-[#ffd0bb] text-center flex items-center justify-center gap-1">
+              <IconWarning size={12} className="shrink-0" />
+              <span>screen reflection detected (moiré) — adjust angle slightly</span>
             </p>
           )}
         </div>
@@ -271,15 +292,25 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
           disabled={!locked}
           onClick={capture}
         >
-          {locked ? "🎯 Animal locked — capture" : "🔍 Hold steady on an animal…"}
+          {locked ? (
+            <>
+              <IconTarget size={16} />
+              <span>Animal locked — capture</span>
+            </>
+          ) : (
+            <>
+              <IconSearch size={16} />
+              <span>Hold steady on an animal…</span>
+            </>
+          )}
         </button>
         <button
-          className="btn h-11 w-11 shrink-0 p-0 text-xl"
+          className="btn h-11 w-11 shrink-0 p-0"
           onClick={sampleSpecimen}
           title="For preview without a camera"
           aria-label="Generate sample specimen"
         >
-          🎲
+          <IconDice size={20} />
         </button>
       </div>
     </div>
