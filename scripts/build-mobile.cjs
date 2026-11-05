@@ -19,6 +19,22 @@ console.log("==================================================");
 console.log("🐾 AnimaFind Mobile Production Build & Sync");
 console.log("==================================================");
 
+function runCommand(bin, args, envVars) {
+  if (process.platform === "win32") {
+    const cmdLine = [bin, ...args].join(" ");
+    return spawnSync("cmd.exe", ["/d", "/s", "/c", cmdLine], {
+      cwd: rootDir,
+      env: envVars,
+      stdio: "inherit",
+    });
+  }
+  return spawnSync(bin, args, {
+    cwd: rootDir,
+    env: envVars,
+    stdio: "inherit",
+  });
+}
+
 let apiMoved = false;
 
 try {
@@ -42,14 +58,7 @@ try {
 
   console.log("🚀 Generating static site bundle with Next.js (output: export)...");
   const env = { ...process.env, OUTPUT_EXPORT: "true" };
-  const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
-  
-  const buildResult = spawnSync(npmCmd, ["run", "build"], {
-    cwd: rootDir,
-    env,
-    stdio: "inherit",
-    shell: false,
-  });
+  const buildResult = runCommand("npm", ["run", "build"], env);
 
   if (buildResult.status !== 0) {
     throw new Error(`Next.js build failed with exit code ${buildResult.status}`);
@@ -62,12 +71,7 @@ try {
   console.log("✅ Static bundle created successfully in ./out");
   console.log("📲 Synchronizing assets and plugins with Capacitor (iOS & Android)...");
 
-  const npxCmd = process.platform === "win32" ? "npx.cmd" : "npx";
-  const syncResult = spawnSync(npxCmd, ["cap", "sync"], {
-    cwd: rootDir,
-    stdio: "inherit",
-    shell: false,
-  });
+  const syncResult = runCommand("npx", ["cap", "sync"], process.env);
 
   if (syncResult.status !== 0) {
     throw new Error(`Capacitor sync failed with exit code ${syncResult.status}`);
