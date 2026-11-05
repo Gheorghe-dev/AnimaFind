@@ -201,7 +201,10 @@ For complete system design diagrams, dual-engine data flow, and anti-cheat algor
 
 ## 📚 Documentation Links
 
-- 📖 [Development Setup Guide (`docs/SETUP.md`)](./docs/SETUP.md) — Comprehensive environment configuration for Android Studio, JDK 21, and Xcode.
+- 🚀 [Installation Tutorial (`docs/INSTALLATION.md`)](./docs/INSTALLATION.md) — Step-by-step setup, verification commands, and native build tutorial.
+- 📖 [Feature & Usage Guide (`docs/USAGE.md`)](./docs/USAGE.md) — Complete user guide for the viewfinder, toss minigame, album, codex, and map.
+- 🔧 [Troubleshooting Guide (`docs/TROUBLESHOOTING.md`)](./docs/TROUBLESHOOTING.md) — Solutions for camera permissions, Gradle JVM, and build errors.
+- 🛠️ [Environment Setup Guide (`docs/SETUP.md`)](./docs/SETUP.md) — Tooling specifications for Android Studio, JDK 21, and Xcode.
 - 🏛️ [System Architecture (`docs/ARCHITECTURE.md`)](./docs/ARCHITECTURE.md) — Deep dive into the dual-engine architecture, vision pipeline, and security model.
 - 📦 [Build & Release Guide (`docs/BUILD_AND_RELEASE.md`)](./docs/BUILD_AND_RELEASE.md) — Android keystore setup, iOS signing, and CI/CD operations.
 - 🤝 [Contributing Guidelines (`CONTRIBUTING.md`)](./CONTRIBUTING.md) — Coding conventions, branching strategy, and pull request checklist.
