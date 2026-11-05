@@ -77,22 +77,6 @@
 
 ---
 
-## 📸 Application Screenshots
-
-<div align="center">
-
-| Field Viewfinder | Card Reveal | Field Journal Album |
-| :---: | :---: | :---: |
-| ![Viewfinder Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/viewfinder.png) | ![Card Reveal Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/card_reveal.png) | ![Album Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/album.png) |
-
-| Community Map | 3D Card Studio | Wildlife Codex |
-| :---: | :---: | :---: |
-| ![Map Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/map.png) | ![3D Studio Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/studio.png) | ![Codex Screenshot](https://raw.githubusercontent.com/placeholder/animafind/main/docs/screenshots/codex.png) |
-
-</div>
-
----
-
 ## 🛠️ Technology Stack
 
 | Layer | Technologies | Details |
