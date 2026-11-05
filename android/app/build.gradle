@@ -16,15 +16,19 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    def keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+    def hasKeystore = (project.hasProperty('MYAPP_RELEASE_STORE_FILE') && !MYAPP_RELEASE_STORE_FILE.toString().trim().isEmpty()) ||
+                      (keystorePath != null && !keystorePath.trim().isEmpty())
+
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE') && !MYAPP_RELEASE_STORE_FILE.toString().trim().isEmpty()) {
                 storeFile file(MYAPP_RELEASE_STORE_FILE)
                 storePassword MYAPP_RELEASE_STORE_PASSWORD
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
                 keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            } else if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
-                storeFile file(System.getenv("ANDROID_KEYSTORE_PATH"))
+            } else if (keystorePath != null && !keystorePath.trim().isEmpty()) {
+                storeFile file(keystorePath)
                 storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
                 keyAlias System.getenv("ANDROID_KEY_ALIAS")
                 keyPassword System.getenv("ANDROID_KEY_PASSWORD")
@@ -33,7 +37,7 @@ android {
     }
     buildTypes {
         release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE') || System.getenv("ANDROID_KEYSTORE_PATH") != null) {
+            if (hasKeystore) {
                 signingConfig signingConfigs.release
             }
             minifyEnabled false
