@@ -1,0 +1,71 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build iOS Archive
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Select Latest Xcode
+        uses: maxim-lobachev/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: Run TypeScript Verification
+        run: npm run typecheck
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Automated Test Suite
+        run: npm test
+
+      - name: Build Web Static Export & Sync Capacitor
+        run: npm run build:mobile
+
+      - name: Build iOS Simulator App (Unsigned Verification)
+        working-directory: ios/App
+        run: |
+          xcodebuild -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Archive iOS Build Artifacts
+        run: |
+          mkdir -p build-output
+          tar -czf build-output/ios-app-build.tar.gz -C ios/App/build . 2>/dev/null || tar -czf build-output/ios-app-build.tar.gz -C ios/App App.xcodeproj
+
+      - name: Upload iOS Verification Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: animafind-ios-build
+          path: build-output/ios-app-build.tar.gz
+          retention-days: 14
