@@ -108,42 +108,46 @@ export default function MapPage() {
   }, [pins, filterTaxon]);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 px-margin-mobile">
       {/* Header & GPS button */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pt-1">
         <div>
-          <h1 className="text-2xl font-black">Community map</h1>
-          <p className="text-[11px] text-inksoft">OpenStreetMap · Real-time neighbourhood field notes</p>
+          <h1 className="font-headline-md text-headline-md font-bold text-primary">Community Map</h1>
+          <p className="font-body-sm text-body-sm text-on-surface-variant">
+            OpenStreetMap · Real-time neighbourhood field notes
+          </p>
         </div>
         <button
+          type="button"
           onClick={requestGps}
           disabled={locating}
-          className="doodle-soft bg-white/90 px-3 py-1.5 text-xs font-bold inline-flex items-center gap-1.5 hover:bg-white active:scale-95 shadow-sm border border-ink/20 transition-all"
+          className="bg-surface-container hover:bg-surface-container-high px-3 py-1.5 rounded-xl font-label-md text-label-md font-bold text-primary inline-flex items-center gap-1.5 active:scale-95 shadow-sm transition-all"
           aria-label="Refresh GPS location"
         >
-          {locating ? <IconLocating size={14} className="text-accent" /> : <IconRadar size={14} />}
+          {locating ? <IconLocating size={14} className="text-secondary" /> : <IconRadar size={14} />}
           <span>{locating ? "Locating…" : "Recenter"}</span>
         </button>
       </div>
 
       {/* Safety & Ethics Advisory */}
-      <div className="doodle-soft bg-[#fff8ee] border border-amber-200 px-3 py-2 text-[11px] leading-relaxed flex items-start gap-2 shadow-sm">
-        <IconWarning size={16} className="text-amber-600 shrink-0 mt-0.5" />
+      <div className="bg-surface-container-low border border-primary/10 rounded-xl p-space-sm font-body-sm text-body-sm text-on-surface-variant flex items-start gap-2 shadow-xs">
+        <span className="material-symbols-outlined text-[18px] text-secondary mt-0.5 shrink-0">shield_lock</span>
         <div>
-          <strong>Pins are approximate past sightings, not live animal locations.</strong> Everyday species are
-          fuzzed to ~150 m; protected, rare, or endangered species are fuzzed to ~5 km or withheld. Never track,
-          bait, or corner an animal in nature.
+          <strong className="text-primary font-semibold">Pins are approximate past sightings, not live animal locations.</strong> Common species are
+          fuzzed to ~150 m; sensitive species are fuzzed to ~5 km or kept confidential. Never track,
+          bait, or corner wildlife in nature.
         </div>
       </div>
 
       {/* Taxa Filter Bar */}
-      <div className="scrollhide flex gap-1.5 overflow-x-auto pb-1 text-xs font-bold">
+      <div className="flex gap-1.5 overflow-x-auto pb-1 font-label-md text-label-md no-scrollbar">
         <button
+          type="button"
           onClick={() => setFilterTaxon("all")}
-          className={`px-3 py-1 rounded-full border transition-all shrink-0 ${
+          className={`px-3 py-1 rounded-full font-bold transition-all shrink-0 ${
             filterTaxon === "all"
-              ? "bg-ink text-white border-ink shadow-sm"
-              : "bg-white/80 border-ink/20 text-ink hover:bg-white"
+              ? "bg-primary text-on-primary shadow-sm"
+              : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
           }`}
         >
           All ({pins.length})
@@ -154,14 +158,15 @@ export default function MapPage() {
           return (
             <button
               key={t}
+              type="button"
               onClick={() => setFilterTaxon(t.toLowerCase())}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border transition-all shrink-0 ${
+              className={`inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold transition-all shrink-0 ${
                 active
-                  ? "bg-ink text-white border-ink shadow-sm"
-                  : "bg-white/80 border-ink/20 text-ink hover:bg-white"
+                  ? "bg-primary text-on-primary shadow-sm"
+                  : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
               }`}
             >
-              <TaxonIcon taxon={t} size={13} className={active ? "text-white" : "text-ink"} />
+              <TaxonIcon taxon={t} size={13} className={active ? "text-on-primary" : "text-primary"} />
               <span>{t}</span>
               {count > 0 && <span className="text-[10px] opacity-75">({count})</span>}
             </button>
@@ -180,18 +185,22 @@ export default function MapPage() {
         usingFallback={usingFallback}
       />
 
-      {loading && <p className="text-center text-xs font-bold text-inksoft animate-pulse">Reading the field notes…</p>}
+      {loading && (
+        <p className="text-center font-label-sm text-label-sm text-on-surface-variant animate-pulse">
+          Reading the community field notes…
+        </p>
+      )}
 
       {!loading && filteredPins.length === 0 && (
-        <div className="doodle tape p-5 text-center">
-          <div className="grid h-12 w-12 place-items-center rounded-full bg-paper2 border-2 border-ink mx-auto mb-2 text-ink">
-            <IconMap size={24} />
+        <div className="bg-surface-container p-5 rounded-xl text-center shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-surface-container-high mx-auto mb-2 flex items-center justify-center text-primary">
+            <span className="material-symbols-outlined text-[24px]">map</span>
           </div>
-          <p className="font-black text-sm">No nearby sightings in this category yet.</p>
-          <p className="mt-1 text-xs text-inksoft leading-relaxed max-w-xs mx-auto">
+          <p className="font-headline-md text-headline-md text-primary font-bold">No nearby sightings in this category yet.</p>
+          <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant max-w-xs mx-auto">
             Be the first naturalist to explore this area! Verified sightings will appear here as community pins.
           </p>
-          <Link href="/" className="btn btn-accent mt-3 inline-block">
+          <Link href="/" className="mt-3 bg-secondary text-on-secondary px-4 py-2 rounded-xl font-label-md text-label-md font-bold uppercase inline-block shadow-sm">
             Start Scanning
           </Link>
         </div>
@@ -202,27 +211,30 @@ export default function MapPage() {
         {filteredPins.map((pin) => (
           <button
             key={pin.sightingId}
+            type="button"
             onClick={() => setSelected(pin)}
-            className="doodle flex w-full items-center gap-3 p-2.5 text-left transition-transform hover:translate-x-0.5 active:scale-[0.99] border-2 border-ink shadow-sm"
+            className="bg-surface-container-low hover:bg-surface-container rounded-xl flex w-full items-center gap-3 p-2.5 text-left transition-all active:scale-[0.99] border border-primary/10 shadow-xs"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={pin.thumbnailUrl}
               alt=""
-              className="h-12 w-12 shrink-0 rounded-lg border-2 border-ink object-cover bg-white"
+              className="h-12 w-12 shrink-0 rounded-lg object-cover bg-surface-container-high border border-outline/20"
             />
             <span className="flex-1 min-w-0">
               <span className="flex items-center gap-1.5">
-                <TaxonIcon taxon={pin.taxon} size={14} className="text-leaf shrink-0" />
-                <span className="text-xs font-black truncate">{pin.cardName ?? pin.taxon}</span>
+                <TaxonIcon taxon={pin.taxon} size={14} className="text-secondary shrink-0" />
+                <span className="font-label-md text-label-md text-primary font-bold truncate">
+                  {pin.cardName ?? pin.taxon}
+                </span>
               </span>
-              <span className="block text-[10px] text-inksoft truncate mt-0.5">
+              <span className="block font-body-sm text-[11px] text-on-surface-variant truncate mt-0.5">
                 {pin.species ?? pin.taxon} · by {pin.byUsername} ·{" "}
                 {pin.distanceMeters != null ? `${pin.distanceMeters} m` : "distance unknown"} · {pin.precision}
               </span>
             </span>
             {pin.isClaimableByViewer && (
-              <span className="text-[10px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded-full border border-accent/30 shrink-0">
+              <span className="font-label-sm text-[10px] font-bold text-tertiary-container bg-tertiary-fixed px-2 py-0.5 rounded-full shrink-0">
                 CLAIMABLE
               </span>
             )}
@@ -233,37 +245,40 @@ export default function MapPage() {
       {/* Selected Pin Bottom Sheet / Modal */}
       {selected && (
         <div
-          className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-primary/75 p-4 backdrop-blur-sm"
           onClick={() => setSelected(null)}
         >
           <div
-            className="doodle my-auto w-full max-w-sm max-h-[90vh] overflow-y-auto space-y-3 p-4 bg-white border-2 border-ink shadow-xl"
+            className="my-auto w-full max-w-sm max-h-[90vh] overflow-y-auto space-y-3 p-4 bg-surface-container-lowest rounded-2xl border border-primary/20 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b pb-2">
+            <div className="flex items-center justify-between border-b border-outline/10 pb-2">
               <div className="flex items-center gap-2">
-                <div className="grid h-7 w-7 place-items-center rounded-lg bg-leaf/10 text-leaf">
+                <div className="w-7 h-7 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
                   <TaxonIcon taxon={selected.taxon} size={16} />
                 </div>
-                <span className="text-xs font-bold text-inksoft uppercase tracking-wider">{selected.taxon}</span>
+                <span className="font-label-sm text-label-sm font-bold text-primary uppercase tracking-wider">
+                  {selected.taxon}
+                </span>
               </div>
               <button
+                type="button"
                 onClick={() => setSelected(null)}
-                className="grid h-7 w-7 place-items-center rounded-lg hover:bg-black/5 text-inksoft hover:text-ink"
+                className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-surface-container text-on-surface-variant"
                 aria-label="Close modal"
               >
-                <IconCross size={16} />
+                <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
             </div>
 
-            <div className="scrollhide flex gap-2 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto no-scrollbar">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={selected.thumbnailUrl}
                 alt=""
-                className="h-44 w-44 rounded-xl border-2 border-ink object-cover"
+                className="h-44 w-44 rounded-xl object-cover border border-outline/20"
               />
-              <div className="grid h-44 w-44 shrink-0 place-items-center rounded-xl border-2 border-dashed border-ink/40 text-center text-[10px] text-inksoft p-3 bg-paper">
+              <div className="h-44 w-44 shrink-0 rounded-xl border border-dashed border-outline/30 flex items-center justify-center text-center font-label-sm text-[10px] text-on-surface-variant p-3 bg-surface-container">
                 3D specimen preview
                 <br />
                 (unlocked after capture)
@@ -271,36 +286,42 @@ export default function MapPage() {
             </div>
 
             <div>
-              <h2 className="text-lg font-black">{selected.cardName ?? "Community sighting"}</h2>
-              <p className="text-[11px] text-inksoft">
+              <h2 className="font-headline-md text-headline-md text-primary font-bold">
+                {selected.cardName ?? "Community sighting"}
+              </h2>
+              <p className="font-body-sm text-[11px] text-on-surface-variant">
                 {selected.species ?? selected.taxon} · logged by {selected.byUsername} on{" "}
                 {new Date(selected.timestamp).toLocaleDateString()} · {selected.precision}
               </p>
             </div>
 
             {selected.isSensitiveSpecies && (
-              <div className="doodle-soft bg-[#fff8ee] border border-amber-200 px-2.5 py-1.5 text-[10px] text-amber-900 flex items-center gap-1.5">
-                <IconShield size={14} className="text-amber-700 shrink-0" />
-                <span>Protected species: exact location permanently withheld for conservation.</span>
+              <div className="bg-tertiary-fixed text-tertiary px-2.5 py-1.5 rounded-lg font-body-sm text-[10px] flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px]">shield</span>
+                <span>Protected species: exact location permanently fuzzed for wildlife conservation.</span>
               </div>
             )}
 
             {selected.isClaimableByViewer ? (
-              <Link href={`/?pin=${selected.sightingId}`} className="btn btn-accent block text-center">
+              <Link
+                href={`/?pin=${selected.sightingId}`}
+                className="w-full bg-secondary text-on-secondary py-2.5 rounded-xl font-label-md text-label-md font-bold uppercase text-center block shadow-sm"
+              >
                 Scan here for a linked card
               </Link>
             ) : (
               <button
-                className="btn w-full"
+                type="button"
+                className="w-full bg-surface-container text-on-surface-variant py-2.5 rounded-xl font-label-md text-label-md font-bold"
                 onClick={() =>
                   toast(
                     selected.alreadyClaimed
                       ? "You already have a linked card from this pin."
                       : selected.isOwn
-                        ? "This is your own sighting."
-                        : `Get within 250 m of the pin to claim it${
-                            selected.distanceMeters != null ? ` (currently ${selected.distanceMeters} m away)` : ""
-                          }.`,
+                      ? "This is your own sighting."
+                      : `Get within 250 m of the pin to claim it${
+                          selected.distanceMeters != null ? ` (currently ${selected.distanceMeters} m away)` : ""
+                        }.`,
                   )
                 }
               >
@@ -308,7 +329,11 @@ export default function MapPage() {
               </button>
             )}
 
-            <button className="btn w-full" onClick={() => setSelected(null)}>
+            <button
+              type="button"
+              className="w-full bg-surface-container-high text-primary py-2 rounded-xl font-label-sm text-label-sm font-bold uppercase"
+              onClick={() => setSelected(null)}
+            >
               Close
             </button>
           </div>
@@ -316,9 +341,9 @@ export default function MapPage() {
       )}
 
       {!me?.user.locationConsent && (
-        <p className="text-center text-[11px] font-bold text-inksoft">
+        <p className="text-center font-label-sm text-label-sm text-on-surface-variant">
           Location sharing is off — your own sightings stay off the map. Enable it in{" "}
-          <Link href="/settings" className="underline">
+          <Link href="/settings" className="underline font-bold text-primary">
             Settings
           </Link>
           .

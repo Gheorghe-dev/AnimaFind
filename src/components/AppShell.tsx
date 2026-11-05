@@ -5,50 +5,33 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { useApp } from "./AppProvider";
 import Onboarding from "./Onboarding";
-import {
-  IconCamera,
-  IconAlbum,
-  IconMap,
-  IconFriends,
-  IconUser,
-  IconCodex,
-  IconShop,
-  IconSword,
-  IconSettings,
-  IconSparkles,
-  IconFlame,
-  IconCan,
-  IconCoin,
-  IconPaw,
-  IconRadar,
-  IconSearch,
-  IconVolumeOn,
-  IconVolumeOff,
-  AvatarIcon,
-} from "./icons/AppIcons";
 import { isSoundMuted, toggleSoundMuted, playClickSound } from "@/lib/audio";
 
 const TABS = [
-  { href: "/", label: "Scan", icon: IconCamera },
-  { href: "/album", label: "Album", icon: IconAlbum },
-  { href: "/map", label: "Map", icon: IconMap },
-  { href: "/friends", label: "Friends", icon: IconFriends },
-  { href: "/profile", label: "You", icon: IconUser },
+  { href: "/", label: "Scan", icon: "center_focus_weak" },
+  { href: "/album", label: "Journal", icon: "auto_stories" },
+  { href: "/codex", label: "Codex", icon: "menu_book" },
+  { href: "/map", label: "Map", icon: "explore" },
+  { href: "/shop", label: "Shop", icon: "storefront" },
 ];
 
-const SUB_NAV = [
-  { href: "/landing", label: "About SaaS", icon: IconSparkles },
-  { href: "/codex", label: "Encyclopedia", icon: IconCodex },
-  { href: "/shop", label: "Shop", icon: IconShop },
-  { href: "/pvp", label: "PvP", icon: IconSword },
-  { href: "/settings", label: "Settings", icon: IconSettings },
-];
+function getSectionTitle(pathname: string): string {
+  if (pathname === "/") return "Viewfinder Scan";
+  if (pathname.startsWith("/album")) return "Journal Album";
+  if (pathname.startsWith("/codex")) return "Species Codex";
+  if (pathname.startsWith("/map")) return "Field Hotspots Map";
+  if (pathname.startsWith("/shop")) return "Field Outpost & Shop";
+  if (pathname.startsWith("/profile")) return "Naturalist Dossier";
+  if (pathname.startsWith("/friends")) return "Field Rangers Crew";
+  if (pathname.startsWith("/settings")) return "Expedition Settings";
+  return "Expedition Folio";
+}
 
 function formatCountdown(seconds: number | null) {
-  if (seconds == null) return "full";
+  if (seconds == null) return "Ready";
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
+  return `+1 in ${m}m ${s}s`;
 }
 
 export default function AppShell({ children }: { children: ReactNode }) {
@@ -68,7 +51,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
   const [prevSeconds, setPrevSeconds] = useState<number | null | undefined>(undefined);
 
-  // Sync countdown when cans data updates (official React pattern for state from props/context)
   if (me?.cans.secondsUntilNext !== prevSeconds) {
     setPrevSeconds(me?.cans.secondsUntilNext);
     setCountdown(me?.cans.secondsUntilNext ?? null);
@@ -93,201 +75,226 @@ export default function AppShell({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [countdown, refresh]);
 
-  // If loading takes more than 10s, show a retry prompt
   useEffect(() => {
     if (!loading) return;
     const id = setTimeout(() => setStuck(true), 10_000);
     return () => clearTimeout(id);
   }, [loading]);
 
-  // Landing page renders full-screen without app shell wrapper
   const isLanding = pathname === "/landing";
   if (isLanding) {
     return <>{children}</>;
   }
 
-  // Loading splash
   if (loading && !stuck) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center gap-4">
-        <div className="grid h-16 w-16 place-items-center rounded-2xl bg-paper2 border-2 border-ink shadow-md">
-          <IconPaw size={40} className="text-leaf animate-pulse" />
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-surface text-on-surface">
+        <div className="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center shadow-md animate-pulse">
+          <span className="material-symbols-outlined text-[36px] text-secondary">explore</span>
         </div>
-        <p className="animate-pulse text-lg font-bold text-inksoft">Sharpening pencils…</p>
-        <p className="text-xs text-inksoft">First visit sets up your field journal</p>
+        <p className="font-headline-md text-headline-md font-bold text-primary animate-pulse">Sharpening Field Pencils…</p>
+        <p className="font-label-sm text-label-sm text-on-surface-variant">Opening your Naturalist Folio</p>
       </div>
     );
   }
 
   if (stuck) {
     return (
-      <div className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-3 p-6 text-center">
-        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper2 border-2 border-ink shadow-md text-inksoft">
-          <IconRadar size={32} />
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-3 p-6 text-center bg-surface text-on-surface">
+        <div className="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+          <span className="material-symbols-outlined text-[36px] text-tertiary">satellite_alt</span>
         </div>
-        <p className="font-black">The field station is not responding.</p>
-        <p className="text-sm text-inksoft">
-          This usually means the server could not be reached, or the first data load is still pending.
+        <h2 className="font-headline-md text-headline-md font-bold text-primary">Field Outpost Unreachable</h2>
+        <p className="font-body-sm text-body-sm text-on-surface-variant">
+          The field station could not be reached, or initial journal synchronization timed out.
         </p>
-        <button className="btn btn-accent" onClick={() => window.location.reload()}>
-          Retry
+        <button
+          className="mt-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-xl font-label-md text-label-md font-bold uppercase shadow-md active:translate-y-0.5"
+          onClick={() => window.location.reload()}
+        >
+          Reconnect
         </button>
       </div>
     );
   }
 
-  // No user data yet (should not happen after loading = false, but guard anyway)
   if (!me) {
     return (
-      <div className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-3 p-6 text-center">
-        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-paper2 border-2 border-ink shadow-md text-inksoft">
-          <IconSearch size={32} />
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center gap-3 p-6 text-center bg-surface text-on-surface">
+        <div className="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
+          <span className="material-symbols-outlined text-[36px] text-secondary">search_off</span>
         </div>
-        <p className="font-black">Could not reach the field journal.</p>
-        <button className="btn btn-accent" onClick={() => window.location.reload()}>
+        <p className="font-headline-md text-headline-md font-bold text-primary">Could not open field journal.</p>
+        <button
+          className="mt-2 bg-secondary text-on-secondary px-5 py-2.5 rounded-xl font-label-md text-label-md font-bold uppercase shadow-md active:translate-y-0.5"
+          onClick={() => window.location.reload()}
+        >
           Retry
         </button>
       </div>
     );
   }
 
-  // Not yet consented — show onboarding
   if (!me.user.gdprConsentAt) return <Onboarding />;
 
+  const sectionTitle = getSectionTitle(pathname);
+
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col">
-      {/* ─── top bar ─── */}
-      <header
-        style={{ paddingTop: "max(env(safe-area-inset-top), 8px)" }}
-        className="sticky top-0 z-40 border-b-2 border-ink/15 bg-paper/90 px-3 py-2 backdrop-blur"
-      >
-        <div className="flex items-center justify-between gap-2">
-          <Link href="/profile" className="flex items-center gap-2 group" aria-label="Go to your naturalist profile">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-ink bg-white shadow-sm transition-transform group-hover:scale-105">
-              <AvatarIcon seed={me.user.avatarSeed} size={20} className="text-ink" />
-            </span>
-            <span className="leading-tight">
-              <span className="block text-xs font-black truncate max-w-[110px]">{me.user.username}</span>
-              <span className="flex items-center gap-1 text-[10px] text-inksoft font-semibold">
-                <span>Lv {me.user.level}</span>
-                <span>·</span>
-                <span className="inline-flex items-center gap-0.5 text-accent">
-                  <IconFlame size={11} className="shrink-0" />
-                  <span>{me.user.streakCount}</span>
-                </span>
-              </span>
-            </span>
-          </Link>
-          <div className="flex items-center gap-1.5 text-xs font-black">
-            <span
-              className="doodle-soft bg-white/80 px-2 py-1 inline-flex items-center gap-1 border border-ink/15 shadow-sm"
-              title="Cans remaining"
-              aria-label={`${me.cans.current} of ${me.cans.max} cans available`}
-            >
-              <IconCan size={14} className="text-leaf shrink-0" />
-              <span>
-                {me.cans.current}/{me.cans.max}
-              </span>
-              <span className="text-[10px] font-semibold text-inksoft">({formatCountdown(countdown)})</span>
-            </span>
+    <div className="bg-surface font-body-md text-on-surface flex flex-col min-h-screen antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+      {/* ─── Top Expedition Header ─── */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(43,58,44,0.06)]">
+        <div className="h-28 px-margin-mobile flex flex-col justify-between py-space-xs max-w-lg mx-auto">
+          {/* Row 1: Brand, Rank, Avatar */}
+          <div className="flex items-center justify-between">
             <Link
-              href="/shop"
-              className="doodle-soft bg-white/80 px-2 py-1 inline-flex items-center gap-1 hover:bg-white border border-ink/15 shadow-sm transition-colors"
-              aria-label={`View shop balance: ${me.user.coins} coins`}
+              href="/"
+              onClick={() => playClickSound()}
+              className="flex items-center gap-space-xs group"
+              aria-label="AnimaFind Home"
             >
-              <IconCoin size={14} className="text-amber-500 shrink-0" />
-              <span>{me.user.coins}</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                alt="AnimaFind Compass Logo"
+                className="h-8 w-auto object-contain transition-transform group-hover:rotate-12"
+                src="/compass-logo.png"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = "none";
+                }}
+              />
+              <span className="font-headline-md text-headline-md font-bold tracking-tight text-primary">
+                AnimaFind
+              </span>
+              <span className="hidden sm:inline-block font-label-md text-label-md text-on-surface-variant">
+                • {sectionTitle}
+              </span>
             </Link>
-            <button
-              type="button"
-              onClick={handleToggleSound}
-              className="doodle-soft bg-white/80 p-1.5 inline-flex items-center hover:bg-white border border-ink/15 shadow-sm text-inksoft hover:text-ink transition-colors"
-              title={muted ? "Unmute audio effects" : "Mute audio effects"}
-              aria-label={muted ? "Unmute audio effects" : "Mute audio effects"}
-            >
-              {muted ? (
-                <IconVolumeOff size={14} className="text-stone-400" />
-              ) : (
-                <IconVolumeOn size={14} className="text-leaf" />
-              )}
-            </button>
+
+            <div className="flex items-center gap-space-xs">
+              <div className="flex items-center gap-space-2xs bg-surface-container-high px-space-xs py-0.5 rounded-full shadow-[inset_0_1px_2px_rgba(43,58,44,0.08)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                <span className="font-label-md text-label-md text-primary-container font-bold">
+                  Lvl {me.user.level} Ranger
+                </span>
+              </div>
+              <Link
+                href="/profile"
+                onClick={() => playClickSound()}
+                className="relative group block"
+                aria-label="View Naturalist Profile"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-primary-container/20 group-hover:ring-secondary transition-all"
+                  src="/ranger-avatar.png"
+                  onError={(e) => {
+                    // Fallback to div if missing
+                    (e.target as HTMLElement).style.display = "none";
+                  }}
+                />
+              </Link>
+            </div>
+          </div>
+
+          {/* Row 2: Rations, Coins, Audio, Section Title */}
+          <div className="flex items-center justify-between gap-space-xs pt-1">
+            <div className="flex items-center gap-space-xs">
+              {/* Energy Cans */}
+              <div
+                className="flex items-center gap-1.5 bg-surface-container-low px-space-xs py-1 rounded-lg shadow-[0_1px_3px_rgba(43,58,44,0.08)] cursor-pointer"
+                title={`${me.cans.current} of ${me.cans.max} Cans available`}
+              >
+                <span aria-hidden="true" className="text-base leading-none">🥫</span>
+                <span className="font-label-md text-label-md text-primary font-bold">
+                  {me.cans.current}/{me.cans.max} Cans
+                </span>
+                <span className="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-1 py-0.2 rounded font-bold">
+                  {formatCountdown(countdown)}
+                </span>
+              </div>
+
+              {/* Currency */}
+              <Link
+                href="/shop"
+                onClick={() => playClickSound()}
+                className="flex items-center gap-1 bg-surface-container-low px-space-xs py-1 rounded-lg shadow-[0_1px_3px_rgba(43,58,44,0.08)] hover:bg-surface-container transition-colors"
+                title="Field supply balance"
+              >
+                <span aria-hidden="true" className="text-base leading-none">🪙</span>
+                <span className="font-label-md text-label-md text-primary font-bold">
+                  {me.user.coins}
+                </span>
+              </Link>
+
+              {/* Mute Audio Toggle */}
+              <button
+                type="button"
+                onClick={handleToggleSound}
+                className="flex items-center justify-center p-1.5 rounded-lg bg-surface-container-low text-primary shadow-[0_1px_3px_rgba(43,58,44,0.08)] hover:bg-surface-container active:scale-95 transition-all"
+                title={muted ? "Unmute field audio" : "Mute field audio"}
+                aria-label={muted ? "Unmute field audio" : "Mute field audio"}
+              >
+                <span className="material-symbols-outlined text-[16px] text-secondary">
+                  {muted ? "volume_off" : "volume_up"}
+                </span>
+              </button>
+            </div>
+
+            <div className="sm:hidden flex items-center">
+              <span className="font-label-md text-label-md text-on-surface-variant font-bold truncate max-w-[130px]">
+                {sectionTitle}
+              </span>
+            </div>
           </div>
         </div>
-        <nav className="scrollhide mt-2 flex gap-1.5 overflow-x-auto text-[11px] font-bold pb-0.5">
-          {SUB_NAV.map((l) => {
-            const IconComp = l.icon;
-            const active = pathname === l.href;
+      </header>
+
+      {/* ─── Main Viewport ─── */}
+      <main className="flex-1 w-full max-w-lg mx-auto pt-28 pb-24 px-0 relative">
+        {children}
+      </main>
+
+      {/* ─── Floating Native Bottom Navigation Dock ─── */}
+      <nav
+        className="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(43,58,44,0.08)]"
+        data-active-classes="text-primary-container font-bold scale-105"
+      >
+        <div className="flex justify-around items-center h-20 px-space-xs max-w-lg mx-auto">
+          {TABS.map((tab) => {
+            const active =
+              tab.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(tab.href);
+
             return (
               <Link
-                key={l.href}
-                href={l.href}
+                key={tab.href}
+                href={tab.href}
                 onClick={() => playClickSound()}
-                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-ink/30 px-3 py-1 transition-all ${
-                  active ? "bg-ink text-paper shadow-sm" : "bg-white/70 hover:bg-white text-ink"
+                aria-current={active ? "page" : undefined}
+                className={`flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] transition-all ${
+                  active
+                    ? "text-primary font-bold scale-105"
+                    : "text-on-surface-variant hover:text-on-surface active:scale-95"
                 }`}
               >
-                <IconComp size={13} className={active ? "text-paper" : "text-ink"} />
-                <span>{l.label}</span>
+                <span
+                  className={`material-symbols-outlined text-[24px] ${
+                    active ? "text-primary" : "text-on-surface-variant"
+                  }`}
+                >
+                  {tab.icon}
+                </span>
+                <span className="font-label-sm text-label-sm">
+                  {tab.label}
+                </span>
+                {active && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary -mt-0.5" />
+                )}
               </Link>
             );
           })}
-        </nav>
-      </header>
-
-      {/* ─── page content ─── */}
-      <main className="flex-1 px-3 pb-40 pt-3">{children}</main>
-
-      {/* ─── ad banner (non-premium only) ─── */}
-      {!me.user.isPremiumActive && (
-        <div
-          style={{ bottom: "calc(3.4rem + max(env(safe-area-inset-bottom), 8px) + 6px)" }}
-          className="fixed inset-x-0 z-40 mx-auto max-w-md px-3 pointer-events-auto"
-        >
-          <div className="doodle-soft flex items-center justify-between bg-[#fff6e2] px-3 py-1.5 text-[11px] shadow-sm border border-amber-200">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="font-black bg-ink/10 px-1.5 py-0.5 rounded text-[9px] uppercase">Ad</span>
-              <span>Field Club Premium: 10-min recharge, cap 8</span>
-            </span>
-            <Link href="/shop" className="font-black text-accent underline ml-2 whitespace-nowrap">
-              Try it
-            </Link>
-          </div>
         </div>
-      )}
-
-      {/* ─── bottom tab bar ─── */}
-      <nav
-        style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8px)" }}
-        className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md border-t-2 border-ink bg-paper2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]"
-      >
-        <ul className="grid grid-cols-5 py-1">
-          {TABS.map((tab) => {
-            const active = pathname === tab.href;
-            const TabIcon = tab.icon;
-            return (
-              <li key={tab.href}>
-                <Link
-                  href={tab.href}
-                  onClick={() => playClickSound()}
-                  aria-label={tab.label}
-                  aria-current={active ? "page" : undefined}
-                  className={`flex flex-col items-center justify-center gap-0.5 py-1 text-[10px] font-black transition-colors ${
-                    active ? "text-accent" : "text-inksoft hover:text-ink"
-                  }`}
-                >
-                  <span
-                    className={`grid h-7 w-7 place-items-center rounded-xl transition-all ${
-                      active ? "bg-accent/15 scale-110" : ""
-                    }`}
-                  >
-                    <TabIcon size={18} className={active ? "text-accent" : "text-inksoft"} />
-                  </span>
-                  <span>{tab.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
       </nav>
     </div>
   );

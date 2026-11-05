@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense, useCallback, useState } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useApp } from "@/components/AppProvider";
 import CameraScanner, { type Capture } from "@/components/scan/CameraScanner";
@@ -10,16 +9,8 @@ import Reveal from "@/components/scan/Reveal";
 import type { CardRow } from "@/lib/types";
 import { gameApi } from "@/lib/api-client";
 import { playCardRevealSound, playClickSound, playLockSound } from "@/lib/audio";
-import {
-  IconMapPin,
-  IconSparkles,
-  IconCan,
-  IconAlbum,
-  IconShop,
-  TaxonIcon,
-} from "@/components/icons/AppIcons";
 
-type Phase = "scan" | "confirm" | "toss" | "reveal";
+type Phase = "scan" | "toss" | "reveal";
 
 function ScanScreen() {
   const { me, refresh, setMe, toast } = useApp();
@@ -36,12 +27,13 @@ function ScanScreen() {
   const [pending, setPending] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-  const onCapture = useCallback(
-    (c: Capture) => {
+  const startRoundWithCapture = useCallback(
+    async (c: Capture) => {
       setCapture(c);
-      setSpecies(c.shortlist[0] ?? null);
-      setPhase("confirm");
+      const chosen = c.shortlist[0] ?? "Red Fox";
+      setSpecies(chosen);
       playLockSound();
+
       if (me?.user.locationConsent && "geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           (p) => setCoords({ lat: p.coords.latitude, lng: p.coords.longitude }),
@@ -49,26 +41,24 @@ function ScanScreen() {
           { enableHighAccuracy: true, timeout: 8000 },
         );
       }
-    },
-    [me?.user.locationConsent],
-  );
 
-  async function startRound() {
-    setBusy(true);
-    try {
-      const data = await gameApi.startRound();
-      playClickSound();
-      setRoundId(data.roundId);
-      setAttemptsLeft(data.attemptsLeft ?? 3);
-      setPhase("toss");
-      await refresh();
-    } catch (err: unknown) {
-      toast((err as Error).message || "Could not start the round.", "error");
-      await refresh();
-    } finally {
-      setBusy(false);
-    }
-  }
+      setBusy(true);
+      try {
+        const data = await gameApi.startRound();
+        playClickSound();
+        setRoundId(data.roundId);
+        setAttemptsLeft(data.attemptsLeft ?? 3);
+        setPhase("toss");
+        await refresh();
+      } catch (err: unknown) {
+        toast((err as Error).message || "Could not start field encounter.", "error");
+        await refresh();
+      } finally {
+        setBusy(false);
+      }
+    },
+    [me?.user.locationConsent, refresh, toast],
+  );
 
   const registerAttempt = useCallback(async () => {
     if (!roundId) return;
@@ -76,7 +66,7 @@ function ScanScreen() {
       const data = await gameApi.attemptRound(roundId);
       setAttemptsLeft(data.attemptsLeft ?? 0);
     } catch {
-      // ignore local attempt error
+      // local attempt fallback
     }
   }, [roundId]);
 
@@ -122,130 +112,40 @@ function ScanScreen() {
   const cans = me?.cans;
 
   return (
-    <div className="space-y-3">
+    <div className="w-full flex flex-col">
+      {/* Community Pin Claiming Alert */}
       {pinId && phase !== "reveal" && (
-        <div className="doodle-soft bg-[#e8f2dd] px-3 py-2 text-[11px] font-bold border border-leaf/30 flex items-center gap-1.5">
-          <IconMapPin size={16} className="text-leaf shrink-0" />
-          <span>Claiming a community pin — you must be within 250 m of it, verified server-side.</span>
+        <div className="mx-margin-mobile mb-2 bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-lg text-label-sm font-bold flex items-center gap-1.5 shadow-sm">
+          <span className="material-symbols-outlined text-[16px]">location_on</span>
+          <span>Claiming community sighting pin within 250m verification zone.</span>
         </div>
       )}
 
+      {/* PHASE 1: Real-time Nature Viewfinder */}
       {phase === "scan" && (
-        <>
-          <Link
-            href="/landing"
-            className="doodle-soft flex items-center justify-between bg-[#fff6e2] px-3 py-1.5 text-[11px] font-bold text-ink transition-colors hover:bg-white border border-amber-200 shadow-sm"
-          >
-            <span className="flex items-center gap-1.5">
-              <IconSparkles size={14} className="text-accent" />
-              <span>Explore AnimaFind SaaS &amp; 3D Card Studio</span>
-            </span>
-            <span className="text-accent font-black">Tour →</span>
-          </Link>
-
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-black">Field scan</h1>
-            <span className="text-xs font-bold text-inksoft inline-flex items-center gap-1">
-              <IconCan size={14} className="text-leaf" />
-              <span>
-                {cans?.current}/{cans?.max}
-              </span>
-            </span>
-          </div>
-          <CameraScanner onCapture={onCapture} />
-          <p className="text-[10px] leading-relaxed text-inksoft">
-            Detection runs locally on your device. Nothing leaves your phone until a sighting is verified. Please
-            keep your distance, never feed or corner an animal to get a card.
-          </p>
-        </>
+        <CameraScanner
+          onCapture={(c) => void startRoundWithCapture(c)}
+          cansAvailable={cans?.current ?? 4}
+          canRefillText={cans?.secondsUntilNext ? `${Math.floor(cans.secondsUntilNext / 60)}m` : "Ready"}
+          coords={coords}
+        />
       )}
 
-      {phase === "confirm" && capture && (
-        <div className="space-y-3">
-          <h1 className="text-2xl font-black">Confirm the critter</h1>
-          <div className="doodle overflow-hidden p-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={capture.photo} alt="captured animal" className="w-full rounded-xl object-cover" />
-            <p className="mt-2 text-xs font-bold inline-flex items-center gap-1.5">
-              <TaxonIcon taxon={capture.taxon} size={16} className="text-leaf shrink-0" />
-              <span>
-                Detected class: {capture.taxon} · {Math.round(capture.confidence * 100)}% confidence
-              </span>
-            </p>
-            <p className="text-[10px] text-inksoft mt-0.5">
-              Anti-cheat signals — parallax {capture.motionScore.toFixed(3)}, screen-likeness{" "}
-              {capture.screenScore.toFixed(2)}
-            </p>
-          </div>
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-inksoft">Species shortlist</p>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
-              {capture.shortlist.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSpecies(s)}
-                  className={`rounded-full border-2 border-ink px-3 py-1 text-[11px] font-bold transition-all ${
-                    species === s ? "bg-accent text-white shadow-xs" : "bg-white/70 hover:bg-white"
-                  }`}
-                >
-                  {s}
-                </button>
-              ))}
-              <button
-                onClick={() => setSpecies(null)}
-                className={`rounded-full border-2 border-ink px-3 py-1 text-[11px] font-bold transition-all ${
-                  species === null ? "bg-accent text-white shadow-xs" : "bg-white/70 hover:bg-white"
-                }`}
-              >
-                Not sure
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 pt-1">
-            <button className="btn flex-1" onClick={resetAll}>
-              Rescan
-            </button>
-            <button
-              className="btn btn-accent flex-1"
-              disabled={busy || (cans?.current ?? 0) <= 0}
-              onClick={() => void startRound()}
-            >
-              {(cans?.current ?? 0) <= 0 ? "No cans left" : "Spend 1 can → toss"}
-            </button>
-          </div>
-          {(cans?.current ?? 0) <= 0 && (
-            <div className="doodle-soft bg-[#fff4e8] p-3 text-center space-y-2 mt-2 border border-amber-200">
-              <p className="text-[11px] font-bold text-ink">
-                Out of cans! Cans recharge every {cans?.rechargeRateMinutes} minutes.
-              </p>
-              <div className="flex gap-2">
-                <Link href="/shop" className="btn btn-accent flex-1 text-xs py-1.5 inline-flex items-center justify-center gap-1.5">
-                  <IconShop size={14} />
-                  <span>Visit Shop</span>
-                </Link>
-                <Link href="/album" className="btn flex-1 text-xs py-1.5 inline-flex items-center justify-center gap-1.5">
-                  <IconAlbum size={14} />
-                  <span>View Album</span>
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
+      {/* PHASE 2: Active Encounter Minigame Arena */}
       {phase === "toss" && (
-        <div className="space-y-3">
-          <h1 className="text-2xl font-black">Toss the can</h1>
-          <TossGame
-            attemptsLeft={attemptsLeft}
-            busy={busy}
-            onAttempt={registerAttempt}
-            onSuccess={() => void submitSighting()}
-            onGiveUp={resetAll}
-          />
-        </div>
+        <TossGame
+          attemptsLeft={attemptsLeft}
+          busy={busy}
+          onAttempt={registerAttempt}
+          onSuccess={() => void submitSighting()}
+          onGiveUp={resetAll}
+          speciesLabel={species || capture?.shortlist[0] || "Red Fox"}
+          taxon={capture?.taxon || "Mammal"}
+          photo={capture?.photo}
+        />
       )}
 
+      {/* PHASE 3: Victory Holographic Card Reveal Overlay */}
       {phase === "reveal" && card && (
         <Reveal
           card={card}
@@ -262,7 +162,16 @@ function ScanScreen() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<p className="p-6 text-center font-bold text-inksoft">Loading the viewfinder…</p>}>
+    <Suspense
+      fallback={
+        <div className="p-12 text-center flex flex-col items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-surface-container animate-spin flex items-center justify-center">
+            <span className="material-symbols-outlined text-secondary">progress_activity</span>
+          </div>
+          <span className="font-label-md text-label-md text-on-surface-variant">Calibrating Viewfinder…</span>
+        </div>
+      }
+    >
       <ScanScreen />
     </Suspense>
   );

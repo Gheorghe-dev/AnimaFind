@@ -35,9 +35,9 @@ export default function ProfilePage() {
   const equipped = Object.values(user.cosmetics ?? {}).filter(Boolean) as string[];
 
   return (
-    <div className="space-y-4">
-      <div className="doodle tape p-4 text-center">
-        <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-sm">
+    <div className="space-y-4 px-margin-mobile">
+      <div className="bg-surface-container p-4 rounded-xl text-center shadow-sm relative">
+        <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-primary/20 bg-surface text-primary shadow-sm">
           <AvatarIcon seed={user.avatarSeed} size={48} />
           {user.cosmetics?.hat && (
             <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 pointer-events-none drop-shadow-sm text-stone-800">
@@ -50,30 +50,30 @@ export default function ProfilePage() {
             </span>
           )}
         </div>
-        <h1 className="mt-2 text-xl font-black">{user.username}</h1>
-        <p className="text-[11px] text-inksoft flex items-center justify-center flex-wrap gap-1 mt-0.5">
-          <span>Level {user.level}</span>
+        <h1 className="mt-2 font-headline-md text-headline-md font-bold text-primary">{user.username}</h1>
+        <p className="font-body-sm text-body-sm text-on-surface-variant flex items-center justify-center flex-wrap gap-1 mt-0.5">
+          <span>Level {user.level} Ranger</span>
           <span>·</span>
           <span>{user.xp} XP total</span>
           <span>·</span>
-          <span className="inline-flex items-center gap-0.5 text-accent font-bold">
+          <span className="inline-flex items-center gap-0.5 text-secondary font-bold">
             <IconFlame size={12} className="shrink-0" />
             <span>{user.streakCount}-day streak</span>
           </span>
           {user.isPremiumActive && (
             <>
               <span>·</span>
-              <span className="inline-flex items-center gap-0.5 text-leaf font-bold">
+              <span className="inline-flex items-center gap-0.5 text-tertiary-container font-bold">
                 <IconLeaf size={12} className="shrink-0" />
-                <span>Premium</span>
+                <span>Premium Ranger</span>
               </span>
             </>
           )}
         </p>
-        <div className="mt-2 h-3 w-full overflow-hidden rounded-full border-2 border-ink bg-white">
-          <div className="h-full bg-accent" style={{ width: `${Math.round((user.into / user.needed) * 100)}%` }} />
+        <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-surface-container-high">
+          <div className="h-full bg-secondary rounded-full" style={{ width: `${Math.round((user.into / user.needed) * 100)}%` }} />
         </div>
-        <p className="mt-1 text-[10px] text-inksoft">
+        <p className="mt-1 font-label-sm text-label-sm text-on-surface-variant">
           {user.into}/{user.needed} XP to level {user.level + 1}
         </p>
       </div>
@@ -145,16 +145,16 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="doodle p-3">
-        <p className="text-[10px] font-black uppercase tracking-widest text-inksoft">Field name</p>
+      <div className="bg-surface-container p-3 rounded-xl shadow-xs">
+        <p className="font-label-sm text-label-sm font-bold uppercase tracking-widest text-on-surface-variant">Field Name</p>
         <div className="mt-1 flex gap-2">
           <input
-            className="doodle-soft flex-1 bg-white/70 px-3 py-2 text-sm"
+            className="bg-surface-container-high rounded-xl flex-1 px-3 py-2 font-body-md text-sm text-on-surface focus:outline-none"
             value={name}
             maxLength={24}
             onChange={(e) => setName(e.target.value)}
           />
-          <button className="btn btn-accent" onClick={() => void save({ username: name })}>
+          <button className="bg-secondary text-on-secondary px-4 py-2 rounded-xl font-label-md text-label-md font-bold uppercase shadow-sm active:translate-y-0.5" onClick={() => void save({ username: name })}>
             Save
           </button>
         </div>
@@ -165,9 +165,9 @@ export default function ProfilePage() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="doodle p-3 text-center">
-      <p className="text-2xl font-black leading-none">{value}</p>
-      <p className="text-[10px] font-bold uppercase tracking-wider text-inksoft">{label}</p>
+    <div className="bg-surface-container-low p-3 rounded-xl text-center shadow-xs border border-primary/10">
+      <p className="font-specimen-numeral text-specimen-numeral text-primary leading-none">{value}</p>
+      <p className="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mt-0.5">{label}</p>
     </div>
   );
 }

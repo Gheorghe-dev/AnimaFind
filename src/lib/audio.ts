@@ -259,3 +259,55 @@ export function playClickSound() {
     // audio fallback
   }
 }
+
+export function playAnimalCallSound(species?: string) {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  try {
+    const now = ctx.currentTime;
+    // Synthesize organic naturalist call (~2.4s)
+    const isBird = !species || species.toLowerCase().includes("raven") || species.toLowerCase().includes("owl") || species.toLowerCase().includes("bird");
+
+    if (isBird) {
+      // Resonant deep croak / call
+      [0, 0.4, 1.2, 1.6].forEach((offset) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(280, now + offset);
+        osc.frequency.exponentialRampToValueAtTime(140, now + offset + 0.25);
+
+        gain.gain.setValueAtTime(0.001, now + offset);
+        gain.gain.linearRampToValueAtTime(0.2, now + offset + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.28);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.3);
+      });
+    } else {
+      // Mammal / alert chirp
+      [0, 0.3, 0.7].forEach((offset) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(450, now + offset);
+        osc.frequency.exponentialRampToValueAtTime(750, now + offset + 0.15);
+
+        gain.gain.setValueAtTime(0.001, now + offset);
+        gain.gain.linearRampToValueAtTime(0.18, now + offset + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.2);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.22);
+      });
+    }
+
+    triggerHaptic("medium");
+  } catch {
+    // audio fallback
+  }
+}

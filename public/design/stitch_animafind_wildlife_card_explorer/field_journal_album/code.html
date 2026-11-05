@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>AnimaFind - Wildlife Exploration</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&amp;family=Vollkorn:ital,wght@0,600;0,700;1,600&amp;family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fdf9f1;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed-variant": "#3b4b3c", "secondary": "#466554", "surface-container": "#f1ede6", "on-secondary-fixed-variant": "#2e4d3d", "on-tertiary-fixed-variant": "#822801", "on-secondary": "#ffffff", "on-surface": "#1c1c17", "tertiary-fixed": "#ffdbcf", "tertiary-fixed-dim": "#ffb59c", "on-primary": "#ffffff", "secondary-fixed": "#c8ebd5", "secondary-fixed-dim": "#acceb9", "on-primary-container": "#93a492", "background": "#fdf9f1", "surface-variant": "#e6e2da", "surface-tint": "#526253", "primary-fixed": "#d6e7d3", "primary": "#162418", "surface": "#fdf9f1", "inverse-on-surface": "#f4f0e8", "error": "#ba1a1a", "surface-bright": "#fdf9f1", "outline-variant": "#c4c8c0", "on-tertiary-fixed": "#390c00", "on-surface-variant": "#434842", "surface-container-lowest": "#ffffff", "on-primary-fixed": "#101f12", "inverse-primary": "#bacbb8", "on-secondary-container": "#4a6958", "tertiary-container": "#671d00", "on-tertiary": "#ffffff", "primary-container": "#2b3a2c", "on-background": "#1c1c17", "error-container": "#ffdad6", "primary-fixed-dim": "#bacbb8", "on-error-container": "#93000a", "on-error": "#ffffff", "surface-dim": "#dddad2", "surface-container-high": "#ece8e0", "on-secondary-fixed": "#012113", "surface-container-highest": "#e6e2da", "outline": "#747872", "inverse-surface": "#31302b", "secondary-container": "#c5e8d2", "surface-container-low": "#f7f3eb", "on-tertiary-container": "#f77d52", "tertiary": "#431000" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-2xs": "0.25rem", "margin": "1.25rem", "space-xl": "2rem", "space-md": "1rem", "space-2xl": "3rem", "gutter": "1rem", "margin-mobile": "1rem", "space-sm": "0.75rem", "space-xs": "0.5rem", "space-lg": "1.5rem", "gutter-mobile": "0.75rem" }, "fontFamily": { "label-sm": ["Courier Prime"], "label-lg": ["Work Sans"], "headline-lg": ["Vollkorn"], "specimen-numeral": ["Vollkorn"], "headline-xl-mobile": ["Vollkorn"], "headline-xl": ["Vollkorn"], "headline-md": ["Vollkorn"], "body-md": ["Work Sans"], "body-lg": ["Work Sans"], "label-md": ["Courier Prime"], "headline-lg-mobile": ["Vollkorn"], "body-sm": ["Work Sans"] }, "fontSize": { "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "400" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "specimen-numeral": ["22px", { "lineHeight": "24px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-xl-mobile": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "headline-xl": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "26px", "fontWeight": "600" }], "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "body-lg": ["17px", { "lineHeight": "26px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen antialiased selection:bg-secondary-fixed selection:text-on-secondary-fixed"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(43,58,44,0.06)]"><div class="h-28 px-margin-mobile flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><img alt="AnimaFind Compass Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBppyQ9Ri0QQZSnhuF7CSO-AHtz9T2piRNovO76LEmGMFi5pTRchRfFRYWxfll29DXbIB6fdT7cQubrOGCrsGFtwethbzwLEW3iwPPxptj_MGz5-RYlDJk8h7GqTMf4EeQ9sdwyPM43v8aA1LRJBa4RfP6jvyzjBgsWz_OMYQNrxAp_L-_cTaBurA9CWAN_duxi30amfnmA2XY_WFK1bFwPFPpOwJSBH5Lw1d6G"/><span class="font-headline-md text-headline-md font-bold tracking-tight text-primary">AnimaFind</span><span class="hidden sm:inline-block font-label-md text-label-md text-on-surface-variant">• Journal Album</span></div><div class="flex items-center gap-space-xs"><div class="flex items-center gap-space-2xs bg-surface-container-high px-space-xs py-0.5 rounded-full shadow-[inset_0_1px_2px_rgba(43,58,44,0.08)]"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="font-label-md text-label-md text-primary-container font-bold">Lvl 8 Ranger</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary-container/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDElGf1HJWhL71RRvcdwBxmsFdI9lqcrVZ8GCmvKyfCjhXHjepTGJFGwJ_a8gLpTWNB_KQF7Il3jhk7K9T0qiC_JaNYkncXMCA3pUhXddRtQ_YH0NCEqF57HQ2MG4wL4EOqeBQt_tNs_la0uVqSyrYMGS4-ye7ktmWOxidrnyHpOdyznKRsguSNL4QWzq4dePRZ7VO_lCccuBXh1FEHTlFqiGObdgi6w4a9wgom"/></div></div><div class="flex items-center justify-between gap-space-xs pt-1"><div class="flex items-center gap-space-xs"><div class="flex items-center gap-1.5 bg-surface-container-low px-space-xs py-1 rounded-lg shadow-[0_1px_3px_rgba(43,58,44,0.08)]"><span aria-hidden="true" class="text-base leading-none">🥫</span><span class="font-label-md text-label-md text-primary font-bold">4/5 Cans</span><span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-1 py-0.2 rounded font-bold">+1 in 12m</span></div><div class="flex items-center gap-1 bg-surface-container-low px-space-xs py-1 rounded-lg shadow-[0_1px_3px_rgba(43,58,44,0.08)]"><span aria-hidden="true" class="text-base leading-none">🪙</span><span class="font-label-md text-label-md text-primary font-bold">480</span></div></div><div class="sm:hidden flex items-center"><span class="font-label-md text-label-md text-on-surface-variant font-bold truncate max-w-[110px]">Journal Album</span></div></div></div></header><main class="flex flex-col relative w-full pt-28 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full relative">
+<!-- Tactical Vintage Binder Header Bar with Leather Trim & Rivets -->
+<div class="relative w-full bg-primary-container px-margin-mobile py-space-sm shadow-md overflow-hidden">
+<div class="absolute inset-x-0 top-0 h-1 bg-tertiary-container opacity-40"></div>
+<!-- Faux Leather Stitching & Rivets Representation -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-3.5 h-3.5 rounded-full bg-tertiary-fixed-dim shadow-[inset_0_1px_1px_rgba(0,0,0,0.6)] flex items-center justify-center">
+<div class="w-1 h-1 rounded-full bg-primary"></div>
+</div>
+<div class="w-3.5 h-3.5 rounded-full bg-tertiary-fixed-dim shadow-[inset_0_1px_1px_rgba(0,0,0,0.6)] flex items-center justify-center">
+<div class="w-1 h-1 rounded-full bg-primary"></div>
+</div>
+<span class="font-label-md text-label-md text-primary-fixed uppercase tracking-wider">Folio Vol. IV · Field Album</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container/20 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px] text-tertiary-fixed">lock_clock</span>
+<span class="font-label-sm text-label-sm text-tertiary-fixed font-bold">Syncd 2m ago</span>
+</div>
+</div>
+</div>
+<!-- Summary Statistics Ribbon -->
+<div class="mx-margin-mobile mt-space-sm bg-surface-container p-space-sm rounded-xl shadow-sm relative">
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+<h2 class="font-headline-md text-headline-md text-primary leading-tight">48 Preserved Plates</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Expedition binder completeness: 68%</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-tertiary font-bold uppercase bg-tertiary-fixed px-2 py-0.5 rounded">Ranger Log</span>
+<span class="font-label-md text-label-md text-secondary font-bold mt-1">Tier 8 Atlas</span>
+</div>
+</div>
+<!-- Rarity Breakdown Strip -->
+<div class="mt-space-xs pt-space-xs grid grid-cols-5 gap-1 text-center">
+<div class="bg-surface-container-high p-1 rounded-lg">
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Hedge</span>
+<span class="font-specimen-numeral text-specimen-numeral text-on-surface">22</span>
+</div>
+<div class="bg-secondary-container/40 p-1 rounded-lg">
+<span class="block font-label-sm text-label-sm text-on-secondary-container">Meadow</span>
+<span class="font-specimen-numeral text-specimen-numeral text-secondary">15</span>
+</div>
+<div class="bg-surface-container-highest p-1 rounded-lg">
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Twilight</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary">7</span>
+</div>
+<div class="bg-tertiary-fixed/60 p-1 rounded-lg">
+<span class="block font-label-sm text-label-sm text-on-tertiary-fixed-variant">Ember</span>
+<span class="font-specimen-numeral text-specimen-numeral text-tertiary">3</span>
+</div>
+<div class="bg-primary p-1 rounded-lg">
+<span class="block font-label-sm text-label-sm text-tertiary-fixed">Aurora</span>
+<span class="font-specimen-numeral text-specimen-numeral text-secondary-fixed">1</span>
+</div>
+</div>
+</div>
+<!-- Interactive Controls: Category Tabs & Sort Ribbon -->
+<div class="mt-space-sm px-margin-mobile flex flex-col gap-space-xs">
+<!-- Category Filter Scroll -->
+<div class="flex items-center gap-space-2xs overflow-x-auto pb-1 no-scrollbar">
+<button class="filter-tab active px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm whitespace-nowrap flex items-center gap-1" data-taxa="all">
+<span>All Classes</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+</button>
+<button class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap flex items-center gap-1 shadow-sm" data-taxa="birds">
+<span>Birds 🦅</span>
+</button>
+<button class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap flex items-center gap-1 shadow-sm" data-taxa="mammals">
+<span>Mammals 🦊</span>
+</button>
+<button class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap flex items-center gap-1 shadow-sm" data-taxa="insects">
+<span>Insects 🦋</span>
+</button>
+<button class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap flex items-center gap-1 shadow-sm" data-taxa="reptiles">
+<span>Reptiles 🦎</span>
+</button>
+<button class="filter-tab px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md whitespace-nowrap flex items-center gap-1 shadow-sm" data-taxa="amphibians">
+<span>Amphibians 🐸</span>
+</button>
+</div>
+<!-- Sorting Selector & Specimen Search Filter -->
+<div class="flex items-center justify-between gap-space-xs">
+<div class="flex items-center gap-1 bg-surface-container-high px-2.5 py-1 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[16px]">sort</span>
+<label class="sr-only" for="sortSelect">Sort by</label>
+<select class="bg-transparent font-label-sm text-label-sm text-on-surface font-bold focus:outline-none cursor-pointer" id="sortSelect">
+<option value="rarity">Sort: Rarity Hierarchy</option>
+<option value="date">Sort: Date Discovered</option>
+<option value="serial">Sort: Specimen Serial</option>
+</select>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span>Page 1 of 8</span>
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+</div>
+</div>
+</div>
+<!-- Physical Specimen Card Grid: 2-Column layout with pinned tape and aged plates -->
+<div class="px-margin-mobile mt-space-sm grid grid-cols-2 gap-gutter-mobile">
+<!-- Card 1: Aurora Legendary Vulpes Vulpes -->
+<div class="specimen-card relative bg-surface-container-lowest rounded-xl p-2.5 shadow-md flex flex-col justify-between cursor-pointer transform transition-transform active:scale-95 group" onclick="openSpecimenDrawer('Vulpes vulpes (Red Fox)', '#0042', 'Aurora Legendary', 'Canidae', 'Canis vulpes boreal sheen', 'placeholder', 'An exquisite close-up photographic wildlife portrait of a wild Red Fox (Vulpes vulpes) in a sunlit boreal pine woodland. The fox features rich amber fur, a white chest, and golden eyes reflecting morning light, surrounded by soft mountain moss and cedar needle litter in an editorial nature documentary style.')">
+<!-- Washi Tape Pin Top Left -->
+<div class="absolute -top-2 left-4 w-12 h-4 bg-tertiary-fixed/90 shadow-xs -rotate-3 z-10 rounded-xs"></div>
+<!-- Holographic Foil Aura Banner -->
+<div class="relative w-full rounded-lg overflow-hidden bg-surface-container-high">
+<div class="absolute inset-0 bg-gradient-to-tr from-secondary-fixed/40 via-tertiary-fixed/40 to-secondary/30 pointer-events-none z-10 mix-blend-color-burn"></div>
+<img class="w-full h-36 object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300" data-alt="An exquisite close-up photographic wildlife portrait of a wild Red Fox (Vulpes vulpes) in a sunlit boreal pine woodland. The fox features rich amber fur, a white chest, and golden eyes reflecting morning light, surrounded by soft mountain moss and cedar needle litter in an editorial nature documentary style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU7BJ0QzBuf8RCqHDulasil-iXaSxww5Y1NT8J9tpJtlKdU5mXNljA-v7SfKYxciY1KWmjC2myT4F4pmm6M_XGB5Dkhbk-rEGzLS3hrNMaOAoMRe3xuRWgF0slXPJWGDRDopqLRWLviSKkHPD7IG0OvsoB28cmeydE5yEywPR4z3Tt06ZMVKb9zDQjcAENzFI_8f0EuuS3gYBlLGp8OUFWZNcaJL_jSZDMs-dK"/>
+<div class="absolute top-1.5 right-1.5 z-20 bg-primary/80 backdrop-blur-sm px-1.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-fixed">auto_awesome</span>
+<span class="font-label-sm text-label-sm text-on-primary font-bold">AURORA</span>
+</div>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">#0042</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">CANIDAE</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight mt-0.5">Red Fox</h3>
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">Vulpes vulpes</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container-low px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">Aura Pulse</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary leading-none">98</span>
+</div>
+</div>
+<!-- Card 2: Emberwood Rare Barn Owl -->
+<div class="specimen-card relative bg-surface-container-lowest rounded-xl p-2.5 shadow-md flex flex-col justify-between cursor-pointer transform transition-transform active:scale-95 group" onclick="openSpecimenDrawer('Tyto alba (Barn Owl)', '#0118', 'Emberwood Rare', 'Strigiformes', 'Nocturnal silence, Flight Altitude 92', 'placeholder', 'A stunning photographic shot of a Barn Owl (Tyto alba) perched on a weathered oak timber post inside a rustic sun-dappled barn. Heart-shaped pale facial disc, delicate golden-brown and speckled slate feathering, glowing amber eyes, soft warm vintage atmospheric lighting.')">
+<!-- Washi Tape Pin Top Right -->
+<div class="absolute -top-2 right-4 w-12 h-4 bg-secondary-container/90 shadow-xs rotate-2 z-10 rounded-xs"></div>
+<div class="relative w-full rounded-lg overflow-hidden bg-surface-container-high">
+<div class="absolute inset-0 bg-gradient-to-b from-tertiary-fixed-dim/30 to-transparent pointer-events-none z-10"></div>
+<img class="w-full h-36 object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300" data-alt="A stunning photographic shot of a Barn Owl (Tyto alba) perched on a weathered oak timber post inside a rustic sun-dappled barn. Heart-shaped pale facial disc, delicate golden-brown and speckled slate feathering, glowing amber eyes, soft warm vintage atmospheric lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrf4I3JfMMRdfP2giktzmRWC1W-WVB5T9hGGHOP_UeMrN-hFqZcfJPIa3R9hsl_GqxTc_E02hr3zf0lSUHIxgEMHsBESyKCdha1q2i8O6ReNdbrX8tDXpMf7rzgDyZAPAcRMIQPw8vGPsnSdTND5hWIAkzxGenBQpbWUVU9qb5OmVhilacZ5IPzPwWstocBuVSKZP-5BaVm7_tlFqW9Xdzs7iEUIEsi9cI1ciq"/>
+<div class="absolute top-1.5 right-1.5 z-20 bg-tertiary-container/90 backdrop-blur-sm px-1.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-tertiary-fixed">local_fire_department</span>
+<span class="font-label-sm text-label-sm text-on-tertiary font-bold">EMBER</span>
+</div>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">#0118</span>
+<span class="font-label-sm text-label-sm text-tertiary font-bold">STRIGIDAE</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight mt-0.5">Barn Owl</h3>
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">Tyto alba</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container-low px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-tertiary font-bold">Altitude</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary leading-none">92</span>
+</div>
+</div>
+<!-- Card 3: Twilight Luna Moth -->
+<div class="specimen-card relative bg-surface-container-lowest rounded-xl p-2.5 shadow-md flex flex-col justify-between cursor-pointer transform transition-transform active:scale-95 group" onclick="openSpecimenDrawer('Actias luna (Luna Moth)', '#0204', 'Twilight', 'Saturniidae', 'Bioluminescent antenna, Swarm Density 74', 'placeholder', 'Macro natural history photograph of an emerald-green Luna Moth (Actias luna) resting quietly upon textured silver birch bark. Translucent lime wings with maroon borders and delicate eye-spots, feather-like antennae in crystalline detail, twilight dusk lighting.')">
+<!-- Tape pin -->
+<div class="absolute -top-2 left-6 w-10 h-4 bg-surface-variant/90 shadow-xs -rotate-2 z-10 rounded-xs"></div>
+<div class="relative w-full rounded-lg overflow-hidden bg-surface-container-high">
+<img class="w-full h-36 object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300" data-alt="Macro natural history photograph of an emerald-green Luna Moth (Actias luna) resting quietly upon textured silver birch bark. Translucent lime wings with maroon borders and delicate eye-spots, feather-like antennae in crystalline detail, twilight dusk lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpiG9zPjWPDAPN9qBgu1VgNCG721v2vVMoGNdnfYsRY8d26p9KF-AbsI2kZAll6n6lBJ9j-JH-t7L4Pph46P14jTBW989vlYiIeFL7iSOgCFK_vXwFzmf3d_Z4RArNL_f4N-aB-XoJa_eILDrRthBqRKXXG7Z_JXk01KR3nAaFmwKDWAG2DniAR1HfdFxi4VRFg9VPM7skJxkqDCZ42kU8BBjeHCV-cVcM-4hL"/>
+<div class="absolute top-1.5 right-1.5 z-20 bg-primary-container px-1.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary-fixed">bedtime</span>
+<span class="font-label-sm text-label-sm text-on-primary font-bold">TWILIGHT</span>
+</div>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">#0204</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">LEPIDOPTERA</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight mt-0.5">Luna Moth</h3>
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">Actias luna</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container-low px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">Density</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary leading-none">74</span>
+</div>
+</div>
+<!-- Card 4: Meadow Western Painted Turtle -->
+<div class="specimen-card relative bg-surface-container-lowest rounded-xl p-2.5 shadow-md flex flex-col justify-between cursor-pointer transform transition-transform active:scale-95 group" onclick="openSpecimenDrawer('Chrysemys picta (Painted Turtle)', '#0341', 'Meadow', 'Emydidae', 'Sunbathing Armor 80, Wetland basking', 'placeholder', 'An authentic wildlife portrait of a Western Painted Turtle (Chrysemys picta) basking on a half-submerged driftwood log in a still freshwater marsh. Detailed smooth carapace with bright red and yellow striped neck and legs, pond lilies floating in pristine green water.')">
+<!-- Tape pin -->
+<div class="absolute -top-2 right-6 w-10 h-4 bg-secondary-fixed/90 shadow-xs 1rotate-3 z-10 rounded-xs"></div>
+<div class="relative w-full rounded-lg overflow-hidden bg-surface-container-high">
+<img class="w-full h-36 object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300" data-alt="An authentic wildlife portrait of a Western Painted Turtle (Chrysemys picta) basking on a half-submerged driftwood log in a still freshwater marsh. Detailed smooth carapace with bright red and yellow striped neck and legs, pond lilies floating in pristine green water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFNnmozjOzbKqILAKpsh5EXE_LT8IZBOObGhlbwmQ1S1tYgTWs5zkGGydP-rG02oCrTHNn683YyC8Urzc0h9yDVPmZOadVzsiSAsqdkLtR0TVAUuUlC1xRR0-uIDLOJpZFfQDPDACPqIelNSFHMOdM_DZB_v5Uzg7uZUw-osSDUhy7E_YE00GX11sxFzb3yWYXjVZGcgNFVmVDT1Bf6MxK7CwvKjTVpjj2N2vs"/>
+<div class="absolute top-1.5 right-1.5 z-20 bg-secondary-container px-1.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-on-secondary-container">park</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container font-bold">MEADOW</span>
+</div>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">#0341</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">TESTUDINES</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight mt-0.5">Painted Turtle</h3>
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">Chrysemys picta</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container-low px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">Armor</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary leading-none">80</span>
+</div>
+</div>
+<!-- Card 5: Hedgerow Pacific Tree Frog -->
+<div class="specimen-card relative bg-surface-container-lowest rounded-xl p-2.5 shadow-md flex flex-col justify-between cursor-pointer transform transition-transform active:scale-95 group" onclick="openSpecimenDrawer('Pseudacris regilla (Pacific Tree Frog)', '#0512', 'Hedgerow', 'Hylidae', 'Vocal Sac resonance, Dew Camouflage', 'placeholder', 'Detailed macro naturalist photo of a tiny Pacific Tree Frog (Pseudacris regilla) nestled among damp clover leaves and morning dew drops. Vibrant bright lime skin, distinct black eye mask stripe, toe pads clinging to a wet stem, fresh woodland ambiance.')">
+<!-- Tape pin -->
+<div class="absolute -top-2 left-5 w-11 h-4 bg-surface-container-highest shadow-xs -rotate-1 z-10 rounded-xs"></div>
+<div class="relative w-full rounded-lg overflow-hidden bg-surface-container-high">
+<img class="w-full h-36 object-cover object-center rounded-lg group-hover:scale-105 transition-transform duration-300" data-alt="Detailed macro naturalist photo of a tiny Pacific Tree Frog (Pseudacris regilla) nestled among damp clover leaves and morning dew drops. Vibrant bright lime skin, distinct black eye mask stripe, toe pads clinging to a wet stem, fresh woodland ambiance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCegSHZ3awx2QCXMtyqx6BOplVi8NKy2QiNrsTCx9dhrQQVw4ZoZQaZ3CB9meOLedgfqUwPiJCidaEIr7QYnOQvX4wazGgAZYaqXjZ73owvcVwZ39h-4YNkB44s3MQKj0evzqJjcqIaVJnRPLwYl9pjtPpHdqFCv4sg2okcBcHm_8iWBuH-eu9dc7zlOTfIt0YZ99xx3rcC2mqFY2euagIS97telpk9AwlqD-7s"/>
+<div class="absolute top-1.5 right-1.5 z-20 bg-surface-container-high px-1.5 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-on-surface-variant">nest_cam_wired_stand</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">HEDGE</span>
+</div>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">#0512</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">HYLIDAE</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary leading-tight mt-0.5">Tree Frog</h3>
+<p class="font-body-sm text-body-sm italic text-on-surface-variant">Pseudacris regilla</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container-low px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">Acoustic</span>
+<span class="font-specimen-numeral text-specimen-numeral text-primary leading-none">61</span>
+</div>
+</div>
+<!-- Card 6: Empty Uncatalogued Specimen Well (Debossed Field Card) -->
+<div class="relative bg-surface-container-high/60 rounded-xl p-2.5 shadow-[inset_0_2px_6px_rgba(43,58,44,0.18)] flex flex-col justify-between border-dashed">
+<!-- Tape pin remnant -->
+<div class="absolute -top-2 right-5 w-8 h-3.5 bg-surface-variant/50 shadow-xs rotate-3 z-10 rounded-xs"></div>
+<div class="relative w-full h-36 rounded-lg bg-surface-dim/70 flex flex-col items-center justify-center text-center p-2">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center shadow-inner mb-1">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface-variant/40 font-bold">?</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 uppercase font-bold">Uncatalogued</span>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant/50 font-bold">#0024</span>
+<span class="font-label-sm text-label-sm text-tertiary-container/60 font-bold">MAMMALIA</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant/80 leading-tight mt-0.5">Unknown Scout</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant/60 line-clamp-1">Douglas Fir Canopies</p>
+</div>
+<div class="mt-2 pt-1.5 bg-surface-container px-2 py-1 rounded flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">Sighting Hint</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">visibility</span>
+</div>
+</div>
+</div>
+<!-- Field Notes & Expedition Tip Banner -->
+<div class="mx-margin-mobile mt-space-md mb-space-sm p-space-sm bg-surface-container-low rounded-xl shadow-xs flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[20px]">lightbulb</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase">Expedition Master Tip</span>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">Opening Energy Cans (🥫) near water sources at dusk drastically boosts chances for Twilight and Aurora discoveries.</p>
+</div>
+</div>
+<!-- Interactive Slide-Up Preview Drawer Backdrop & Modal Sheet -->
+<div class="fixed inset-0 bg-primary/40 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none flex flex-col justify-end" id="specimenDrawerBackdrop" onclick="closeSpecimenDrawer(event)">
+<div class="w-full bg-surface-container-lowest rounded-t-2xl p-margin-mobile shadow-2xl transition-transform duration-300 transform translate-y-full max-h-[751px] overflow-y-auto" id="specimenDrawerContent" onclick="event.stopPropagation()">
+<!-- Drawer Pull Handle -->
+<div class="w-10 h-1 bg-surface-variant rounded-full mx-auto mb-space-sm"></div>
+<!-- Drawer Specimen Header -->
+<div class="flex items-start justify-between gap-space-xs">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm font-bold px-2 py-0.5 rounded bg-primary text-on-primary" id="drawerBadge">AURORA LEGENDARY</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-bold" id="drawerSerial">#0042</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mt-1" id="drawerTitle">Vulpes vulpes (Red Fox)</h2>
+<p class="font-body-sm text-body-sm text-secondary font-bold" id="drawerTaxa">Family Canidae · Native Habitat</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant active:scale-90 transition-transform" onclick="closeSpecimenDrawer()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Specimen Plate Full Inspection Mockup -->
+<div class="mt-space-sm relative rounded-xl overflow-hidden bg-surface-container shadow-inner">
+<img class="w-full h-44 object-cover object-center" data-alt="Expedition specimen plate macro review" id="drawerImage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-7WKsw-GQZJlCvE8HbvhSuc_Pk27LRuzJ5yMEA_QxXp5iBzaPBwcnvRwqiFTQ27vh8u3n71Tpi_PoGGK3QhImSaryc6LjbbpjHqM6PZhz67PXRva3tviFRSw9K_Gu1nIw2BfjSfe5hcHcZNASPlhbrbEP4-xVPhwJKrvgQeJxCRXCWW4BpxR2cT2ZhsREC9OY2HctK7w5B2SdBALkp8iUyT1THmNCet4k7eya"/>
+<div class="absolute bottom-2 left-2 bg-primary/80 backdrop-blur-sm px-2 py-1 rounded text-on-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary-fixed">fingerprint</span>
+<span>pHash Verified: a9e18b43f02</span>
+</div>
+</div>
+<!-- Taxonomic Field Notes -->
+<div class="mt-space-sm bg-surface-container-low p-space-xs rounded-xl">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Field Dispatch Log</span>
+<p class="font-body-sm text-body-sm text-on-surface mt-1" id="drawerNotes">Specimen captured at 05:42 AM. Exhibits characteristic iridescent coat shimmer, calm predatory observation, and prime bio-metrics.</p>
+</div>
+<!-- Quick Action Buttons -->
+<div class="mt-space-md grid grid-cols-3 gap-2">
+<button class="bg-surface-container-high py-2.5 px-2 rounded-xl flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform" onclick="triggerAction('3D Hologram Opened')">
+<span class="material-symbols-outlined text-primary text-[22px]">view_in_ar</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">View in 3D</span>
+</button>
+<button class="bg-surface-container-high py-2.5 px-2 rounded-xl flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform" onclick="triggerAction('Perceptual Hash Verified')">
+<span class="material-symbols-outlined text-secondary text-[22px]">qr_code_2</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Inspect pHash</span>
+</button>
+<button class="bg-primary text-on-primary py-2.5 px-2 rounded-xl flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform" onclick="triggerAction('Exported to Camera Roll')">
+<span class="material-symbols-outlined text-tertiary-fixed text-[22px]">ios_share</span>
+<span class="font-label-sm text-label-sm text-on-primary font-bold">Export Card</span>
+</button>
+</div>
+<div class="hidden mt-2 p-1.5 rounded-lg bg-secondary text-on-secondary font-label-sm text-label-sm text-center" id="drawerToast"></div>
+</div>
+</div>
+<!-- Inline Script for Card Drawer Interactions & Filter Tab State -->
+<script>
+    function openSpecimenDrawer(title, serial, rarity, taxa, notes, imgSrc, imgAlt) {
+      const backdrop = document.getElementById('specimenDrawerBackdrop');
+      const content = document.getElementById('specimenDrawerContent');
+      
+      document.getElementById('drawerTitle').innerText = title;
+      document.getElementById('drawerSerial').innerText = serial;
+      document.getElementById('drawerBadge').innerText = rarity;
+      document.getElementById('drawerTaxa').innerText = taxa;
+      document.getElementById('drawerNotes').innerText = notes;
+      
+      const drawerImg = document.getElementById('drawerImage');
+      drawerImg.src = imgSrc;
+      if (imgAlt) {
+        drawerImg.setAttribute('data-alt', imgAlt);
+      }
+      
+      backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      backdrop.classList.add('opacity-100');
+      content.classList.remove('translate-y-full');
+      content.classList.add('translate-y-0');
+    }
+
+    function closeSpecimenDrawer(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const backdrop = document.getElementById('specimenDrawerBackdrop');
+      const content = document.getElementById('specimenDrawerContent');
+      
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0', 'pointer-events-none');
+      content.classList.remove('translate-y-0');
+      content.classList.add('translate-y-full');
+    }
+
+    function triggerAction(actionName) {
+      const toast = document.getElementById('drawerToast');
+      toast.innerText = '✓ ' + actionName;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2200);
+    }
+
+    // Filter Tab Toggling Micro-interaction
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.filter-tab').forEach(t => {
+          t.classList.remove('bg-primary', 'text-on-primary');
+          t.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        this.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+  </script>
+</div></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(43,58,44,0.08)]" data-active-classes="text-primary-container font-bold scale-105"><div class="flex justify-around items-center h-20 px-space-xs"><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] text-on-surface-variant transition-all hover:text-on-surface active:scale-95" data-path="viewfinder-scan" href="#"><span class="material-symbols-outlined text-[24px]">center_focus_weak</span><span class="font-label-sm text-label-sm">Scan</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] transition-all text-primary-container font-bold scale-105" data-path="journal-album" href="#"><span class="material-symbols-outlined text-[24px]">auto_stories</span><span class="font-label-sm text-label-sm">Journal</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] text-on-surface-variant transition-all hover:text-on-surface active:scale-95" data-path="species-codex" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="font-label-sm text-label-sm">Codex</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] text-on-surface-variant transition-all hover:text-on-surface active:scale-95" data-path="field-hotspots-map" href="#"><span class="material-symbols-outlined text-[24px]">explore</span><span class="font-label-sm text-label-sm">Map</span></a><a class="flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[44px] text-on-surface-variant transition-all hover:text-on-surface active:scale-95" data-path="field-shop" href="#"><span class="material-symbols-outlined text-[24px]">storefront</span><span class="font-label-sm text-label-sm">Shop</span></a></div></nav></body></html>
