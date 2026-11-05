@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CardFull } from "../CardViews";
 import { RARITY_META } from "@/lib/game-data";
+import { playCardRevealSound } from "@/lib/audio";
 import type { CardRow } from "@/lib/types";
 import { IconSparkles, IconCoin, IconShield, IconShare } from "@/components/icons/AppIcons";
 
@@ -21,6 +22,7 @@ export default function Reveal({
   const [show, setShow] = useState(!legendary);
 
   useEffect(() => {
+    playCardRevealSound(legendary);
     if (legendary) {
       const id = setTimeout(() => setShow(true), 1500);
       return () => clearTimeout(id);

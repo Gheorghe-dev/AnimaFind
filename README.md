@@ -51,12 +51,13 @@
   - Intuitive flick-and-toss mechanic with normalized delta-time parabolic physics.
   - Moving target zone and progressive feedback across 3 attempts per round.
 
-- **🃏 Procedural Card Minting**:
+- **🃏 Procedural Card Minting & Holographic 3D Cards**:
+  - **Museum-Grade Specimen Vector Artwork**: Procedural vector illustration generator (`src/lib/specimen-art.tsx`) creates rich, stylized botanical/zoological plates for all 35 European wildlife species across all 5 rarity tiers.
+  - **Dynamic 3D Holographic Tilt**: Interactive card inspection with pointer-tracking 3D perspective, dynamic specular lighting, and iridescent foil reflections on rare tiers.
+  - **Dual Plate Switcher**: Toggle seamlessly between raw field camera captures and zoological specimen plates.
+  - **Tactile Sound & Haptics**: Pure Web Audio API offline synthesizer for card flip audio, target lock, can tossing, and haptic vibration (with header volume toggle).
   - **5 Rarity Tiers:** Hedgerow (Tier 1), Meadow (Tier 2), Twilight (Tier 3), Emberwood (Tier 4), and Aurora (Tier 5 Legendary with golden glow and animated sparkles).
-  - Globally incremented serial numbers per rarity tier.
-  - Combinatorial procedural names (Titles + Adjectives + Nouns).
-  - Combat-ready stats (Snack, Charm, Grit/Speed/Swarm/Camouflage/Moisture) and procedural abilities.
-  - Interactive 3D CSS card flipping with full collector details.
+  - Globally incremented serial numbers per rarity tier with combinatorial procedural names and abilities.
 
 - **📖 Biodiversity Encyclopedia (Codex)**:
   - Tracks discovery progress across 35 curated European wildlife species.

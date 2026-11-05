@@ -10,6 +10,7 @@ import {
   IconLeaf,
   IconSparkles,
   AvatarIcon,
+  CosmeticIcon,
 } from "@/components/icons/AppIcons";
 
 const AVATARS = ["fox", "squirrel", "bird", "frog", "bee", "lizard", "snail", "owl"];
@@ -39,13 +40,13 @@ export default function ProfilePage() {
         <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-2 border-ink bg-white text-ink shadow-sm">
           <AvatarIcon seed={user.avatarSeed} size={48} />
           {user.cosmetics?.hat && (
-            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-2xl pointer-events-none drop-shadow">
-              {COSMETICS[user.cosmetics.hat]?.emoji}
+            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 pointer-events-none drop-shadow-sm text-stone-800">
+              <CosmeticIcon id={user.cosmetics.hat} size={32} />
             </span>
           )}
           {user.cosmetics?.glasses && (
-            <span className="absolute top-9 left-1/2 -translate-x-1/2 text-xl pointer-events-none drop-shadow">
-              {COSMETICS[user.cosmetics.glasses]?.emoji}
+            <span className="absolute top-9 left-1/2 -translate-x-1/2 pointer-events-none drop-shadow-sm text-stone-900">
+              <CosmeticIcon id={user.cosmetics.glasses} size={28} />
             </span>
           )}
         </div>
@@ -137,7 +138,7 @@ export default function ProfilePage() {
                 equipped.includes(c) ? "bg-leaf text-white shadow-xs" : "bg-white/70 hover:bg-white"
               }`}
             >
-              <IconSparkles size={12} />
+              <CosmeticIcon id={c} size={14} />
               <span>{COSMETICS[c]?.name}</span>
             </button>
           ))}

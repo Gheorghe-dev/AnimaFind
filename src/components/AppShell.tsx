@@ -22,8 +22,11 @@ import {
   IconPaw,
   IconRadar,
   IconSearch,
+  IconVolumeOn,
+  IconVolumeOff,
   AvatarIcon,
 } from "./icons/AppIcons";
+import { isSoundMuted, toggleSoundMuted, playClickSound } from "@/lib/audio";
 
 const TABS = [
   { href: "/", label: "Scan", icon: IconCamera },
@@ -53,6 +56,15 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [countdown, setCountdown] = useState<number | null>(null);
   const [stuck, setStuck] = useState(false);
+  const [muted, setMuted] = useState(() => (typeof window !== "undefined" ? isSoundMuted() : false));
+
+  function handleToggleSound() {
+    const next = toggleSoundMuted();
+    setMuted(next);
+    if (!next) {
+      playClickSound();
+    }
+  }
 
   const [prevSeconds, setPrevSeconds] = useState<number | null | undefined>(undefined);
 
@@ -186,6 +198,19 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <IconCoin size={14} className="text-amber-500 shrink-0" />
               <span>{me.user.coins}</span>
             </Link>
+            <button
+              type="button"
+              onClick={handleToggleSound}
+              className="doodle-soft bg-white/80 p-1.5 inline-flex items-center hover:bg-white border border-ink/15 shadow-sm text-inksoft hover:text-ink transition-colors"
+              title={muted ? "Unmute audio effects" : "Mute audio effects"}
+              aria-label={muted ? "Unmute audio effects" : "Mute audio effects"}
+            >
+              {muted ? (
+                <IconVolumeOff size={14} className="text-stone-400" />
+              ) : (
+                <IconVolumeOn size={14} className="text-leaf" />
+              )}
+            </button>
           </div>
         </div>
         <nav className="scrollhide mt-2 flex gap-1.5 overflow-x-auto text-[11px] font-bold pb-0.5">
@@ -196,6 +221,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <Link
                 key={l.href}
                 href={l.href}
+                onClick={() => playClickSound()}
                 className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-ink/30 px-3 py-1 transition-all ${
                   active ? "bg-ink text-paper shadow-sm" : "bg-white/70 hover:bg-white text-ink"
                 }`}
@@ -242,6 +268,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <li key={tab.href}>
                 <Link
                   href={tab.href}
+                  onClick={() => playClickSound()}
                   aria-label={tab.label}
                   aria-current={active ? "page" : undefined}
                   className={`flex flex-col items-center justify-center gap-0.5 py-1 text-[10px] font-black transition-colors ${

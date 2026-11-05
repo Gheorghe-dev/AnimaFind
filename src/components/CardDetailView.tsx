@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { CardFull } from "@/components/CardViews";
 import { useApp } from "@/components/AppProvider";
 import { gameApi } from "@/lib/api-client";
-import { IconMapPin } from "@/components/icons/AppIcons";
+import { IconMapPin, IconSearch } from "@/components/icons/AppIcons";
 import type { CardRow } from "@/lib/types";
 
 type Payload = {
@@ -59,8 +59,10 @@ export function CardDetailView({ id }: { id: string }) {
           ← Back to album
         </Link>
         <div className="doodle tape p-6 text-center">
-          <p className="text-4xl">🫥</p>
-          <p className="mt-2 font-black">This card is not in your field journal.</p>
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-paper2/80 border-2 border-ink text-inksoft shadow-xs">
+            <IconSearch size={28} />
+          </div>
+          <p className="mt-3 font-black">This card is not in your field journal.</p>
           <p className="mt-1 text-xs text-inksoft">It may have been deleted, or it belongs to another naturalist.</p>
           <Link href="/album" className="btn btn-accent mt-4 inline-block">
             Open the album

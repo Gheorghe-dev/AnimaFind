@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconHelp } from "@/components/icons/AppIcons";
 
 export default function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
@@ -37,7 +38,7 @@ export default function FaqSection() {
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>❓</span>
+            <IconHelp size={14} className="text-leaf" />
             <span>Frequently Asked Questions</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">

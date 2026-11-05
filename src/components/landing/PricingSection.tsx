@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { IconCoin, IconCheck, IconStar, IconSparkles } from "@/components/icons/AppIcons";
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(true);
@@ -12,7 +13,7 @@ export default function PricingSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/80 px-3 py-1 text-xs font-black text-ink">
-            <span>🪙</span>
+            <IconCoin size={14} className="text-amber-500" />
             <span>Fair &amp; Transparent Membership</span>
           </div>
           <h2 className="text-3xl font-black text-ink sm:text-4xl">
@@ -69,27 +70,27 @@ export default function PricingSection() {
               {/* Feature List */}
               <ul className="mt-6 space-y-3 text-xs font-bold text-ink">
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>5 Max Can Energy Stash</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>25-Minute Standard Can Recharge</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>Full On-Device Camera AI &amp; Anti-Cheat</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>Full 35-Species European Codex</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>Community Map 250m Proximity Claiming</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-emerald-600 font-black">✓</span>
+                  <IconCheck size={14} className="text-emerald-600 shrink-0" strokeWidth={2.5} />
                   <span>Optional Rewarded Ads for Extra Cans</span>
                 </li>
               </ul>
@@ -108,8 +109,9 @@ export default function PricingSection() {
             style={{ boxShadow: "6px 6px 0 #2c2823, 0 0 24px rgba(226, 112, 58, 0.25)" }}
           >
             {/* Best Value Ribbon */}
-            <div className="absolute -top-3.5 right-6 rounded-full border-2 border-ink bg-accent px-3 py-0.5 text-[10px] font-black text-white shadow-xs">
-              ★ POPULAR FIELD CLUB
+            <div className="absolute -top-3.5 right-6 rounded-full border-2 border-ink bg-accent px-3 py-0.5 text-[10px] font-black text-white shadow-xs inline-flex items-center gap-1">
+              <IconStar size={11} className="fill-white text-white" />
+              <span>POPULAR FIELD CLUB</span>
             </div>
 
             <div>
@@ -136,31 +138,31 @@ export default function PricingSection() {
               {/* Feature List */}
               <ul className="mt-6 space-y-3 text-xs font-bold text-ink">
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span><strong>8 Max Cans (+60% Capacity)</strong></span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span><strong>10-Minute Rapid Recharge (2.5× Faster!)</strong></span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span><strong>100% Ad-Free Experience (Zero Banners)</strong></span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span>Exclusive Gold Card Frame &amp; Explorer Hat</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span>Priority Cloud Verification Server Queue</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span>Full Biodiversity Research Data Export (CSV/JSON)</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent font-black">★</span>
+                  <IconSparkles size={14} className="text-accent shrink-0" />
                   <span>Early Access to Upcoming Seasonal Taxa Packs</span>
                 </li>
               </ul>
@@ -213,8 +215,14 @@ export default function PricingSection() {
 
             <div className="grid grid-cols-3 py-3 items-center">
               <span className="font-bold text-ink">On-Device Heuristic AI</span>
-              <span className="text-center text-emerald-700 font-bold">✓ Included</span>
-              <span className="text-right text-emerald-700 font-bold">✓ Included</span>
+              <span className="text-center text-emerald-700 font-bold inline-flex items-center justify-center gap-1">
+                <IconCheck size={14} strokeWidth={2.5} />
+                <span>Included</span>
+              </span>
+              <span className="text-right text-emerald-700 font-bold inline-flex items-center justify-end gap-1">
+                <IconCheck size={14} strokeWidth={2.5} />
+                <span>Included</span>
+              </span>
             </div>
 
             <div className="grid grid-cols-3 py-3 items-center">
@@ -225,8 +233,14 @@ export default function PricingSection() {
 
             <div className="grid grid-cols-3 py-3 items-center">
               <span className="font-bold text-ink">GDPR Account Data Export</span>
-              <span className="text-center text-emerald-700 font-bold">✓ Standard</span>
-              <span className="text-right font-black text-accent">✓ Full CSV/JSON</span>
+              <span className="text-center text-emerald-700 font-bold inline-flex items-center justify-center gap-1">
+                <IconCheck size={14} strokeWidth={2.5} />
+                <span>Standard</span>
+              </span>
+              <span className="text-right font-black text-accent inline-flex items-center justify-end gap-1">
+                <IconCheck size={14} strokeWidth={2.5} />
+                <span>Full CSV/JSON</span>
+              </span>
             </div>
           </div>
         </div>

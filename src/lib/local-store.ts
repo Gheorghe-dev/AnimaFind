@@ -13,14 +13,15 @@ import { generateCard, speciesInfo } from "./card-gen";
 import { fuzzCoords, haversineMeters, PROXIMITY_METERS } from "./geo";
 import { STORE_CATALOG } from "./store-catalog";
 import type { CanState, CardRow, MapPin, Me } from "./types";
+import { getSpecimenDataUri } from "./specimen-art";
 
 const SAVE_KEY = "animafind_local_save_v1";
 
 /** Suggested naturalists offered in the friends tab. Shared by the list and the add action. */
 const SUGGESTED_NATURALISTS = [
-  { id: "sug-1", username: "BrambleFox", avatarSeed: "🦊", level: 3 },
-  { id: "sug-2", username: "CopperLichen", avatarSeed: "🦎", level: 5 },
-  { id: "sug-3", username: "QuietSketchbook", avatarSeed: "🦉", level: 2 },
+  { id: "sug-1", username: "BrambleFox", avatarSeed: "fox", level: 3 },
+  { id: "sug-2", username: "CopperLichen", avatarSeed: "lizard", level: 5 },
+  { id: "sug-3", username: "QuietSketchbook", avatarSeed: "owl", level: 2 },
 ];
 
 export type StoredSighting = {
@@ -120,8 +121,8 @@ function getInitialData(): LocalSaveData {
       id: "sight-demo-1",
       userId: "demo-mossy",
       timestamp: new Date(Date.now() - 3600_000 * 4).toISOString(),
-      photoUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#cfe0c3"/><text x="180" y="240" font-size="160" text-anchor="middle">🦊</text></svg>`),
-      thumbnailUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#cfe0c3"/><text x="180" y="240" font-size="160" text-anchor="middle">🦊</text></svg>`),
+      photoUrl: getSpecimenDataUri("Mammal", "Red Fox", "tier3"),
+      thumbnailUrl: getSpecimenDataUri("Mammal", "Red Fox", "tier3"),
       phash: "demo-fox-001",
       detectedTaxonCategory: "Mammal",
       detectedSpeciesLabel: "Red Fox",
@@ -136,8 +137,8 @@ function getInitialData(): LocalSaveData {
       id: "sight-demo-2",
       userId: "demo-pigeon",
       timestamp: new Date(Date.now() - 3600_000 * 2).toISOString(),
-      photoUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#d9e6c8"/><text x="180" y="240" font-size="160" text-anchor="middle">🐦</text></svg>`),
-      thumbnailUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#d9e6c8"/><text x="180" y="240" font-size="160" text-anchor="middle">🐦</text></svg>`),
+      photoUrl: getSpecimenDataUri("Bird", "House Sparrow", "tier1"),
+      thumbnailUrl: getSpecimenDataUri("Bird", "House Sparrow", "tier1"),
       phash: "demo-pigeon-002",
       detectedTaxonCategory: "Bird",
       detectedSpeciesLabel: "House Sparrow",
@@ -152,8 +153,8 @@ function getInitialData(): LocalSaveData {
       id: "sight-demo-3",
       userId: "demo-fern",
       timestamp: new Date(Date.now() - 3600_000 * 7).toISOString(),
-      photoUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#ebd8ba"/><text x="180" y="240" font-size="160" text-anchor="middle">🐝</text></svg>`),
-      thumbnailUrl: "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#ebd8ba"/><text x="180" y="240" font-size="160" text-anchor="middle">🐝</text></svg>`),
+      photoUrl: getSpecimenDataUri("Insect", "Garden Bumblebee", "tier2"),
+      thumbnailUrl: getSpecimenDataUri("Insect", "Garden Bumblebee", "tier2"),
       phash: "demo-bee-003",
       detectedTaxonCategory: "Insect",
       detectedSpeciesLabel: "Garden Bumblebee",
@@ -171,7 +172,7 @@ function getInitialData(): LocalSaveData {
       id: userId,
       username: "FieldScout" + Math.floor(Math.random() * 900 + 100),
       email: null,
-      avatarSeed: "🦊",
+      avatarSeed: "fox",
       level: 1,
       xp: 0,
       coins: 60,
@@ -197,7 +198,7 @@ function getInitialData(): LocalSaveData {
       {
         id: "demo-mossy",
         username: "MossyRambler",
-        avatarSeed: "🦔",
+        avatarSeed: "hedgehog",
         level: 4,
         totalCards: 18,
         speciesDiversity: 12,
@@ -210,7 +211,7 @@ function getInitialData(): LocalSaveData {
       {
         id: "demo-pigeon",
         username: "PigeonPost",
-        avatarSeed: "🐦",
+        avatarSeed: "bird",
         level: 3,
         totalCards: 9,
         speciesDiversity: 7,
@@ -223,7 +224,7 @@ function getInitialData(): LocalSaveData {
       {
         id: "demo-fern",
         username: "FernAndFlask",
-        avatarSeed: "🐸",
+        avatarSeed: "frog",
         level: 6,
         totalCards: 32,
         speciesDiversity: 21,
@@ -832,7 +833,7 @@ class LocalStoreEngine {
       data.friends.push({
         id: "friend-" + Math.random().toString(36).slice(2, 8),
         username: name,
-        avatarSeed: suggestion?.avatarSeed ?? "🧑‍🌾",
+        avatarSeed: suggestion?.avatarSeed ?? "user",
         level: suggestion?.level ?? Math.floor(Math.random() * 5 + 1),
         totalCards: Math.floor(Math.random() * 15 + 5),
         speciesDiversity: Math.floor(Math.random() * 10 + 3),

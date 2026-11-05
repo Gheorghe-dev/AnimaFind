@@ -11,6 +11,7 @@ import {
   IconSparkles,
   IconStar,
   IconShield,
+  CosmeticIcon,
 } from "@/components/icons/AppIcons";
 
 type Item = {
@@ -192,6 +193,7 @@ function Row({
 }) {
   const isCan = item.kind === "resourcePack" || item.id.includes("can");
   const isShield = item.id.includes("shield");
+  const isCosmetic = item.kind === "cosmetic";
 
   return (
     <div className="doodle flex items-center gap-3 p-3">
@@ -200,6 +202,8 @@ function Row({
           <IconCan size={22} className="text-leaf" />
         ) : isShield ? (
           <IconShield size={22} className="text-amber-700" />
+        ) : isCosmetic ? (
+          <CosmeticIcon id={item.id} size={22} className="text-accent" />
         ) : (
           <IconSparkles size={22} className="text-accent" />
         )}

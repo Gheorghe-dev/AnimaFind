@@ -5,6 +5,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import * as Icons from "@/components/icons/AppIcons";
 import { TAXA } from "@/lib/game-data";
 import { PROXIMITY_METERS, haversineMeters } from "@/lib/geo";
+import { getSpecimenSvgString, getSpecimenDataUri } from "@/lib/specimen-art";
 
 describe("Custom Icon Set & Visual Design System", () => {
   const iconList: (keyof typeof Icons)[] = [
@@ -68,6 +69,14 @@ describe("Custom Icon Set & Visual Design System", () => {
     "IconFlip",
     "IconShare",
     "IconTrash",
+    "IconExplorerHat",
+    "IconLeafCrown",
+    "IconGlasses",
+    "IconFrame",
+    "IconMedal",
+    "IconVolumeOn",
+    "IconVolumeOff",
+    "IconLayers",
   ];
 
   it("exports all required custom SVG icons", () => {
@@ -110,6 +119,59 @@ describe("Custom Icon Set & Visual Design System", () => {
       const markup = renderToStaticMarkup(React.createElement(Icons.AvatarIcon, { seed, size: 24 }));
       assert.ok(markup.startsWith("<svg"), `AvatarIcon for seed "${seed}" must render valid SVG`);
     }
+  });
+
+  it("CosmeticIcon renders clean custom SVG accessories for all catalog equipment slots", () => {
+    const slots = ["hat-explorer", "hat-leaf", "glasses-round", "frame-gold"];
+    for (const id of slots) {
+      const markup = renderToStaticMarkup(React.createElement(Icons.CosmeticIcon, { id, size: 24 }));
+      assert.ok(markup.startsWith("<svg"), `CosmeticIcon for "${id}" must render valid SVG`);
+      assert.ok(markup.includes('viewBox="0 0 24 24"'));
+      assert.ok(markup.includes('stroke="currentColor"'));
+    }
+  });
+});
+
+describe("Procedural Specimen Artwork Generation Engine", () => {
+  const tiers = ["tier1", "tier2", "tier3", "tier4", "tier5"] as const;
+
+  it("generates rich procedural SVG illustrations for all 6 taxonomic classes across all tiers", () => {
+    for (const taxon of TAXA) {
+      for (const tier of tiers) {
+        const svg = getSpecimenSvgString(taxon, null, tier);
+        assert.ok(svg.startsWith("<svg"), `Specimen SVG for ${taxon}/${tier} must be an SVG element`);
+        assert.ok(svg.includes('viewBox="0 0 400 320"'), "Must use standard specimen canvas viewBox");
+        assert.ok(!/[\uD800-\uDFFF]/.test(svg), `Generated SVG for ${taxon}/${tier} must not contain raw surrogate emojis`);
+      }
+    }
+  });
+
+  it("generates specialized vector artwork for distinct species", () => {
+    const speciesTests = [
+      { taxon: "Mammal", label: "Red Fox" },
+      { taxon: "Mammal", label: "European Hedgehog" },
+      { taxon: "Mammal", label: "Roe Deer" },
+      { taxon: "Bird", label: "Barn Owl" },
+      { taxon: "Bird", label: "Common Kingfisher" },
+      { taxon: "Insect", label: "Stag Beetle" },
+      { taxon: "Insect", label: "Swallowtail Butterfly" },
+      { taxon: "Reptile", label: "Grass Snake" },
+      { taxon: "Amphibian", label: "Fire Salamander" },
+      { taxon: "Other", label: "Garden Snail" },
+      { taxon: "Other", label: "Garden Spider" },
+    ] as const;
+
+    for (const s of speciesTests) {
+      const svg = getSpecimenSvgString(s.taxon, s.label, "tier5");
+      assert.ok(svg.length > 500, `SVG for ${s.label} should be detailed vector art`);
+      assert.ok(svg.includes("defs"), "Must contain gradient definitions for rich coloring");
+    }
+  });
+
+  it("produces valid, URL-safe data URIs for image embedding", () => {
+    const uri = getSpecimenDataUri("Mammal", "Red Fox", "tier3");
+    assert.ok(uri.startsWith("data:image/svg+xml;utf8,"), "Must produce standard SVG data URI");
+    assert.ok(uri.length > 200, "URI must contain encoded vector path data");
   });
 });
 

@@ -1235,6 +1235,178 @@ export const IconTrash: FC<IconProps> = ({ size = 20, className = "", ...props }
   </svg>
 );
 
+export const IconExplorerHat: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <path d="M2 18c3-1 7-1 10-1s7 0 10 1" />
+    <path d="M5.5 17l1.5-8c.3-1.5 2-2.5 5-2.5s4.7 1 5 2.5l1.5 8" />
+    <path d="M6 14.5c2-.5 5-.5 6-.5s4 0 6 .5" />
+    <path d="M10 6.5c1-.5 3-.5 4 0" />
+  </svg>
+);
+
+export const IconLeafCrown: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <path d="M4 17c4-2 12-2 16 0" />
+    <path d="M7 14c-1.5-3 0-5.5 2.5-5.5s2.5 2.5 1 5.5" />
+    <path d="M12 13c0-3.5 1.5-6 3.5-6s1 4.5-1.5 6" />
+    <path d="M5 16c-2-2-1.5-4.5.5-5.5s3.5 1.5 2 4.5" />
+    <path d="M17 14.5c1-3 3-4.5 4.5-3.5s.5 4.5-2 5.5" />
+  </svg>
+);
+
+export const IconGlasses: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <circle cx="6.5" cy="12" r="3.5" />
+    <circle cx="17.5" cy="12" r="3.5" />
+    <path d="M10 12c1-1 3-1 4 0" />
+    <path d="M3 11.5L1.5 10" />
+    <path d="M21 11.5L22.5 10" />
+  </svg>
+);
+
+export const IconFrame: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <rect x="6" y="6" width="12" height="12" rx="1" />
+    <path d="M3 7l4-4" />
+    <path d="M17 3l4 4" />
+    <path d="M21 17l-4 4" />
+    <path d="M7 21l-4-4" />
+  </svg>
+);
+
+export const IconMedal: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <path d="M8 3l4 8 4-8" />
+    <path d="M12 3v8" />
+    <circle cx="12" cy="15" r="5" />
+  </svg>
+);
+
+export const IconVolumeOn: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+  </svg>
+);
+
+export const IconVolumeOff: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    <line x1="23" y1="9" x2="17" y2="15" />
+    <line x1="17" y1="9" x2="23" y2="15" />
+  </svg>
+);
+
+export const IconLayers: FC<IconProps> = ({ size = 20, className = "", ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    width={size}
+    height={size}
+    className={className}
+    {...props}
+  >
+    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <polyline points="2 17 12 22 22 17" />
+    <polyline points="2 12 12 17 22 12" />
+  </svg>
+);
+
+export const CosmeticIcon: FC<{ id: string; size?: number; className?: string }> = ({
+  id,
+  size = 20,
+  className = "",
+}) => {
+  if (id === "hat-explorer") return <IconExplorerHat size={size} className={className} />;
+  if (id === "hat-leaf") return <IconLeafCrown size={size} className={className} />;
+  if (id === "glasses-round") return <IconGlasses size={size} className={className} />;
+  if (id === "frame-gold") return <IconFrame size={size} className={className} />;
+  return <IconSparkles size={size} className={className} />;
+};
+
 // ─── Avatar, Taxon & Cosmetic Helpers ───
 
 export const TaxonIcon: FC<{ taxon: string; size?: number; className?: string }> = ({

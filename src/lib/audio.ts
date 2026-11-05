@@ -2,9 +2,27 @@
 // Zero external audio files required — 100% offline & local
 
 let audioCtx: AudioContext | null = null;
+let soundMuted = false;
+
+export function isSoundMuted(): boolean {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("animafind_sound_muted") === "true";
+  }
+  return soundMuted;
+}
+
+export function toggleSoundMuted(): boolean {
+  const current = isSoundMuted();
+  const next = !current;
+  soundMuted = next;
+  if (typeof window !== "undefined") {
+    localStorage.setItem("animafind_sound_muted", String(next));
+  }
+  return next;
+}
 
 function getAudioContext(): AudioContext | null {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined" || isSoundMuted()) return null;
   if (!audioCtx) {
     const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioCtx) {
@@ -37,7 +55,7 @@ if (typeof window !== "undefined") {
 }
 
 export function triggerHaptic(type: "light" | "medium" | "heavy" | "success" = "light") {
-  if (typeof window === "undefined" || !("navigator" in window) || !navigator.vibrate) return;
+  if (typeof window === "undefined" || isSoundMuted() || !("navigator" in window) || !navigator.vibrate) return;
   try {
     switch (type) {
       case "light":
@@ -128,6 +146,30 @@ export function playHitSound() {
     triggerHaptic("success");
   } catch {
     // audio fallback
+  }
+}
+
+export function playCardFlipSound() {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  try {
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(340, now);
+    osc.frequency.exponentialRampToValueAtTime(680, now + 0.05);
+
+    gain.gain.setValueAtTime(0.1, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.07);
+    triggerHaptic("light");
+  } catch {
+    // fallback
   }
 }
 

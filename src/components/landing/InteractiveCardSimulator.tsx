@@ -305,7 +305,7 @@ export default function InteractiveCardSimulator() {
                               key={ability}
                               className="doodle-soft bg-white/80 px-2.5 py-1 text-xs font-bold text-ink flex items-center gap-1.5"
                             >
-                              <span className="text-accent">✦</span>
+                              <IconSparkles size={11} className="text-accent shrink-0" />
                               <span>{ability}</span>
                             </div>
                           ))}

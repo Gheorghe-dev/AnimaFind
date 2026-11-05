@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { classify, extractFeatures, moireScore, perceptualHash, type Detection } from "@/lib/vision";
 import { SPECIES, type TaxonCategory } from "@/lib/game-data";
+import { getSpecimenDataUri } from "@/lib/specimen-art";
+import { playLockSound, triggerHaptic } from "@/lib/audio";
 import {
   IconDice,
   IconFlashlight,
@@ -34,6 +36,7 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
 
   const [detection, setDetection] = useState<Detection | null>(null);
   const [locked, setLocked] = useState(false);
+  const lockedRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const [torchOn, setTorchOn] = useState(false);
   const [torchAvailable, setTorchAvailable] = useState(false);
@@ -75,7 +78,12 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
       const result = classify(features, motionAvg, moire);
       lockCount = result.confidence > 0.5 ? Math.min(6, lockCount + 1) : Math.max(0, lockCount - 1);
       setDetection(result);
-      setLocked(lockCount >= 3 && result.confidence > 0.5);
+      const isNowLocked = lockCount >= 3 && result.confidence > 0.5;
+      if (isNowLocked && !lockedRef.current) {
+        playLockSound();
+      }
+      lockedRef.current = isNowLocked;
+      setLocked(isNowLocked);
     }
 
     async function start() {
@@ -185,38 +193,19 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
   }
 
   function sampleSpecimen() {
+    triggerHaptic("medium");
+    playLockSound();
     const species = SPECIES[Math.floor(Math.random() * SPECIES.length)];
-    const c = document.createElement("canvas");
-    c.width = 480;
-    c.height = 480;
-    const ctx = c.getContext("2d")!;
-    const grd = ctx.createLinearGradient(0, 0, 480, 480);
-    grd.addColorStop(0, "#d9e6c8");
-    grd.addColorStop(1, "#f4ead6");
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, 480, 480);
-
-    ctx.fillStyle = "#2e6f40";
-    ctx.font = "900 38px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(species.taxon.toUpperCase(), 240, 220);
-
-    ctx.fillStyle = "#1b2019";
-    ctx.font = "bold 24px sans-serif";
-    ctx.fillText(species.label, 240, 270);
-
-    ctx.font = "italic 16px sans-serif";
-    ctx.fillStyle = "#555e52";
-    ctx.fillText("Verified Field Specimen", 240, 310);
+    const photo = getSpecimenDataUri(species.taxon, species.label, "tier3");
 
     onCapture({
-      photo: c.toDataURL("image/jpeg", 0.7),
+      photo,
       phash: Math.random().toString(16).slice(2, 18).padEnd(16, "0"),
       taxon: species.taxon,
       shortlist: SPECIES.filter((s) => s.taxon === species.taxon).map((s) => s.label),
       motionScore: 0.06,
       screenScore: 0.2,
-      confidence: 0.82,
+      confidence: 0.88,
     });
   }
 
@@ -231,11 +220,30 @@ export default function CameraScanner({ onCapture }: { onCapture: (c: Capture) =
         {/* framing overlay */}
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
           <div
-            className="relative h-[72%] w-[72%] rounded-3xl border-4 border-dashed transition-colors"
-            style={{ borderColor: locked ? "#7f9c6a" : "rgba(255,253,246,.75)" }}
+            className="relative h-[72%] w-[72%] rounded-2xl border-2 transition-all duration-300"
+            style={{
+              borderColor: locked ? "#7f9c6a" : "rgba(255,253,246,0.45)",
+              boxShadow: locked ? "0 0 24px rgba(127,156,106,0.6)" : "none",
+            }}
           >
-            <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/65 px-3 py-0.5 text-[10px] font-bold text-white shadow">
-              keep the animal inside the frame
+            {/* Tactical HUD Corner Marks */}
+            <div className="absolute -top-1 -left-1 h-5 w-5 border-t-3 border-l-3 border-leaf" />
+            <div className="absolute -top-1 -right-1 h-5 w-5 border-t-3 border-r-3 border-leaf" />
+            <div className="absolute -bottom-1 -left-1 h-5 w-5 border-b-3 border-l-3 border-leaf" />
+            <div className="absolute -bottom-1 -right-1 h-5 w-5 border-b-3 border-r-3 border-leaf" />
+
+            {/* Center target crosshair */}
+            <div className="absolute inset-0 grid place-items-center">
+              <div className="relative h-6 w-6">
+                <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-white/40" />
+                <div className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white/40" />
+                <div className="absolute inset-1 rounded-full border border-white/60" />
+              </div>
+            </div>
+
+            <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/75 px-3 py-0.5 text-[10px] font-bold text-white shadow backdrop-blur-xs flex items-center gap-1.5">
+              <span className={`inline-block h-1.5 w-1.5 rounded-full ${locked ? "bg-leaf animate-pulse" : "bg-accent"}`} />
+              <span>{locked ? "TARGET LOCKED" : "CENTER SPECIMEN"}</span>
             </span>
           </div>
         </div>

@@ -3,14 +3,13 @@ export { STORE_CATALOG };
 import { and, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { cards, sightings, storeItems, users } from "@/db/schema";
-import { RARITY_META, SPECIES, TAXON_META, type TaxonCategory } from "./game-data";
+import { RARITY_META, SPECIES, type TaxonCategory } from "./game-data";
 import { generateCard } from "./card-gen";
 import { nextSerial } from "./serial";
+import { getSpecimenDataUri } from "./specimen-art";
 
-export function doodlePhoto(taxon: TaxonCategory, tint: string) {
-  const emoji = TAXON_META[taxon]?.emoji ?? "🐾";
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${tint}"/><stop offset="1" stop-color="#f4ead6"/></linearGradient></defs><rect width="360" height="360" fill="url(#g)"/><g opacity=".25"><circle cx="70" cy="90" r="46" fill="#fff"/><circle cx="300" cy="250" r="70" fill="#fff"/></g><text x="180" y="230" font-size="150" text-anchor="middle">${emoji}</text></svg>`;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+export function doodlePhoto(taxon: TaxonCategory, _tint?: string) {
+  return getSpecimenDataUri(taxon, null, "tier2");
 }
 
 const DEMO_USERS = [
