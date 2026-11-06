@@ -79,7 +79,7 @@ export function CardDetailView({ id }: { id: string }) {
   async function share() {
     if (!data) return;
     const url = `${window.location.origin}/card?id=${data.card.id}`;
-    const text = `${data.card.generatedName} — logged in Critter Codex`;
+    const text = `${data.card.generatedName} — logged in AnimaFind`;
     if (navigator.share) await navigator.share({ title: data.card.generatedName, text, url }).catch(() => {});
     else {
       await navigator.clipboard.writeText(`${text} ${url}`).catch(() => {});

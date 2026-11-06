@@ -723,16 +723,24 @@ class LocalStoreEngine {
     const viewerLat = hasViewer ? (lat as number) : 44.4268;
     const viewerLng = hasViewer ? (lng as number) : 26.1025;
 
-    // Seed procedural local sightings near viewer if fewer than 5 exist near coordinates
-    const nearbyCount = data.sightings.filter(
-      (s) => s.geoLat != null && s.geoLng != null && Math.abs(s.geoLat - viewerLat) < 0.05 && Math.abs(s.geoLng - viewerLng) < 0.05,
+    // Seed procedural local sightings near viewer if fewer than 5 exist near coordinates.
+    // Guard: only count sightings that are NOT already seeded demo entries so we never
+    // accumulate duplicates across repeated calls to getMapPins().
+    const nearbyDemoCount = data.sightings.filter(
+      (s) =>
+        s.id.startsWith("local-sighting-") &&
+        s.geoLat != null &&
+        s.geoLng != null &&
+        Math.abs(s.geoLat - viewerLat) < 0.05 &&
+        Math.abs(s.geoLng - viewerLng) < 0.05,
     ).length;
 
-    if (nearbyCount < 5) {
+    if (nearbyDemoCount < 5) {
+      const needed = 5 - nearbyDemoCount;
       const demoUsers = ["MossyRambler", "PigeonPost", "FernAndFlask"];
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < needed; i++) {
         const species = SPECIES[Math.floor(Math.random() * SPECIES.length)];
-        const photo = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360"><rect width="360" height="360" fill="#d9e6c8"/><text x="180" y="240" font-size="160" text-anchor="middle">${TAXON_META[species.taxon].emoji}</text></svg>`);
+        const photo = getSpecimenDataUri(species.taxon, species.label, "tier2");
         data.sightings.push({
           id: "local-sighting-" + Math.random().toString(36).slice(2, 9),
           userId: demoUsers[i % demoUsers.length],
@@ -968,6 +976,18 @@ class LocalStoreEngine {
       localStorage.removeItem(SAVE_KEY);
     }
     this.memoryData = getInitialData();
+    // Also clear IndexedDB so that initAsyncRestore() cannot restore stale data
+    // after the account has been deleted.
+    if (typeof window !== "undefined" && window.indexedDB) {
+      void openIdb()
+        .then((db) => {
+          const tx = db.transaction(IDB_STORE, "readwrite");
+          tx.objectStore(IDB_STORE).delete(SAVE_KEY);
+        })
+        .catch(() => {
+          // Best-effort: storage is already gone from localStorage; ignore IDB failures.
+        });
+    }
     return { ok: true };
   }
 }
