@@ -4,7 +4,7 @@
 
 **Real-world wildlife exploration meets procedural collectible card gaming.**
 
-[![Latest Release](https://img.shields.io/github/v/release/Gheorghe-dev/AnimaFind?color=orange&label=Release%20v1.0.0)](https://github.com/Gheorghe-dev/AnimaFind/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/Gheorghe-dev/AnimaFind?color=orange)](https://github.com/Gheorghe-dev/AnimaFind/releases/latest)
 [![Android CI Build](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/android-build.yml/badge.svg)](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/android-build.yml)
 [![iOS Build](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/ios-build.yml/badge.svg)](https://github.com/Gheorghe-dev/AnimaFind/actions/workflows/ios-build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

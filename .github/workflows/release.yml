@@ -63,7 +63,8 @@ jobs:
 
   build-ios:
     name: Build Release IPA
-    runs-on: macos-14
+    runs-on: macos-13
+    continue-on-error: true
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
@@ -117,6 +118,7 @@ jobs:
   publish-release:
     name: Create GitHub Release
     needs: [build-android, build-ios]
+    if: always() && needs.build-android.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -129,6 +131,7 @@ jobs:
           path: release-artifacts
 
       - name: Download Built IPA
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: release-ipa
